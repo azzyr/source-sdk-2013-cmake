@@ -23,7 +23,7 @@ add_executable(glview WIN32 ${GLVIEW_SOURCE_FILES})
 
 set_target_properties(
 	glview PROPERTIES
-	RUNTIME_OUTPUT_DIRECTORY "${GAMEDIR}/bin"
+	RUNTIME_OUTPUT_DIRECTORY "${GAMEDIR}/bin${PLATSUBDIR}"
 )
 
 target_include_directories(

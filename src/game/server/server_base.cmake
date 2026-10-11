@@ -983,7 +983,6 @@ function(target_use_server_base target EXCLUDE_SOURCES)
 	target_link_libraries(
 		${target} PRIVATE
 		$<${IS_WINDOWS}:winmm>
-		$<${IS_OSX}:iconv>
 
 		"${LIBPUBLIC}/choreoobjects${STATIC_LIB_EXT}"
 		"${LIBPUBLIC}/dmxloader${STATIC_LIB_EXT}"
@@ -991,7 +990,7 @@ function(target_use_server_base target EXCLUDE_SOURCES)
 		"${LIBPUBLIC}/particles${STATIC_LIB_EXT}"
 		"${LIBPUBLIC}/tier2${STATIC_LIB_EXT}"
 		"${LIBPUBLIC}/tier3${STATIC_LIB_EXT}"
-		steam_api
+		$<IF:${IS_WINDOWS},steam_api64,steam_api>
 	)
 
 endfunction()

@@ -182,7 +182,7 @@ add_library(vrad_dll MODULE ${VRAD_DLL_SOURCE_FILES})
 
 set_target_properties(
 	vrad_dll PROPERTIES
-	LIBRARY_OUTPUT_DIRECTORY "${GAMEDIR}/bin"
+	LIBRARY_OUTPUT_DIRECTORY "${GAMEDIR}/bin${PLATSUBDIR}"
 )
 
 target_include_directories(

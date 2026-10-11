@@ -144,7 +144,7 @@ add_executable(vbsp ${VBSP_SOURCE_FILES})
 
 set_target_properties(
 	vbsp PROPERTIES
-	RUNTIME_OUTPUT_DIRECTORY "${GAMEDIR}/bin"
+	RUNTIME_OUTPUT_DIRECTORY "${GAMEDIR}/bin${PLATSUBDIR}"
 )
 
 target_include_directories(

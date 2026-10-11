@@ -35,7 +35,7 @@ set_target_properties(
 	serverplugin_empty
 	PROPERTIES
 	PREFIX ""
-	LIBRARY_OUTPUT_DIRECTORY "${GAMEDIR}/bin"
+	LIBRARY_OUTPUT_DIRECTORY "${GAMEDIR}/bin${PLATSUBDIR}"
 )
 
 target_include_directories(

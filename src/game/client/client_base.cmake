@@ -1192,8 +1192,6 @@ function(target_use_client_base target EXCLUDE_SOURCES)
 	target_link_libraries(
 		${target} PRIVATE
 
-		$<${IS_OSX}:iconv>
-		"$<${IS_OSX}:-framework Carbon>"
 		$<${IS_LINUX}:rt>
 		$<${IS_WINDOWS}:winmm>
 		"$<$<AND:${IS_WINDOWS},${BUILD_REPLAY}>:wsock32;Ws2_32>"
@@ -1209,11 +1207,9 @@ function(target_use_client_base target EXCLUDE_SOURCES)
 		"${LIBPUBLIC}/tier3${STATIC_LIB_EXT}"
 		vgui_controls
 		"${LIBPUBLIC}/vtf${STATIC_LIB_EXT}"
-		steam_api
+		$<IF:${IS_WINDOWS},steam_api64,steam_api>
 
 		"$<${IS_POSIX}:${LIBCOMMON}/libcrypto${STATIC_LIB_EXT}>"
-
-		"$<${IS_OSX}:${LIBCOMMON}/curl${STATIC_LIB_EXT}>"
 
 		"$<${IS_WINDOWS}:${LIBCOMMON}/libcurl${STATIC_LIB_EXT}>"
 		"$<$<OR:${IS_WINDOWS},${IS_LINUX}>:${LIBPUBLIC}/libz${STATIC_LIB_EXT}>"

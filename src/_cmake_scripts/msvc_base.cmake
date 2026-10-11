@@ -5,13 +5,6 @@ if (MSVC_TOOLSET_VERSION LESS 140)
 	message(FATAL_ERROR "MSVC must use toolset 140 (2015) or greater")
 endif()
 
-if (${CMAKE_SIZEOF_VOID_P} EQUAL 8)
-	message(FATAL_ERROR "Source SDK 2013 only supports 32-bit generation")
-endif()
-
-# No frame pointer optimization
-set(NOFPO 1)
-
 set(MSVC_LINK_OPTION_IGNORE_DEFAULTLIBS_DEBUG
 	/NODEFAULTLIB:libc
 	/NODEFAULTLIB:libcd
@@ -32,8 +25,10 @@ set(CMAKE_MSVC_RUNTIME_LIBRARY "MultiThreaded$<$<CONFIG:Debug>:Debug>")
 
 add_compile_definitions(
 	COMPILER_MSVC
+	COMPILER_MSVC64
 	_CRT_SECURE_NO_DEPRECATE
 	_CRT_NONSTDC_NO_DEPRECATE
+	_SCL_SECURE_NO_WARNINGS
 	_ALLOW_RUNTIME_LIBRARY_MISMATCH
 	_ALLOW_ITERATOR_DEBUG_LEVEL_MISMATCH
 	_ALLOW_MSC_VER_MISMATCH
@@ -65,15 +60,21 @@ set(
 	# Treat warnings as errors... someday
 	#/WX
 
-	# Don't Omit Frame Pointers
-	"$<${NOFPO}:/Oy->"
-
 	/MP # Multi-processor compilation
 	/Gw
 	/Zc:threadSafeInit-
 	/Zc:__cplusplus
 	/Zc:preprocessor
 	/Zc:inline
+	/Wv:18 # Suppress warnings introduced after VS2013, like C4456
+
+	/wd4316 # Object allocated on the heap may not be aligned 16
+	/wd5033 # 'register' is no longer a supported storage class
+	/wd5054 # Operator '|': deprecated between enumerations of different types
+	/wd5055 # Operator '>': deprecated between enumerations and floating-point types
+	/wd4577 # 'noexcept' used with no exception handling mode specified
+	/wd4091 # 'keyword': ignored on left of 'type' when no variable is declared
+	/wd4355 # 'this': used in base member initializer list
 
 	# We'll be permissive for now
 #	/permissive-
@@ -133,7 +134,6 @@ list(
 	$<$<CONFIG:Release>:${MSVC_LINK_OPTION_IGNORE_DEFAULTLIBS_RELEASE}>
 	$<$<CONFIG:Release>:/OPT:REF>
 	$<$<CONFIG:Release>:/OPT:ICF>
-	/SAFESEH:NO
 	/MANIFEST:NO
 )
 
