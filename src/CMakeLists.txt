@@ -36,7 +36,8 @@ set(BUILD_GAME "hl2mp" CACHE STRING "Build Game")
 
 set_property(
 	CACHE BUILD_GAME PROPERTY STRINGS
-	"hl2mp" # Only hl2mp at the moment
+	"hl2mp"
+	"tf"
 )
 
 set(SRCDIR "${CMAKE_CURRENT_LIST_DIR}")
