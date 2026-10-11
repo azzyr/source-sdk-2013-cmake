@@ -1,11 +1,11 @@
 # prebuilt_libs.cmake
 
-foreach(lib appframework bitmap choreoobjects dmxloader particles shaderlib tier2 tier3 vtf)
+foreach(lib appframework bitmap choreoobjects dmxloader gcsdk_sdk particles shaderlib tier2 tier3 vtf)
 	add_library(${lib} STATIC IMPORTED)
 	set_target_properties(${lib} PROPERTIES IMPORTED_LOCATION "${LIBPUBLIC}/${lib}${STATIC_LIB_EXT}")
 endforeach()
 
-foreach(lib lzma)
+foreach(lib jpeglib libspng lzma replay_common)
 	add_library(${lib} STATIC IMPORTED)
 	set_target_properties(${lib} PROPERTIES IMPORTED_LOCATION "${LIBCOMMON}/${lib}${STATIC_LIB_EXT}")
 endforeach()
