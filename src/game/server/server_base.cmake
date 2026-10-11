@@ -4,7 +4,6 @@ include_guard(GLOBAL)
 
 set(SERVER_BASE_DIR ${CMAKE_CURRENT_LIST_DIR})
 
-find_package(Python3 REQUIRED COMPONENTS Interpreter)
 set(
 	SERVER_BASE_SOURCE_FILES
 
@@ -1009,8 +1008,8 @@ function(target_use_server_base target EXCLUDE_SOURCES)
 		add_custom_command(
 			OUTPUT "${NUT_DIR}/${nut}_nut.h"
 			COMMAND ${CMAKE_COMMAND} -E make_directory "${NUT_DIR}"
-			COMMAND "${Python3_EXECUTABLE}" "${SRCDIR}/devtools/bin/texttoarray.py" "${SERVER_BASE_DIR}/${nut}.nut" g_Script_${nut} > "${NUT_DIR}/${nut}_nut.h"
-			DEPENDS "${SERVER_BASE_DIR}/${nut}.nut" "${SRCDIR}/devtools/bin/texttoarray.py"
+			COMMAND "${SRCDIR}/devtools/bin/texttoarray${CMAKE_HOST_EXECUTABLE_SUFFIX}" "${SERVER_BASE_DIR}/${nut}.nut" g_Script_${nut} > "${NUT_DIR}/${nut}_nut.h"
+			DEPENDS "${SERVER_BASE_DIR}/${nut}.nut" "${SRCDIR}/devtools/bin/texttoarray${CMAKE_HOST_EXECUTABLE_SUFFIX}"
 		)
 		target_sources(${target} PRIVATE "${NUT_DIR}/${nut}_nut.h")
 	endforeach()
