@@ -1,12 +1,15 @@
 # server_hl2mp.cmake
 
 include("${CMAKE_CURRENT_LIST_DIR}/server_base.cmake")
+include("${SRCDIR}/game/shared/shared_hl2mp.cmake")
 
 include("${CMAKE_CURRENT_LIST_DIR}/nav_mesh.cmake")
 
 set(SERVER_HL2MP_DIR ${CMAKE_CURRENT_LIST_DIR})
 set(
 	SERVER_HL2MP_SOURCE_FILES
+
+	${SHARED_HL2MP_SOURCE_FILES}
 
 	"${SERVER_HL2MP_DIR}/ai_relationship.cpp"
 	"${SERVER_HL2MP_DIR}/basegrenade_concussion.cpp"
@@ -21,8 +24,6 @@ set(
 	"${SERVER_HL2MP_DIR}/monstermaker.cpp"
 	"${SERVER_HL2MP_DIR}/monstermaker.h"
 	"${SERVER_HL2MP_DIR}/physics_bone_follower.h"
-	"${SRCDIR}/game/shared/predicted_viewmodel.cpp"
-	"${SRCDIR}/game/shared/predicted_viewmodel.h"
 	"${SRCDIR}/game/shared/ragdoll_shared.h"
 	"${SRCDIR}/game/shared/solidsetdefaults.h"
 	"${SRCDIR}/game/shared/hl2/survival_gamerules.cpp"
@@ -42,8 +43,6 @@ set(
 	"${SRCDIR}/game/shared/touchlink.h"
 	"${SERVER_HL2MP_DIR}/trigger_area_capture.cpp"
 	"${SERVER_HL2MP_DIR}/trigger_area_capture.h"
-	"${SRCDIR}/game/shared/teamplay_round_timer.cpp"
-	"${SRCDIR}/game/shared/teamplay_round_timer.h"
 
 	# NextBot
 	"${SERVER_HL2MP_DIR}/NextBot/NextBot.cpp"
@@ -115,22 +114,18 @@ set(
 	"${SERVER_HL2MP_DIR}/basebludgeonweapon.h"
 	"${SERVER_HL2MP_DIR}/hl2/basehlcombatweapon.cpp"
 	"${SERVER_HL2MP_DIR}/hl2/basehlcombatweapon.h"
-	"${SRCDIR}/game/shared/hl2/basehlcombatweapon_shared.cpp"
 	"${SRCDIR}/game/shared/hl2/basehlcombatweapon_shared.h"
 	"${SERVER_HL2MP_DIR}/hl2/cbasehelicopter.cpp"
 	"${SERVER_HL2MP_DIR}/hl2/cbasehelicopter.h"
 	"${SERVER_HL2MP_DIR}/hl2/cbasespriteprojectile.cpp"
 	"${SERVER_HL2MP_DIR}/hl2/cbasespriteprojectile.h"
 	"${SERVER_HL2MP_DIR}/hl2/citadel_effects.cpp"
-	"${SRCDIR}/game/shared/hl2/citadel_effects_shared.h"
 	"${SERVER_HL2MP_DIR}/hl2/combine_mine.cpp"
 	"${SERVER_HL2MP_DIR}/hl2/combine_mine.h"
 	"${SERVER_HL2MP_DIR}/hl2/energy_wave.h"
 	"${SERVER_HL2MP_DIR}/hl2/env_alyxemp.cpp"
 	"${SRCDIR}/game/shared/hl2/env_alyxemp_shared.h"
 	"${SERVER_HL2MP_DIR}/hl2/env_headcrabcanister.cpp"
-	"${SRCDIR}/game/shared/hl2/env_headcrabcanister_shared.cpp"
-	"${SRCDIR}/game/shared/hl2/env_headcrabcanister_shared.h"
 	"${SERVER_HL2MP_DIR}/hl2/env_speaker.cpp"
 	"${SERVER_HL2MP_DIR}/hl2/env_starfield.cpp"
 	"${SERVER_HL2MP_DIR}/hl2/func_recharge.cpp"
@@ -144,18 +139,12 @@ set(
 	"${SERVER_HL2MP_DIR}/hl2/grenade_frag.h"
 	"${SERVER_HL2MP_DIR}/hl2/hl2_ai_network.cpp"
 	"${SERVER_HL2MP_DIR}/hl2/hl2_eventlog.cpp"
-	"${SRCDIR}/game/shared/hl2/hl2_gamerules.cpp"
-	"${SRCDIR}/game/shared/hl2/hl2_gamerules.h"
 	"${SERVER_HL2MP_DIR}/hl2/hl2_player.cpp"
 	"${SERVER_HL2MP_DIR}/hl2/hl2_player.h"
 	"${SRCDIR}/game/shared/hl2/hl2_player_shared.h"
 	"${SERVER_HL2MP_DIR}/hl2/hl2_playerlocaldata.cpp"
 	"${SERVER_HL2MP_DIR}/hl2/hl2_playerlocaldata.h"
-	"${SRCDIR}/game/shared/hl2/hl2_shareddefs.h"
 	"${SERVER_HL2MP_DIR}/hl2/hl2_triggers.cpp"
-	"${SRCDIR}/game/shared/hl2/hl2_usermessages.cpp"
-	"${SRCDIR}/game/shared/hl2/hl_gamemovement.cpp"
-	"${SRCDIR}/game/shared/hl2/hl_gamemovement.h"
 	"${SRCDIR}/game/shared/hl2/hl_movedata.h"
 	"${SERVER_HL2MP_DIR}/hl2/hl_playermove.cpp"
 	"${SERVER_HL2MP_DIR}/hl2/info_teleporter_countdown.cpp"
@@ -241,7 +230,6 @@ set(
 	"${SERVER_HL2MP_DIR}/hl2/rotorwash.h"
 	"${SERVER_HL2MP_DIR}/hl2/script_intro.cpp"
 	"${SERVER_HL2MP_DIR}/hl2/script_intro.h"
-	"${SRCDIR}/game/shared/script_intro_shared.cpp"
 	"${SERVER_HL2MP_DIR}/hl2/vehicle_airboat.cpp"
 	"${SERVER_HL2MP_DIR}/hl2/vehicle_apc.h"
 	"${SERVER_HL2MP_DIR}/hl2/vehicle_crane.cpp"
@@ -272,14 +260,8 @@ set(
 	"${SERVER_HL2MP_DIR}/hl2mp/hl2mp_cvars.cpp"
 	"${SERVER_HL2MP_DIR}/hl2mp/hl2mp_gameinterface.cpp"
 	"${SERVER_HL2MP_DIR}/hl2mp/hl2mp_gameinterface.h"
-	"${SRCDIR}/game/shared/hl2mp/hl2mp_gamerules.cpp"
-	"${SRCDIR}/game/shared/hl2mp/hl2mp_gamerules.h"
 	"${SERVER_HL2MP_DIR}/hl2mp/hl2mp_player.cpp"
 	"${SERVER_HL2MP_DIR}/hl2mp/hl2mp_player.h"
-	"${SRCDIR}/game/shared/hl2mp/hl2mp_player_shared.cpp"
-	"${SRCDIR}/game/shared/hl2mp/hl2mp_player_shared.h"
-	"${SRCDIR}/game/shared/hl2mp/hl2mp_weapon_parse.cpp"
-	"${SRCDIR}/game/shared/hl2mp/hl2mp_weapon_parse.h"
 
 	# HL2MP->Bots
 	"${SERVER_HL2MP_DIR}/hl2mp/bot/hl2mp_bot.cpp"
@@ -338,29 +320,6 @@ set(
 	"${SERVER_HL2MP_DIR}/hl2mp/grenade_tripmine.h"
 	"${SERVER_HL2MP_DIR}/hl2mp/te_hl2mp_shotgun_shot.cpp"
 	"${SERVER_HL2MP_DIR}/hl2mp/te_hl2mp_shotgun_shot.h"
-	"${SRCDIR}/game/shared/hl2mp/weapon_357.cpp"
-	"${SRCDIR}/game/shared/hl2mp/weapon_ar2.cpp"
-	"${SRCDIR}/game/shared/hl2mp/weapon_ar2.h"
-	"${SRCDIR}/game/shared/hl2mp/weapon_crossbow.cpp"
-	"${SRCDIR}/game/shared/hl2mp/weapon_crowbar.cpp"
-	"${SRCDIR}/game/shared/hl2mp/weapon_frag.cpp"
-	"${SRCDIR}/game/shared/hl2mp/weapon_hl2mpbase.cpp"
-	"${SRCDIR}/game/shared/hl2mp/weapon_hl2mpbase.h"
-	"${SRCDIR}/game/shared/hl2mp/weapon_hl2mpbase_machinegun.cpp"
-	"${SRCDIR}/game/shared/hl2mp/weapon_hl2mpbase_machinegun.h"
-	"${SRCDIR}/game/shared/hl2mp/weapon_hl2mpbasebasebludgeon.cpp"
-	"${SRCDIR}/game/shared/hl2mp/weapon_hl2mpbasehlmpcombatweapon.cpp"
-	"${SRCDIR}/game/shared/hl2mp/weapon_hl2mpbasehlmpcombatweapon.h"
-	"${SRCDIR}/game/shared/hl2mp/weapon_physcannon.cpp"
-	"${SRCDIR}/game/shared/hl2mp/weapon_physcannon.h"
-	"${SRCDIR}/game/shared/hl2mp/weapon_pistol.cpp"
-	"${SRCDIR}/game/shared/hl2mp/weapon_rpg.cpp"
-	"${SRCDIR}/game/shared/hl2mp/weapon_rpg.h"
-	"${SRCDIR}/game/shared/hl2mp/weapon_shotgun.cpp"
-	"${SRCDIR}/game/shared/hl2mp/weapon_slam.cpp"
-	"${SRCDIR}/game/shared/hl2mp/weapon_slam.h"
-	"${SRCDIR}/game/shared/hl2mp/weapon_smg1.cpp"
-	"${SRCDIR}/game/shared/hl2mp/weapon_stunstick.cpp"
 )
 
 set(
