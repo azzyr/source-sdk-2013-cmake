@@ -16,6 +16,7 @@ add_executable(vvis_launcher ${VVIS_LAUNCHER_SOURCE_FILES})
 
 set_target_properties(
 	vvis_launcher PROPERTIES
+	OUTPUT_NAME "vvis"
 	RUNTIME_OUTPUT_DIRECTORY "${GAMEDIR}/bin${PLATSUBDIR}"
 )
 

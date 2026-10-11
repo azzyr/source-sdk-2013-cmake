@@ -3,6 +3,8 @@
 include_guard(GLOBAL)
 
 set(SERVER_BASE_DIR ${CMAKE_CURRENT_LIST_DIR})
+
+find_package(Python3 REQUIRED COMPONENTS Interpreter)
 set(
 	SERVER_BASE_SOURCE_FILES
 
@@ -518,6 +520,7 @@ set(
 	"${SRCDIR}/game/shared/singleplay_gamerules.cpp"
 	"${SRCDIR}/game/shared/singleplay_gamerules.h"
 	"${SERVER_BASE_DIR}/SkyCamera.cpp"
+	"${SERVER_BASE_DIR}/skyboxswapper.cpp"
 	"${SERVER_BASE_DIR}/slideshow_display.cpp"
 	"${SERVER_BASE_DIR}/sound.cpp"
 	"${SRCDIR}/game/shared/SoundEmitterSystem.cpp"
@@ -576,6 +579,16 @@ set(
 	"${SRCDIR}/game/shared/vehicle_viewblend_shared.cpp"
 	"${SERVER_BASE_DIR}/vguiscreen.cpp"
 	"${SERVER_BASE_DIR}/vguiscreen.h"
+	"${SERVER_BASE_DIR}/vscript_server.cpp"
+	"${SRCDIR}/game/shared/vscript_shared.cpp"
+	"${SERVER_BASE_DIR}/vscript_server.nut"
+	"${SERVER_BASE_DIR}/point_worldtext.cpp"
+	"${SERVER_BASE_DIR}/point_worldtext.h"
+	"${SERVER_BASE_DIR}/player_voice_listener.h"
+	"${SERVER_BASE_DIR}/player_voice_listener.cpp"
+	"${SERVER_BASE_DIR}/logic_eventlistener.cpp"
+	"${SERVER_BASE_DIR}/logic_eventlistener.h"
+	"${SERVER_BASE_DIR}/spawn_helper.nut"
 	"${SRCDIR}/public/mathlib/vmatrix.h"
 	"${SRCDIR}/game/shared/voice_common.h"
 	"${SRCDIR}/game/shared/voice_gamemgr.cpp"
@@ -599,6 +612,8 @@ set(
 	# Haptics
 	"${SRCDIR}/public/haptics/haptic_msgs.cpp"
 	"$<${IS_WINDOWS}:${SRCDIR}/public/haptics/haptic_utils.cpp>"
+	"${SERVER_BASE_DIR}/netpropmanager.cpp"
+	"${SERVER_BASE_DIR}/netpropmanager.h"
 
 	"${SRCDIR}/public/bone_setup.cpp"
 	"${SRCDIR}/public/collisionutils.cpp"
@@ -614,6 +629,7 @@ set(
 	"${SRCDIR}/game/shared/interval.cpp"
 	"${SRCDIR}/public/keyframe/keyframe.cpp"
 	"${SRCDIR}/common/language.cpp"
+	"${SRCDIR}/common/steamid.cpp"
 	"${SRCDIR}/public/map_utils.cpp"
 	"${SRCDIR}/public/networkvar.cpp"
 	"${SRCDIR}/common/randoverride.cpp"
@@ -875,6 +891,7 @@ set(
 	"${SRCDIR}/public/tier1/utlrbtree.h"
 	"${SRCDIR}/public/tier1/UtlSortVector.h"
 	"${SRCDIR}/public/tier1/utlvector.h"
+	"${SRCDIR}/public/tier1/utlrange.h"
 	"${SRCDIR}/public/vallocator.h"
 	"${SERVER_BASE_DIR}/variant_t.h"
 	"${SRCDIR}/public/vcollide.h"
@@ -924,6 +941,7 @@ set_source_files_properties(
 	"${SRCDIR}/game/shared/interval.cpp"
 	"${SRCDIR}/public/keyframe/keyframe.cpp"
 	"${SRCDIR}/common/language.cpp"
+	"${SRCDIR}/common/steamid.cpp"
 	"${SRCDIR}/public/map_utils.cpp"
 	"${SRCDIR}/public/networkvar.cpp"
 	"${SRCDIR}/common/randoverride.cpp"
@@ -971,14 +989,32 @@ function(target_use_server_base target EXCLUDE_SOURCES)
 		sprintf=use_Q_snprintf_instead_of_sprintf
 		strncpy=use_Q_strncpy_instead
 		_snprintf=use_Q_snprintf_instead
+		INCLUDED_STEAM2_USERID_STRUCTS
 		$<${IS_POSIX}:SWDS>
 		$<${IS_WINDOWS}:fopen=dont_use_fopen>
+	)
+
+	target_compile_options(
+		${target} PRIVATE
+		"$<${IS_WINDOWS}:/wd4267;/wd4101>"
 	)
 
 	target_precompile_headers(
 		${target} PRIVATE
 		"${SERVER_BASE_DIR}/cbase.h"
 	)
+
+	set(NUT_DIR "${CMAKE_CURRENT_BINARY_DIR}/${target}_nut")
+	foreach(nut vscript_server spawn_helper)
+		add_custom_command(
+			OUTPUT "${NUT_DIR}/${nut}_nut.h"
+			COMMAND ${CMAKE_COMMAND} -E make_directory "${NUT_DIR}"
+			COMMAND "${Python3_EXECUTABLE}" "${SRCDIR}/devtools/bin/texttoarray.py" "${SERVER_BASE_DIR}/${nut}.nut" g_Script_${nut} > "${NUT_DIR}/${nut}_nut.h"
+			DEPENDS "${SERVER_BASE_DIR}/${nut}.nut" "${SRCDIR}/devtools/bin/texttoarray.py"
+		)
+		target_sources(${target} PRIVATE "${NUT_DIR}/${nut}_nut.h")
+	endforeach()
+	target_include_directories(${target} PRIVATE "${NUT_DIR}")
 
 	target_link_libraries(
 		${target} PRIVATE

@@ -17,6 +17,10 @@ set(
 	"${SRCDIR}/game/shared/teamplay_round_timer.cpp"
 	"${SRCDIR}/game/shared/teamplay_round_timer.h"
 
+	# NextBot
+	"${CLIENT_HL2MP_DIR}/NextBot/C_NextBot.cpp"
+	"${CLIENT_HL2MP_DIR}/NextBot/C_NextBot.h"
+
 	# HL2 DLL
 	"${CLIENT_HL2MP_DIR}/episodic/c_vort_charge_token.cpp"
 	"${SRCDIR}/game/shared/hl2/basehlcombatweapon_shared.cpp"
@@ -78,6 +82,7 @@ set(
 	"${CLIENT_HL2MP_DIR}/hl2/hl_in_main.cpp"
 	"${CLIENT_HL2MP_DIR}/hl2/hl_prediction.cpp"
 	"${CLIENT_HL2MP_DIR}/hl2/hud_ammo.cpp"
+	"${CLIENT_HL2MP_DIR}/hl2/hud_autoaim.cpp"
 	"${CLIENT_HL2MP_DIR}/hl2/hud_battery.cpp"
 	"${CLIENT_HL2MP_DIR}/hl2/hud_blood.cpp"
 	"${CLIENT_HL2MP_DIR}/hl2/hud_credits.cpp"
@@ -176,4 +181,5 @@ target_compile_definitions(
 	client_hl2mp PRIVATE
 	HL2MP
 	HL2_CLIENT_DLL
+	NEXT_BOT
 )

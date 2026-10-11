@@ -52,3 +52,8 @@ target_compile_definitions(
 	qc_eyes PRIVATE
 	NO_WARN_MBCS_MFC_DEPRECATION
 )
+
+target_compile_options(
+	qc_eyes PRIVATE
+	/EHsc
+)
