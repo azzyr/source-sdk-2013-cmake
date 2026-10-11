@@ -176,6 +176,8 @@ set(
 	"${CLIENT_BASE_DIR}/c_playerresource.cpp"
 	"${CLIENT_BASE_DIR}/c_point_camera.cpp"
 	"${CLIENT_BASE_DIR}/c_point_commentary_node.cpp"
+	"${CLIENT_BASE_DIR}/c_point_worldtext.cpp"
+	"${CLIENT_BASE_DIR}/c_point_worldtext.h"
 	"${CLIENT_BASE_DIR}/c_props.cpp"
 	"${CLIENT_BASE_DIR}/c_props.h"
 	"${CLIENT_BASE_DIR}/c_ragdoll_manager.cpp"
@@ -198,7 +200,6 @@ set(
 	"${CLIENT_BASE_DIR}/c_vehicle_jeep.cpp"
 	"${CLIENT_BASE_DIR}/c_vguiscreen.cpp"
 	"${CLIENT_BASE_DIR}/hl2/c_waterbullet.cpp"
-	"${CLIENT_BASE_DIR}/hl2/hud_autoaim.cpp"
 	"${CLIENT_BASE_DIR}/C_WaterLODControl.cpp"
 	"${CLIENT_BASE_DIR}/c_world.cpp"
 	"${SRCDIR}/game/shared/cam_thirdperson.cpp"
@@ -288,6 +289,7 @@ set(
 	"${CLIENT_BASE_DIR}/in_camera.cpp"
 	"${CLIENT_BASE_DIR}/in_joystick.cpp"
 	"${CLIENT_BASE_DIR}/in_main.cpp"
+	"${CLIENT_BASE_DIR}/in_steamcontroller.cpp"
 	"${CLIENT_BASE_DIR}/initializer.cpp"
 	"${CLIENT_BASE_DIR}/interpolatedvar.cpp"
 	"${CLIENT_BASE_DIR}/IsNPCProxy.cpp"
@@ -359,6 +361,7 @@ set(
 	"${CLIENT_BASE_DIR}/spritemodel.cpp"
 	"${SRCDIR}/game/shared/SpriteTrail.cpp"
 	"${SRCDIR}/game/shared/studio_shared.cpp"
+	"${CLIENT_BASE_DIR}/steamshare.cpp"
 	"${CLIENT_BASE_DIR}/studio_stats.cpp"
 	"${CLIENT_BASE_DIR}/studio_stats.h"
 	"${SRCDIR}/game/shared/takedamageinfo.cpp"
@@ -420,6 +423,8 @@ set(
 	"${SRCDIR}/public/haptics/haptic_msgs.cpp"
 	"$<${IS_WINDOWS}:${SRCDIR}/public/haptics/haptic_utils.cpp>"
 
+	"${SRCDIR}/game/shared/secure_command_line.cpp"
+
 	# Sixense
 	"${CLIENT_BASE_DIR}/sixense/in_sixense.cpp"
 	"${CLIENT_BASE_DIR}/sixense/in_sixense.h"
@@ -444,6 +449,7 @@ set(
 	"${SRCDIR}/common/language.cpp"
 	"${SRCDIR}/public/networkvar.cpp"
 	"${SRCDIR}/common/randoverride.cpp"
+	"${SRCDIR}/common/steamid.cpp"
 	"${SRCDIR}/public/rope_physics.cpp"
 	"${SRCDIR}/public/scratchpad3d.cpp"
 	"${SRCDIR}/public/ScratchPadUtils.cpp"
@@ -454,7 +460,6 @@ set(
 	"${SRCDIR}/public/studio.cpp"
 	"${SRCDIR}/public/vallocator.cpp"
 	"${SRCDIR}/public/vgui_controls/vgui_controls.cpp"
-	"${SRCDIR}/public/jigglebones.cpp"
 	"${CLIENT_BASE_DIR}/hud_lcd.cpp"
 	"${CLIENT_BASE_DIR}/in_mouse.cpp"
 	"${CLIENT_BASE_DIR}/mumble.cpp"
@@ -727,6 +732,7 @@ set(
 	"${CLIENT_BASE_DIR}/smoke_fog_overlay.h"
 	"${CLIENT_BASE_DIR}/splinepatch.h"
 	"${SRCDIR}/public/steam/steam_api.h"
+	"${CLIENT_BASE_DIR}/steamshare.h"
 	"${CLIENT_BASE_DIR}/TeamBitmapImage.h"
 	"${CLIENT_BASE_DIR}/tempent.h"
 	"${CLIENT_BASE_DIR}/text_message.h"
@@ -753,6 +759,7 @@ set(
 	"${CLIENT_BASE_DIR}/weapons_resource.h"
 	"${CLIENT_BASE_DIR}/vgui_video.h"
 	"${CLIENT_BASE_DIR}/vgui_video_player.h"
+	"${SRCDIR}/game/shared/secure_command_line.h"
 
 	# Public Header Files
 	"${SRCDIR}/public/mathlib/amd3dx.h"
@@ -1129,6 +1136,7 @@ set_source_files_properties(
 	"${SRCDIR}/common/language.cpp"
 	"${SRCDIR}/public/networkvar.cpp"
 	"${SRCDIR}/common/randoverride.cpp"
+	"${SRCDIR}/common/steamid.cpp"
 	"${SRCDIR}/public/rope_physics.cpp"
 	"${SRCDIR}/public/scratchpad3d.cpp"
 	"${SRCDIR}/public/ScratchPadUtils.cpp"
@@ -1139,7 +1147,6 @@ set_source_files_properties(
 	"${SRCDIR}/public/studio.cpp"
 	"${SRCDIR}/public/vallocator.cpp"
 	"${SRCDIR}/public/vgui_controls/vgui_controls.cpp"
-	"${SRCDIR}/public/jigglebones.cpp"
 	"${CLIENT_BASE_DIR}/hud_lcd.cpp"
 	"${CLIENT_BASE_DIR}/in_mouse.cpp"
 	"${CLIENT_BASE_DIR}/mumble.cpp"
@@ -1179,9 +1186,13 @@ function(target_use_client_base target EXCLUDE_SOURCES)
 		PROTECTED_THINGS_ENABLE
 		strncpy=use_Q_strncpy_instead
 		_snprintf=use_Q_snprintf_instead
-		$<${IS_WINDOWS}:fopen=dont_use_fopen>
+		INCLUDED_STEAM2_USERID_STRUCTS
 		$<${IS_LINUX}:USE_WEBM_FOR_REPLAY>
-		$<$<AND:${IS_WINDOWS},${BUILD_REPLAY}>:CURL_STATICLIB>
+	)
+
+	target_compile_options(
+		${target} PRIVATE
+		"$<${IS_WINDOWS}:/wd4267;/wd4101>"
 	)
 
 	target_precompile_headers(
@@ -1192,7 +1203,7 @@ function(target_use_client_base target EXCLUDE_SOURCES)
 	target_link_libraries(
 		${target} PRIVATE
 
-		$<${IS_LINUX}:rt>
+		"$<${IS_LINUX}:rt;z>"
 		$<${IS_WINDOWS}:winmm>
 		"$<$<AND:${IS_WINDOWS},${BUILD_REPLAY}>:wsock32;Ws2_32>"
 
@@ -1200,7 +1211,7 @@ function(target_use_client_base target EXCLUDE_SOURCES)
 		"${LIBPUBLIC}/choreoobjects${STATIC_LIB_EXT}"
 		"${LIBPUBLIC}/dmxloader${STATIC_LIB_EXT}"
 		mathlib
-		"${LIBPUBLIC}/matsys_controls${STATIC_LIB_EXT}"
+		matsys_controls
 		"${LIBPUBLIC}/particles${STATIC_LIB_EXT}"
 		tier1
 		"${LIBPUBLIC}/tier2${STATIC_LIB_EXT}"
@@ -1208,16 +1219,6 @@ function(target_use_client_base target EXCLUDE_SOURCES)
 		vgui_controls
 		"${LIBPUBLIC}/vtf${STATIC_LIB_EXT}"
 		$<IF:${IS_WINDOWS},steam_api64,steam_api>
-
-		"$<${IS_POSIX}:${LIBCOMMON}/libcrypto${STATIC_LIB_EXT}>"
-
-		"$<${IS_WINDOWS}:${LIBCOMMON}/libcurl${STATIC_LIB_EXT}>"
-		"$<$<OR:${IS_WINDOWS},${IS_LINUX}>:${LIBPUBLIC}/libz${STATIC_LIB_EXT}>"
-
-		"$<${IS_LINUX}:${LIBCOMMON}/libcurl${STATIC_LIB_EXT}>"
-		"$<${IS_LINUX}:${LIBCOMMON}/libcurlssl${STATIC_LIB_EXT}>"
-
-		"$<${IS_LINUX}:${LIBCOMMON}/libssl${STATIC_LIB_EXT}>"
-
+		"$<${IS_WINDOWS}:${LIBPUBLIC}/libz${STATIC_LIB_EXT}>"
 	)
 endfunction()

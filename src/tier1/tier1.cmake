@@ -15,10 +15,12 @@ set(
 	"${TIER1_DIR}/convar.cpp"
 	"${TIER1_DIR}/datamanager.cpp"
 	"${TIER1_DIR}/diff.cpp"
+	"${TIER1_DIR}/exprevaluator.cpp"
 	"${TIER1_DIR}/generichash.cpp"
 	"${TIER1_DIR}/ilocalize.cpp"
 	"${TIER1_DIR}/interface.cpp"
 	"${TIER1_DIR}/KeyValues.cpp"
+	"${TIER1_DIR}/keyvaluesjson.cpp"
 	"${TIER1_DIR}/kvpacker.cpp"
 	"${TIER1_DIR}/lzmaDecoder.cpp"
 	"$<$<NOT:${IS_SOURCESDK}>:${TIER1_DIR}/lzss.cpp>"
@@ -84,6 +86,7 @@ set(
 	"${SRCDIR}/public/tier1/ilocalize.h"
 	"${SRCDIR}/public/tier1/interface.h"
 	"${SRCDIR}/public/tier1/KeyValues.h"
+	"${SRCDIR}/public/tier1/keyvaluesjson.h"
 	"${SRCDIR}/public/tier1/kvpacker.h"
 	"${SRCDIR}/public/tier1/lzmaDecoder.h"
 	"${SRCDIR}/public/tier1/lzss.h"
@@ -102,6 +105,7 @@ set(
 	"${SRCDIR}/public/tier1/tokenreader.h"
 	"$<${IS_WINDOWS}:${SRCDIR}/public/tier1/uniqueid.h>"
 	"${SRCDIR}/public/tier1/utlbidirectionalset.h"
+	"${SRCDIR}/public/tier1/util_misc.h"
 	"${SRCDIR}/public/tier1/utlblockmemory.h"
 	"${SRCDIR}/public/tier1/utlbuffer.h"
 	"${SRCDIR}/public/tier1/utlbufferutil.h"
@@ -126,16 +130,14 @@ set(
 	"${SRCDIR}/public/tier1/utlsymbol.h"
 	"${SRCDIR}/public/tier1/utlsymbollarge.h"
 	"${SRCDIR}/public/tier1/utlvector.h"
+	"${SRCDIR}/public/tier1/utlrange.h"
 	"${SRCDIR}/public/tier1/utlbinaryblock.h"
 	"$<${IS_WINDOWS}:${SRCDIR}/common/xbox/xboxstubs.h>"
 )
 
-set_source_files_properties(
-	"$<${IS_WINDOWS}:${TIER1_DIR}/processor_detect.cpp>"
-	PROPERTIES
-	COMPILE_FLAGS
-	/EHsc
-)
+if (IS_WINDOWS)
+	set_source_files_properties("${TIER1_DIR}/processor_detect.cpp" PROPERTIES COMPILE_OPTIONS /EHsc)
+endif()
 
 add_library(
 	tier1 STATIC

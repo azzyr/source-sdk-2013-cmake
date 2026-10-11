@@ -2,9 +2,7 @@
 
 include("${CMAKE_CURRENT_LIST_DIR}/server_base.cmake")
 
-if (${IS_SOURCESDK})
-	include("${CMAKE_CURRENT_LIST_DIR}/nav_mesh.cmake")
-endif()
+include("${CMAKE_CURRENT_LIST_DIR}/nav_mesh.cmake")
 
 set(SERVER_HL2MP_DIR ${CMAKE_CURRENT_LIST_DIR})
 set(
@@ -46,6 +44,51 @@ set(
 	"${SERVER_HL2MP_DIR}/trigger_area_capture.h"
 	"${SRCDIR}/game/shared/teamplay_round_timer.cpp"
 	"${SRCDIR}/game/shared/teamplay_round_timer.h"
+
+	# NextBot
+	"${SERVER_HL2MP_DIR}/NextBot/NextBot.cpp"
+	"${SERVER_HL2MP_DIR}/NextBot/NextBot.h"
+	"${SERVER_HL2MP_DIR}/NextBot/NextBotBehavior.h"
+	"${SERVER_HL2MP_DIR}/NextBot/NextBotManager.cpp"
+	"${SERVER_HL2MP_DIR}/NextBot/NextBotManager.h"
+	"${SERVER_HL2MP_DIR}/NextBot/NextBotUtil.h"
+	"${SERVER_HL2MP_DIR}/NextBot/NextBotKnownEntity.h"
+	"${SERVER_HL2MP_DIR}/NextBot/NextBotGroundLocomotion.cpp"
+	"${SERVER_HL2MP_DIR}/NextBot/NextBotGroundLocomotion.h"
+	"${SERVER_HL2MP_DIR}/NextBot/simple_bot.cpp"
+	"${SERVER_HL2MP_DIR}/NextBot/simple_bot.h"
+	"${SERVER_HL2MP_DIR}/NextBot/NextBotBodyInterface.cpp"
+	"${SERVER_HL2MP_DIR}/NextBot/NextBotBodyInterface.h"
+	"${SERVER_HL2MP_DIR}/NextBot/NextBotComponentInterface.cpp"
+	"${SERVER_HL2MP_DIR}/NextBot/NextBotComponentInterface.h"
+	"${SERVER_HL2MP_DIR}/NextBot/NextBotEventResponderInterface.h"
+	"${SERVER_HL2MP_DIR}/NextBot/NextBotHearingInterface.h"
+	"${SERVER_HL2MP_DIR}/NextBot/NextBotIntentionInterface.cpp"
+	"${SERVER_HL2MP_DIR}/NextBot/NextBotIntentionInterface.h"
+	"${SERVER_HL2MP_DIR}/NextBot/NextBotInterface.cpp"
+	"${SERVER_HL2MP_DIR}/NextBot/NextBotInterface.h"
+	"${SERVER_HL2MP_DIR}/NextBot/NextBotLocomotionInterface.cpp"
+	"${SERVER_HL2MP_DIR}/NextBot/NextBotLocomotionInterface.h"
+	"${SERVER_HL2MP_DIR}/NextBot/NextBotVisionInterface.cpp"
+	"${SERVER_HL2MP_DIR}/NextBot/NextBotVisionInterface.h"
+	"${SERVER_HL2MP_DIR}/NextBot/NextBotContextualQueryInterface.h"
+	"${SERVER_HL2MP_DIR}/NextBot/Path/NextBotChasePath.cpp"
+	"${SERVER_HL2MP_DIR}/NextBot/Path/NextBotChasePath.h"
+	"${SERVER_HL2MP_DIR}/NextBot/Path/NextBotRetreatPath.h"
+	"${SERVER_HL2MP_DIR}/NextBot/Path/NextBotPath.cpp"
+	"${SERVER_HL2MP_DIR}/NextBot/Path/NextBotPath.h"
+	"${SERVER_HL2MP_DIR}/NextBot/Path/NextBotPathFollow.cpp"
+	"${SERVER_HL2MP_DIR}/NextBot/Path/NextBotPathFollow.h"
+	"${SERVER_HL2MP_DIR}/NextBot/Player/NextBotPlayerBody.cpp"
+	"${SERVER_HL2MP_DIR}/NextBot/Player/NextBotPlayerBody.h"
+	"${SERVER_HL2MP_DIR}/NextBot/Player/NextBotPlayerLocomotion.cpp"
+	"${SERVER_HL2MP_DIR}/NextBot/Player/NextBotPlayerLocomotion.h"
+	"${SERVER_HL2MP_DIR}/NextBot/Player/NextBotPlayer.cpp"
+	"${SERVER_HL2MP_DIR}/NextBot/Player/NextBotPlayer.h"
+	"${SERVER_HL2MP_DIR}/NextBot/Behavior/BehaviorBackUp.h"
+	"${SERVER_HL2MP_DIR}/NextBot/Behavior/BehaviorMoveTo.h"
+	"${SERVER_HL2MP_DIR}/NextBot/NavMeshEntities/func_nav_prerequisite.cpp"
+	"${SERVER_HL2MP_DIR}/NextBot/NavMeshEntities/func_nav_prerequisite.h"
 
 	# HL2 DLL
 	"${SERVER_HL2MP_DIR}/hl2/ai_allymanager.cpp"
@@ -225,8 +268,6 @@ set(
 	"${SERVER_HL2MP_DIR}/hl2/weapon_flaregun.h"
 
 	# HL2MP
-	"${SERVER_HL2MP_DIR}/hl2mp/hl2mp_bot_temp.cpp"
-	"${SERVER_HL2MP_DIR}/hl2mp/hl2mp_bot_temp.h"
 	"${SERVER_HL2MP_DIR}/hl2mp/hl2mp_client.cpp"
 	"${SERVER_HL2MP_DIR}/hl2mp/hl2mp_cvars.cpp"
 	"${SERVER_HL2MP_DIR}/hl2mp/hl2mp_gameinterface.cpp"
@@ -239,6 +280,56 @@ set(
 	"${SRCDIR}/game/shared/hl2mp/hl2mp_player_shared.h"
 	"${SRCDIR}/game/shared/hl2mp/hl2mp_weapon_parse.cpp"
 	"${SRCDIR}/game/shared/hl2mp/hl2mp_weapon_parse.h"
+
+	# HL2MP->Bots
+	"${SERVER_HL2MP_DIR}/hl2mp/bot/hl2mp_bot.cpp"
+	"${SERVER_HL2MP_DIR}/hl2mp/bot/hl2mp_bot.h"
+	"${SERVER_HL2MP_DIR}/hl2mp/bot/hl2mp_bot_body.cpp"
+	"${SERVER_HL2MP_DIR}/hl2mp/bot/hl2mp_bot_body.h"
+	"${SERVER_HL2MP_DIR}/hl2mp/bot/hl2mp_bot_locomotion.cpp"
+	"${SERVER_HL2MP_DIR}/hl2mp/bot/hl2mp_bot_locomotion.h"
+	"${SERVER_HL2MP_DIR}/hl2mp/bot/hl2mp_bot_manager.cpp"
+	"${SERVER_HL2MP_DIR}/hl2mp/bot/hl2mp_bot_manager.h"
+	"${SERVER_HL2MP_DIR}/hl2mp/bot/hl2mp_bot_squad.cpp"
+	"${SERVER_HL2MP_DIR}/hl2mp/bot/hl2mp_bot_squad.h"
+	"${SERVER_HL2MP_DIR}/hl2mp/bot/hl2mp_bot_vision.cpp"
+	"${SERVER_HL2MP_DIR}/hl2mp/bot/hl2mp_bot_vision.h"
+	"${SERVER_HL2MP_DIR}/hl2mp/bot/behavior/nav_entities/hl2mp_bot_nav_ent_destroy_entity.cpp"
+	"${SERVER_HL2MP_DIR}/hl2mp/bot/behavior/nav_entities/hl2mp_bot_nav_ent_destroy_entity.h"
+	"${SERVER_HL2MP_DIR}/hl2mp/bot/behavior/nav_entities/hl2mp_bot_nav_ent_move_to.cpp"
+	"${SERVER_HL2MP_DIR}/hl2mp/bot/behavior/nav_entities/hl2mp_bot_nav_ent_move_to.h"
+	"${SERVER_HL2MP_DIR}/hl2mp/bot/behavior/nav_entities/hl2mp_bot_nav_ent_wait.cpp"
+	"${SERVER_HL2MP_DIR}/hl2mp/bot/behavior/nav_entities/hl2mp_bot_nav_ent_wait.h"
+	"${SERVER_HL2MP_DIR}/hl2mp/bot/behavior/hl2mp_bot_approach_object.cpp"
+	"${SERVER_HL2MP_DIR}/hl2mp/bot/behavior/hl2mp_bot_approach_object.h"
+	"${SERVER_HL2MP_DIR}/hl2mp/bot/behavior/hl2mp_bot_attack.cpp"
+	"${SERVER_HL2MP_DIR}/hl2mp/bot/behavior/hl2mp_bot_attack.h"
+	"${SERVER_HL2MP_DIR}/hl2mp/bot/behavior/hl2mp_bot_behavior.cpp"
+	"${SERVER_HL2MP_DIR}/hl2mp/bot/behavior/hl2mp_bot_behavior.h"
+	"${SERVER_HL2MP_DIR}/hl2mp/bot/behavior/hl2mp_bot_dead.cpp"
+	"${SERVER_HL2MP_DIR}/hl2mp/bot/behavior/hl2mp_bot_dead.h"
+	"${SERVER_HL2MP_DIR}/hl2mp/bot/behavior/hl2mp_bot_get_ammo.cpp"
+	"${SERVER_HL2MP_DIR}/hl2mp/bot/behavior/hl2mp_bot_get_ammo.h"
+	"${SERVER_HL2MP_DIR}/hl2mp/bot/behavior/hl2mp_bot_get_health.cpp"
+	"${SERVER_HL2MP_DIR}/hl2mp/bot/behavior/hl2mp_bot_get_health.h"
+	"${SERVER_HL2MP_DIR}/hl2mp/bot/behavior/hl2mp_bot_get_prop.cpp"
+	"${SERVER_HL2MP_DIR}/hl2mp/bot/behavior/hl2mp_bot_get_prop.h"
+	"${SERVER_HL2MP_DIR}/hl2mp/bot/behavior/hl2mp_bot_melee_attack.cpp"
+	"${SERVER_HL2MP_DIR}/hl2mp/bot/behavior/hl2mp_bot_melee_attack.h"
+	"${SERVER_HL2MP_DIR}/hl2mp/bot/behavior/hl2mp_bot_move_to_vantage_point.cpp"
+	"${SERVER_HL2MP_DIR}/hl2mp/bot/behavior/hl2mp_bot_move_to_vantage_point.h"
+	"${SERVER_HL2MP_DIR}/hl2mp/bot/behavior/hl2mp_bot_retreat_to_cover.cpp"
+	"${SERVER_HL2MP_DIR}/hl2mp/bot/behavior/hl2mp_bot_retreat_to_cover.h"
+	"${SERVER_HL2MP_DIR}/hl2mp/bot/behavior/hl2mp_bot_scenario_monitor.cpp"
+	"${SERVER_HL2MP_DIR}/hl2mp/bot/behavior/hl2mp_bot_scenario_monitor.h"
+	"${SERVER_HL2MP_DIR}/hl2mp/bot/behavior/hl2mp_bot_seek_and_destroy.cpp"
+	"${SERVER_HL2MP_DIR}/hl2mp/bot/behavior/hl2mp_bot_seek_and_destroy.h"
+	"${SERVER_HL2MP_DIR}/hl2mp/bot/behavior/hl2mp_bot_tactical_monitor.cpp"
+	"${SERVER_HL2MP_DIR}/hl2mp/bot/behavior/hl2mp_bot_tactical_monitor.h"
+	"${SERVER_HL2MP_DIR}/hl2mp/bot/map_entities/hl2mp_bot_generator.cpp"
+	"${SERVER_HL2MP_DIR}/hl2mp/bot/map_entities/hl2mp_bot_generator.h"
+	"${SERVER_HL2MP_DIR}/hl2mp/bot/map_entities/hl2mp_bot_proxy.cpp"
+	"${SERVER_HL2MP_DIR}/hl2mp/bot/map_entities/hl2mp_bot_proxy.h"
 
 	# HL2MP->Weapons
 	"${SERVER_HL2MP_DIR}/hl2mp/grenade_satchel.cpp"
@@ -299,8 +390,7 @@ target_compile_definitions(
 	server_hl2mp PRIVATE
 	HL2MP
 	HL2_DLL
+	NEXT_BOT
 )
 
-if (${IS_SOURCESDK})
-	target_use_nav_mesh(server_hl2mp)
-endif()
+target_use_nav_mesh(server_hl2mp)

@@ -64,7 +64,6 @@ set_target_properties(
 target_include_directories(
 	motionmapper PRIVATE
 	"${SRCDIR}/utils/common"
-	"${SRCDIR}/utils/nvtristriplib"
 )
 
 target_compile_definitions(
@@ -76,6 +75,5 @@ target_link_libraries(
 	motionmapper PRIVATE
 	winmm
 	mathlib
-	"${LIBPUBLIC}/nvtristrip${STATIC_LIB_EXT}"
 	"${LIBPUBLIC}/tier2${STATIC_LIB_EXT}"
 )

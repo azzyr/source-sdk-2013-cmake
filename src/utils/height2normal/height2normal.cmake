@@ -28,15 +28,6 @@ target_include_directories(
 	"${SRCDIR}/utils/common"
 )
 
-target_compile_definitions(
-	height2normal PRIVATE
-	_HAS_ITERATOR_DEBUGGING=0
-	_CONSOLE
-	_ALLOW_RUNTIME_LIBRARY_MISMATCH
-	_ALLOW_ITERATOR_DEBUG_LEVEL_MISMATCH
-	_ALLOW_MSC_VER_MISMATCH
-)
-
 target_link_libraries(
 	height2normal PRIVATE
 

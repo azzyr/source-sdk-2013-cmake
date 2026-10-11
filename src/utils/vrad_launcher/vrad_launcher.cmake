@@ -22,6 +22,7 @@ add_executable(vrad_launcher ${VRAD_LAUNCHER_SOURCE_FILES})
 
 set_target_properties(
 	vrad_launcher PROPERTIES
+	OUTPUT_NAME "vrad"
 	RUNTIME_OUTPUT_DIRECTORY "${GAMEDIR}/bin${PLATSUBDIR}"
 )
 

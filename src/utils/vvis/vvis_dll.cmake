@@ -11,8 +11,8 @@ set(
 	"${VVIS_DLL_DIR}/flow.cpp"
 	"${SRCDIR}/public/loadcmdline.cpp"
 	"${SRCDIR}/public/lumpfiles.cpp"
-	"${SRCDIR}/utils/common/mpi_stats.cpp"
-	"${VVIS_DLL_DIR}/mpivis.cpp"
+	"${SRCDIR}/public/filesystem_init.cpp"
+	"${SRCDIR}/utils/common/filesystem_tools.cpp"
 	"${SRCDIR}/utils/common/MySqlDatabase.cpp"
 	"${SRCDIR}/utils/common/pacifier.cpp"
 	"${SRCDIR}/public/scratchpad3d.cpp"
@@ -21,7 +21,6 @@ set(
 	"${SRCDIR}/utils/common/threads.cpp"
 	"${SRCDIR}/utils/common/tools_minidump.cpp"
 	"${SRCDIR}/utils/common/tools_minidump.h"
-	"${SRCDIR}/utils/common/vmpi_tools_shared.cpp"
 	"${VVIS_DLL_DIR}/vvis.cpp"
 	"${VVIS_DLL_DIR}/WaterDist.cpp"
 	"${SRCDIR}/public/zip_utils.cpp"
@@ -43,7 +42,6 @@ set(
 	"${SRCDIR}/public/GameBSPFile.h"
 	"${SRCDIR}/utils/common/ISQLDBReplyTarget.h"
 	"${SRCDIR}/public/mathlib/mathlib.h"
-	"${VVIS_DLL_DIR}/mpivis.h"
 	"${SRCDIR}/utils/common/MySqlDatabase.h"
 	"${SRCDIR}/utils/common/pacifier.h"
 	"${SRCDIR}/utils/common/scriplib.h"
@@ -59,8 +57,6 @@ set(
 	"${SRCDIR}/public/mathlib/vector.h"
 	"${SRCDIR}/public/mathlib/vector2d.h"
 	"${VVIS_DLL_DIR}/vis.h"
-	"${SRCDIR}/utils/vmpi/vmpi_distribute_work.h"
-	"${SRCDIR}/utils/common/vmpi_tools_shared.h"
 	"${SRCDIR}/public/vstdlib/vstdlib.h"
 	"${SRCDIR}/public/wadtypes.h"
 )
@@ -86,7 +82,6 @@ target_include_directories(
 
 target_compile_definitions(
 	vvis_dll PRIVATE
-	MPI
 	PROTECTED_THINGS_DISABLE
 )
 
@@ -98,6 +93,5 @@ target_link_libraries(
 
 	mathlib
 	"${LIBPUBLIC}/tier2${STATIC_LIB_EXT}"
-	"${LIBPUBLIC}/vmpi${STATIC_LIB_EXT}"
 	"${LIBCOMMON}/lzma${STATIC_LIB_EXT}"
 )
