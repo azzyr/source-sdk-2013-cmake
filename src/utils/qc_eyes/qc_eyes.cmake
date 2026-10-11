@@ -40,7 +40,7 @@ add_executable(qc_eyes WIN32 ${QC_EYES_SOURCE_FILES})
 
 set_target_properties(
 	qc_eyes PROPERTIES
-	RUNTIME_OUTPUT_DIRECTORY "${GAMEDIR}/bin"
+	RUNTIME_OUTPUT_DIRECTORY "${GAMEDIR}/bin${PLATSUBDIR}"
 )
 
 target_precompile_headers(

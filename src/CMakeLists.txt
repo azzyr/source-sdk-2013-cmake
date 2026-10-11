@@ -2,13 +2,6 @@ cmake_minimum_required(VERSION 3.18 FATAL_ERROR)
 
 set(CMAKE_CONFIGURATION_TYPES "Debug;Release" CACHE STRING "" FORCE)
 
-if (APPLE)
-	# NOTE: You may need to pass this as a command line parameter for the Xcode generator -DCMAKE_OSX_ARCHITECTURES=i386
-	set(CMAKE_OSX_ARCHITECTURES i386)
-	set(CMAKE_OSX_DEPLOYMENT_TARGET 10.9)
-	set(CMAKE_XCODE_ATTRIBUTE_DEBUG_INFORMATION_FORMAT "dwarf-with-dsym")
-endif()
-
 # This is a way to emulate groups.vgc
 set(BUILD_GROUP "game" CACHE STRING "Build Group")
 
@@ -21,6 +14,10 @@ set_property(CACHE BUILD_GROUP PROPERTY STRINGS
 
 project(${BUILD_GROUP})
 
+if (NOT ${CMAKE_SIZEOF_VOID_P} EQUAL 8)
+	message(FATAL_ERROR "Source SDK 2013 only supports 64-bit generation")
+endif()
+
 # For some reason, checking if CMAKE_BUILD_TYPE is defined is unreliable
 # So simply check if it's empty instead
 if ("${CMAKE_BUILD_TYPE}" STREQUAL "")
@@ -32,6 +29,7 @@ endif()
 set(CMAKE_CXX_STANDARD 14)
 set(CMAKE_CXX_STANDARD_REQUIRED ON)
 set(CMAKE_CXX_VISIBILITY_PRESET hidden)
+set(CMAKE_POSITION_INDEPENDENT_CODE ON)
 set_property(GLOBAL PROPERTY USE_FOLDERS ON)
 
 # Which game are we building?
@@ -77,7 +75,11 @@ include("_cmake_scripts/video_base.cmake")
 include("_cmake_scripts/postbuild.cmake")
 
 set(LIBPUBLIC "${SRCDIR}/lib/public${PLATSUBDIR}")
-set(LIBCOMMON "${SRCDIR}/lib/common${PLATSUBDIR}")
+if (WIN32)
+	set(LIBCOMMON "${SRCDIR}/lib/common${PLATSUBDIR}/2015/release")
+else()
+	set(LIBCOMMON "${SRCDIR}/lib/common${PLATSUBDIR}")
+endif()
 
 link_directories(
 	${LIBPUBLIC}
@@ -96,7 +98,7 @@ add_compile_definitions($<$<CONFIG:Release>:NDEBUG>)
 
 if (${IS_WINDOWS})
 	include("_cmake_scripts/windows_base.cmake")
-elseif (${IS_LINUX} OR ${IS_OSX})
+elseif (${IS_LINUX})
 	include("_cmake_scripts/posix_base.cmake")
 endif()
 
@@ -207,6 +209,17 @@ foreach(target ${ALL_TARGETS})
 	endif()
 
 	get_target_property(target_type ${target} TYPE)
+
+	foreach(output_kind LIBRARY RUNTIME)
+		get_target_property(output_dir ${target} ${output_kind}_OUTPUT_DIRECTORY)
+		if (output_dir)
+			foreach(config ${CMAKE_CONFIGURATION_TYPES})
+				string(TOUPPER ${config} config)
+				set_target_properties(${target} PROPERTIES ${output_kind}_OUTPUT_DIRECTORY_${config} "${output_dir}")
+			endforeach()
+		endif()
+	endforeach()
+
 	if (${target_type} STREQUAL "EXECUTABLE")
 		add_compile_options_filtered(${target} ADDITIONAL_COMPILE_OPTIONS_EXE)
 		add_libraries_filtered(${target} ADDITIONAL_LINK_LIBRARIES_EXE)
@@ -215,7 +228,7 @@ foreach(target ${ALL_TARGETS})
 		target_compile_definitions(${target} PRIVATE MEMOVERRIDE_MODULE=$<TARGET_NAME_IF_EXISTS:${target}>)
 		add_compile_definitions_filtered(${target} ADDITIONAL_COMPILE_DEFINITIONS_EXE)
 
-		# Only applies to Linux and OSX
+		# Only applies to Linux
 		target_strip_symbols(${target})
 	elseif((${target_type} STREQUAL "SHARED_LIBRARY") OR (${target_type} STREQUAL "MODULE_LIBRARY"))
 		add_compile_options_filtered(${target} ADDITIONAL_COMPILE_OPTIONS_DLL)
@@ -225,7 +238,7 @@ foreach(target ${ALL_TARGETS})
 		target_compile_definitions(${target} PRIVATE MEMOVERRIDE_MODULE=$<TARGET_NAME_IF_EXISTS:${target}> DLLNAME=$<TARGET_NAME_IF_EXISTS:${target}>)
 		add_compile_definitions_filtered(${target} ADDITIONAL_COMPILE_DEFINITIONS_DLL)
 
-		# Only applies to Linux and OSX
+		# Only applies to Linux
 		target_strip_symbols(${target})
 	elseif(${target_type} STREQUAL "STATIC_LIBRARY")
 		add_compile_options_filtered(${target} ADDITIONAL_COMPILE_OPTIONS_LIB)

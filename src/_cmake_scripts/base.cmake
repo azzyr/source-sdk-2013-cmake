@@ -5,10 +5,8 @@
 
 set(IS_WINDOWS 0)
 set(IS_LINUX 0)
-set(IS_OSX 0)
 set(IS_POSIX 0)
 
-set(IS_XCODE 0)
 set(IS_SOURCESDK 1)
 
 if (WIN32)
@@ -20,10 +18,7 @@ if (UNIX AND NOT APPLE)
 endif()
 
 if (APPLE)
-	set(IS_OSX 1)
-	if (${CMAKE_GENERATOR} STREQUAL "Xcode")
-		set(IS_XCODE 1)
-	endif()
+	message(FATAL_ERROR "macOS is no longer supported by the engine")
 endif()
 
 if (UNIX)
@@ -34,10 +29,6 @@ if (${IS_WINDOWS})
 	set(_DLL_EXT ".dll")
 	set(STATIC_LIB_EXT ".lib")
 	set(IMPLIB_EXT ".lib")
-elseif (${IS_OSX})
-	set(_DLL_EXT ".dylib")
-	set(STATIC_LIB_EXT ".a")
-	set(IMPLIB_EXT ".dylib")
 elseif(${IS_LINUX})
 	set(_DLL_EXT ".so")
 	set(STATIC_LIB_EXT ".a")
@@ -47,7 +38,6 @@ endif()
 option(RETAIL "Build in retail mode" OFF)
 option(STAGING_ONLY "Staging only" OFF)
 
-set(RAD_TELEMETRY_DISABLED ${IS_SOURCESDK})
 set(TF_BETA 0)
 set(BUILD_REPLAY 0)
 set(DEDICATED 0)
@@ -56,7 +46,6 @@ add_compile_definitions(
 	$<$<BOOL:${RETAIL}>:_RETAIL>
 	$<$<BOOL:${STAGING_ONLY}>:STAGING_ONLY>
 	$<${TF_BETA}:TF_BETA>
-	$<${RAD_TELEMETRY_DISABLED}:RAD_TELEMETRY_DISABLED>
 	_DLL_EXT=${_DLL_EXT}
 	FRAME_POINTER_OMISSION_DISABLED
 )

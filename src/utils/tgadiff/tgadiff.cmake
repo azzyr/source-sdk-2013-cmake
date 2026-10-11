@@ -11,7 +11,7 @@ add_executable(tgadiff ${TGADIFF_SOURCE_FILES})
 
 set_target_properties(
 	tgadiff PROPERTIES
-	RUNTIME_OUTPUT_DIRECTORY "${GAMEDIR}/bin"
+	RUNTIME_OUTPUT_DIRECTORY "${GAMEDIR}/bin${PLATSUBDIR}"
 )
 
 target_link_libraries(

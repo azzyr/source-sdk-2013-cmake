@@ -7,7 +7,6 @@ find_package(Threads REQUIRED)
 
 add_compile_options(
 	-g
-	-m32
 	$<$<COMPILE_LANGUAGE:CXX>:-fpermissive>
 	-fdiagnostics-color
 	-Wno-narrowing
@@ -17,28 +16,22 @@ add_compile_options(
 	-UPROTECTED_THINGS_ENABLE
 )
 
-add_link_options(-m32)
-
 add_compile_definitions(
 	_POSIX
 	POSIX
 	GNUC
 	COMPILER_GCC
+	PLATFORM_64BITS
 	NO_HOOK_MALLOC
 	NO_MALLOC_OVERRIDE
 	$<${IS_LINUX}:_LINUX>
 	$<${IS_LINUX}:LINUX>
-	$<${IS_OSX}:_OSX>
-	$<${IS_OSX}:OSX>
-	$<${IS_OSX}:_DARWIN_UNLIMITED_SELECT>
-	$<${IS_OSX}:FD_SETSIZE=10240>
-	$<${IS_OSX}:OVERRIDE_V_DEFINES>
 )
 
-if (${IS_LINUX} AND NOT ${DEDICATED})
+if (${IS_LINUX})
 	list(
-		APPEND ADDITIONAL_LINK_OPTIONS_EXE
-		-Wl,--no-as-needed -ltcmalloc_minimal -Wl,--as-needed
+		APPEND ADDITIONAL_LINK_OPTIONS_DLL
+		"-Wl,--version-script=${SRCDIR}/devtools/version_script.linux.txt"
 	)
 endif()
 
@@ -56,9 +49,14 @@ if (${IS_LINUX})
 endif()
 
 add_compile_options(
-	$<${IS_LINUX}:-march=pentium4>
-	-msse2 -mfpmath=sse -mtune=core2
+	-march=core2
+	-fno-strict-aliasing
+	-fno-delete-null-pointer-checks
+	-fno-omit-frame-pointer
+	-ffast-math
 )
+
+include_directories(SYSTEM /usr/include/SDL2)
 
 list(
 	APPEND ADDITIONAL_LINK_LIBRARIES_DLL
