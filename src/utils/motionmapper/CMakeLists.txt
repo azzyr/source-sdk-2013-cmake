@@ -1,5 +1,3 @@
-# motionmapper.cmake
-
 source_add_executable(motionmapper
 	OUTPUT_DIR "${GAMEDIR}/bin${PLATSUBDIR}"
 

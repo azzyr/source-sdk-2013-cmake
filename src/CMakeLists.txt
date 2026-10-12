@@ -45,7 +45,6 @@ set(SRCDIR "${CMAKE_CURRENT_LIST_DIR}")
 get_filename_component(GAMEDIR "${CMAKE_CURRENT_LIST_DIR}/../game" ABSOLUTE)
 set(THIRDPARTYDIR "${SRCDIR}/thirdparty")
 
-include("_cmake_scripts/pch_skip.cmake")
 include("_cmake_scripts/platform_dirs.cmake")
 include("_cmake_scripts/base.cmake")
 include("_cmake_scripts/video_base.cmake")
@@ -95,29 +94,6 @@ get_property(TIER_LIB_TARGETS GLOBAL PROPERTY SOURCE_TIER_LIB_TARGETS)
 foreach(target IN LISTS TIER_LIB_TARGETS)
 	target_link_libraries(${target} PRIVATE source_tier_libs)
 endforeach()
-
-get_property(ALL_TARGETS DIRECTORY PROPERTY BUILDSYSTEM_TARGETS)
-set(ALL_SOURCES "${SRCDIR}/public/tier0/memoverride.cpp")
-
-foreach(target IN LISTS ALL_TARGETS)
-	get_target_property(sources ${target} SOURCES)
-	if (sources)
-		list(APPEND ALL_SOURCES ${sources})
-	endif()
-endforeach()
-
-# mirror the source tree in IDEs
-string(REGEX QUOTE SRCDIR_REGEX "${SRCDIR}/")
-string(REGEX QUOTE BINDIR_REGEX "${CMAKE_BINARY_DIR}/")
-set(TREE_SOURCES ${ALL_SOURCES})
-list(FILTER TREE_SOURCES INCLUDE REGEX "${SRCDIR_REGEX}")
-list(TRANSFORM TREE_SOURCES REPLACE "^.*(${SRCDIR_REGEX}[^>]*).*$" "\\1")
-list(REMOVE_DUPLICATES TREE_SOURCES)
-source_group(TREE "${SRCDIR}" FILES ${TREE_SOURCES})
-
-set(GENERATED_SOURCES ${ALL_SOURCES})
-list(FILTER GENERATED_SOURCES INCLUDE REGEX "^${BINDIR_REGEX}")
-source_group(TREE "${CMAKE_BINARY_DIR}" PREFIX "Generated" FILES ${GENERATED_SOURCES})
 
 if (TARGET launcher_main_mod_${BUILD_GAME})
 	set_property(DIRECTORY PROPERTY VS_STARTUP_PROJECT launcher_main_mod_${BUILD_GAME})

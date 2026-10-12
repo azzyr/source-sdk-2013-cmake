@@ -1,5 +1,3 @@
-# mathlib.cmake
-
 source_add_library(mathlib
 	color_conversion.cpp
 	halton.cpp

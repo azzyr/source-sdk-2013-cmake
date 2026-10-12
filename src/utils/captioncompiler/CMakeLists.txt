@@ -1,5 +1,3 @@
-# captioncompiler.cmake
-
 set(CAPTIONCOMPILER_DIR ${CMAKE_CURRENT_LIST_DIR})
 source_add_executable(captioncompiler
 	OUTPUT_DIR "${GAMEDIR}/bin${PLATSUBDIR}"

@@ -1,5 +1,3 @@
-# raytrace.cmake
-
 source_add_library(raytrace
 	raytrace.cpp
 	trace2.cpp

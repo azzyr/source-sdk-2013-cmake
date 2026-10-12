@@ -1,5 +1,3 @@
-# vvis_launcher.cmake
-
 set(VVIS_LAUNCHER_DIR ${CMAKE_CURRENT_LIST_DIR})
 source_add_executable(vvis_launcher
 	OUTPUT_NAME vvis

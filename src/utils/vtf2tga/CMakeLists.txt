@@ -1,5 +1,3 @@
-# vtf2tga.cmake
-
 source_add_executable(vtf2tga
 	OUTPUT_DIR "${GAMEDIR}/bin${PLATSUBDIR}"
 

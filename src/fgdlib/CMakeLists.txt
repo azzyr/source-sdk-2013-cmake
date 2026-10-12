@@ -1,5 +1,3 @@
-# fgdlib.cmake
-
 source_add_library(fgdlib
 	gamedata.cpp
 	gdclass.cpp

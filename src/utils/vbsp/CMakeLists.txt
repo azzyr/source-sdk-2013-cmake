@@ -1,5 +1,3 @@
-# vbsp.cmake
-
 source_add_executable(vbsp
 	OUTPUT_DIR "${GAMEDIR}/bin${PLATSUBDIR}"
 

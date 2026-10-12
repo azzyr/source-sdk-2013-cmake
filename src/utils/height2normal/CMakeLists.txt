@@ -1,5 +1,3 @@
-# height2normal.cmake
-
 source_add_executable(height2normal
 	OUTPUT_DIR "${GAMEDIR}/bin${PLATSUBDIR}"
 	NO_MEMOVERRIDE

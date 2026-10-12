@@ -3,9 +3,9 @@ Original SDK2013 project by Spirrwell: https://github.com/Spirrwell/source-sdk-2
 
 This project ports the buildsystem from VPC to CMake.
 
-The layout of the CMake projects should be similar to that of VPC. Hopefully it should feel familiar even if you have no experience with CMake. The base scripts are in _cmake_scripts. Each project has its own corresponding .cmake file similar to VPC. 
+The layout of the CMake projects should be similar to that of VPC. Hopefully it should feel familiar even if you have no experience with CMake. The base scripts are in _cmake_scripts. Each project has its own CMakeLists.txt, or a .cmake file when several projects share a folder. 
 
-Example: src/tier1/tier1.vpc -> src/tier1/tier1.cmake
+Example: src/tier1/tier1.vpc -> src/tier1/CMakeLists.txt
 
 The batch and shell scripts to generate projects now call CMake instead and place project files in a created "build" directory. If you're comfortable with CMake, you don't have to rely on these at all and can use your favorite IDE's CMake integration.
 

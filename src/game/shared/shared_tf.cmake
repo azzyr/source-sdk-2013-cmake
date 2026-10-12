@@ -1,6 +1,6 @@
 # shared_tf.cmake
 
-include_guard(GLOBAL)
+include_guard(DIRECTORY)
 
 source_files(
 	SHARED_TF_SOURCE_FILES

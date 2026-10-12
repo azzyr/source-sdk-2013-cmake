@@ -1,6 +1,6 @@
 # shared_hl2mp.cmake
 
-include_guard(GLOBAL)
+include_guard(DIRECTORY)
 
 source_files(
 	SHARED_HL2MP_SOURCE_FILES

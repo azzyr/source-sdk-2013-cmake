@@ -1,5 +1,3 @@
-# tier1.cmake
-
 set(TIER1_DIR ${CMAKE_CURRENT_LIST_DIR})
 
 source_files(

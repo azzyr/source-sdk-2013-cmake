@@ -1,5 +1,3 @@
-# vrad_dll.cmake
-
 source_add_module(vrad_dll
 	OUTPUT_DIR "${GAMEDIR}/bin${PLATSUBDIR}"
 

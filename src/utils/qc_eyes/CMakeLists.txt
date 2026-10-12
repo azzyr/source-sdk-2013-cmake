@@ -1,5 +1,3 @@
-# qc_eyes.cmake
-
 set(QC_EYES_DIR ${CMAKE_CURRENT_LIST_DIR})
 source_add_executable(qc_eyes
 	WIN32
