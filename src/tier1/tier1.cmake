@@ -2,56 +2,56 @@
 
 set(TIER1_DIR ${CMAKE_CURRENT_LIST_DIR})
 
-set(
+source_files(
 	TIER1_SOURCE_FILES
-	"${TIER1_DIR}/bitbuf.cpp"
-	"${TIER1_DIR}/newbitbuf.cpp"
-	"${TIER1_DIR}/byteswap.cpp"
-	"${TIER1_DIR}/characterset.cpp"
-	"${TIER1_DIR}/checksum_crc.cpp"
-	"${TIER1_DIR}/checksum_md5.cpp"
-	"${TIER1_DIR}/checksum_sha1.cpp"
-	"${TIER1_DIR}/commandbuffer.cpp"
-	"${TIER1_DIR}/convar.cpp"
-	"${TIER1_DIR}/datamanager.cpp"
-	"${TIER1_DIR}/diff.cpp"
-	"${TIER1_DIR}/exprevaluator.cpp"
-	"${TIER1_DIR}/generichash.cpp"
-	"${TIER1_DIR}/ilocalize.cpp"
-	"${TIER1_DIR}/interface.cpp"
-	"${TIER1_DIR}/KeyValues.cpp"
-	"${TIER1_DIR}/keyvaluesjson.cpp"
-	"${TIER1_DIR}/kvpacker.cpp"
-	"${TIER1_DIR}/lzmaDecoder.cpp"
-	"$<$<NOT:${IS_SOURCESDK}>:${TIER1_DIR}/lzss.cpp>"
-	"${TIER1_DIR}/mempool.cpp"
-	"${TIER1_DIR}/memstack.cpp"
-	"${TIER1_DIR}/NetAdr.cpp"
-	"${TIER1_DIR}/splitstring.cpp"
+	bitbuf.cpp
+	newbitbuf.cpp
+	byteswap.cpp
+	characterset.cpp
+	checksum_crc.cpp
+	checksum_md5.cpp
+	checksum_sha1.cpp
+	commandbuffer.cpp
+	convar.cpp
+	datamanager.cpp
+	diff.cpp
+	exprevaluator.cpp
+	generichash.cpp
+	ilocalize.cpp
+	interface.cpp
+	KeyValues.cpp
+	keyvaluesjson.cpp
+	kvpacker.cpp
+	lzmaDecoder.cpp
+	"$<$<NOT:${IS_SOURCESDK}>:lzss.cpp>"
+	mempool.cpp
+	memstack.cpp
+	NetAdr.cpp
+	splitstring.cpp
 
-	"$<${IS_WINDOWS}:${TIER1_DIR}/processor_detect.cpp>"
-	"$<${IS_POSIX}:${TIER1_DIR}/processor_detect_linux.cpp>"
+	"$<${IS_WINDOWS}:processor_detect.cpp>"
+	"$<${IS_POSIX}:processor_detect_linux.cpp>"
 
-	"$<${IS_LINUX}:${TIER1_DIR}/qsort_s.cpp>"
+	"$<${IS_LINUX}:qsort_s.cpp>"
 
-	"${TIER1_DIR}/rangecheckedvar.cpp"
-	"${TIER1_DIR}/reliabletimer.cpp"
-	"${TIER1_DIR}/stringpool.cpp"
-	"${TIER1_DIR}/strtools.cpp"
-	"${TIER1_DIR}/strtools_unicode.cpp"
-	"${TIER1_DIR}/tier1.cpp"
-	"${TIER1_DIR}/tokenreader.cpp"
-	"${TIER1_DIR}/sparsematrix.cpp"
-	"${TIER1_DIR}/uniqueid.cpp"
-	"${TIER1_DIR}/utlbuffer.cpp"
-	"${TIER1_DIR}/utlbufferutil.cpp"
-	"${TIER1_DIR}/utlstring.cpp"
-	"${TIER1_DIR}/utlsymbol.cpp"
-	"${TIER1_DIR}/utlbinaryblock.cpp"
-	"$<${IS_LINUX}:${TIER1_DIR}/pathmatch.cpp>"
-	"${TIER1_DIR}/snappy.cpp"
-	"${TIER1_DIR}/snappy-sinksource.cpp"
-	"${TIER1_DIR}/snappy-stubs-internal.cpp"
+	rangecheckedvar.cpp
+	reliabletimer.cpp
+	stringpool.cpp
+	strtools.cpp
+	strtools_unicode.cpp
+	tier1.cpp
+	tokenreader.cpp
+	sparsematrix.cpp
+	uniqueid.cpp
+	utlbuffer.cpp
+	utlbufferutil.cpp
+	utlstring.cpp
+	utlsymbol.cpp
+	utlbinaryblock.cpp
+	"$<${IS_LINUX}:pathmatch.cpp>"
+	snappy.cpp
+	snappy-sinksource.cpp
+	snappy-stubs-internal.cpp
 
 	# Select bits from the LZMA SDK to support lzmaDecoder.h
 	# Encoding support requires the full lzma project
@@ -63,8 +63,8 @@ set(
 	# Header Files
 
 	# Internal Header Files
-	"${TIER1_DIR}/snappy-internal.h"
-	"${TIER1_DIR}/snappy-stubs-internal.h"
+	snappy-internal.h
+	snappy-stubs-internal.h
 
 	"${SRCDIR}/public/tier1/bitbuf.h"
 	"${SRCDIR}/public/tier1/byteswap.h"
@@ -139,10 +139,7 @@ if (IS_WINDOWS)
 	set_source_files_properties("${TIER1_DIR}/processor_detect.cpp" PROPERTIES COMPILE_OPTIONS /EHsc)
 endif()
 
-add_library(
-	tier1 STATIC
-	${TIER1_SOURCE_FILES}
-)
+source_add_library(tier1 ${TIER1_SOURCE_FILES})
 
 target_compile_definitions(
 	tier1 PRIVATE

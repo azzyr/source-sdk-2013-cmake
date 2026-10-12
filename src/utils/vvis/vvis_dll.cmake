@@ -1,14 +1,14 @@
 # vvis_dll.cmake
 
-set(VVIS_DLL_DIR ${CMAKE_CURRENT_LIST_DIR})
-set(
-	VVIS_DLL_SOURCE_FILES
+source_add_module(vvis_dll
+	OUTPUT_DIR "${GAMEDIR}/bin${PLATSUBDIR}"
+	NO_MEMOVERRIDE
 
 	"${SRCDIR}/utils/common/bsplib.cpp"
 	"${SRCDIR}/utils/common/cmdlib.cpp"
 	"${SRCDIR}/public/collisionutils.cpp"
 	"${SRCDIR}/public/filesystem_helpers.cpp"
-	"${VVIS_DLL_DIR}/flow.cpp"
+	flow.cpp
 	"${SRCDIR}/public/loadcmdline.cpp"
 	"${SRCDIR}/public/lumpfiles.cpp"
 	"${SRCDIR}/public/filesystem_init.cpp"
@@ -21,8 +21,8 @@ set(
 	"${SRCDIR}/utils/common/threads.cpp"
 	"${SRCDIR}/utils/common/tools_minidump.cpp"
 	"${SRCDIR}/utils/common/tools_minidump.h"
-	"${VVIS_DLL_DIR}/vvis.cpp"
-	"${VVIS_DLL_DIR}/WaterDist.cpp"
+	vvis.cpp
+	WaterDist.cpp
 	"${SRCDIR}/public/zip_utils.cpp"
 
 	# Header Files
@@ -56,21 +56,9 @@ set(
 	"${SRCDIR}/public/vcollide.h"
 	"${SRCDIR}/public/mathlib/vector.h"
 	"${SRCDIR}/public/mathlib/vector2d.h"
-	"${VVIS_DLL_DIR}/vis.h"
+	vis.h
 	"${SRCDIR}/public/vstdlib/vstdlib.h"
 	"${SRCDIR}/public/wadtypes.h"
-)
-
-set(
-	vvis_dll_exclude_source
-	"${SRCDIR}/public/tier0/memoverride.cpp"
-)
-
-add_library(vvis_dll MODULE ${VVIS_DLL_SOURCE_FILES})
-
-set_target_properties(
-	vvis_dll PROPERTIES
-	LIBRARY_OUTPUT_DIRECTORY "${GAMEDIR}/bin${PLATSUBDIR}"
 )
 
 target_include_directories(
@@ -92,6 +80,6 @@ target_link_libraries(
 	ws2_32
 
 	mathlib
-	"${LIBPUBLIC}/tier2${STATIC_LIB_EXT}"
-	"${LIBCOMMON}/lzma${STATIC_LIB_EXT}"
+	tier2
+	lzma
 )

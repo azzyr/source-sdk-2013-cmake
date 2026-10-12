@@ -1,22 +1,14 @@
 # tgadiff.cmake
 
-set(TGADIFF_DIR ${CMAKE_CURRENT_LIST_DIR})
-set(
-	TGADIFF_SOURCE_FILES
+source_add_executable(tgadiff
+	OUTPUT_DIR "${GAMEDIR}/bin${PLATSUBDIR}"
 
-	"${TGADIFF_DIR}/tgadiff.cpp"
-)
-
-add_executable(tgadiff ${TGADIFF_SOURCE_FILES})
-
-set_target_properties(
-	tgadiff PROPERTIES
-	RUNTIME_OUTPUT_DIRECTORY "${GAMEDIR}/bin${PLATSUBDIR}"
+	tgadiff.cpp
 )
 
 target_link_libraries(
 	tgadiff PRIVATE
-	"${LIBPUBLIC}/bitmap${STATIC_LIB_EXT}"
+	bitmap
 	mathlib
-	"${LIBPUBLIC}/tier2${STATIC_LIB_EXT}"
+	tier2
 )

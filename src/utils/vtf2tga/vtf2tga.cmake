@@ -1,10 +1,9 @@
 # vtf2tga.cmake
 
-set(VTF2TGA_DIR ${CMAKE_CURRENT_LIST_DIR})
-set(
-	VTF2TGA_SOURCE_FILES
+source_add_executable(vtf2tga
+	OUTPUT_DIR "${GAMEDIR}/bin${PLATSUBDIR}"
 
-	"${VTF2TGA_DIR}/vtf2tga.cpp"
+	vtf2tga.cpp
 
 	# Header Files
 	"${SRCDIR}/public/mathlib/amd3dx.h"
@@ -26,17 +25,10 @@ set(
 	"${SRCDIR}/public/vtf/vtf.h"
 )
 
-add_executable(vtf2tga ${VTF2TGA_SOURCE_FILES})
-
-set_target_properties(
-	vtf2tga PROPERTIES
-	RUNTIME_OUTPUT_DIRECTORY "${GAMEDIR}/bin${PLATSUBDIR}"
-)
-
 target_link_libraries(
 	vtf2tga PRIVATE
-	"${LIBPUBLIC}/bitmap${STATIC_LIB_EXT}"
+	bitmap
 	mathlib
-	"${LIBPUBLIC}/tier2${STATIC_LIB_EXT}"
-	"${LIBPUBLIC}/vtf${STATIC_LIB_EXT}"
+	tier2
+	vtf
 )

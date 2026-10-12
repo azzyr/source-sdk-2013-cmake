@@ -7,14 +7,20 @@ find_package(Threads REQUIRED)
 
 add_compile_options(
 	-g
-	$<$<COMPILE_LANGUAGE:CXX>:-fpermissive>
 	-fdiagnostics-color
 	-Wno-narrowing
-	$<${IS_LINUX}:-U_FORTIFY_SOURCE>
+	-U_FORTIFY_SOURCE
 	-Usprintf
 	-Ustrncpy
 	-UPROTECTED_THINGS_ENABLE
 )
+
+set(
+	POSIX_CXX_COMPILE_OPTIONS
+	-fpermissive
+)
+
+add_compile_options("$<$<COMPILE_LANGUAGE:CXX>:${POSIX_CXX_COMPILE_OPTIONS}>")
 
 add_compile_definitions(
 	_POSIX
@@ -24,29 +30,27 @@ add_compile_definitions(
 	PLATFORM_64BITS
 	NO_HOOK_MALLOC
 	NO_MALLOC_OVERRIDE
-	$<${IS_LINUX}:_LINUX>
-	$<${IS_LINUX}:LINUX>
+	_LINUX
+	LINUX
 )
 
-if (${IS_LINUX})
-	list(
-		APPEND ADDITIONAL_LINK_OPTIONS_DLL
-		"-Wl,--version-script=${SRCDIR}/devtools/version_script.linux.txt"
-	)
-endif()
+target_link_options(
+	source_dll INTERFACE
+	"-Wl,--version-script=${SRCDIR}/devtools/version_script.linux.txt"
+)
+
+add_link_options(
+	-static-libgcc
+	-static-libstdc++
+)
+
+set(CMAKE_SHARED_MODULE_PREFIX "")
 
 link_libraries(
 	Threads::Threads
 	${CMAKE_DL_LIBS}
-	$<${IS_LINUX}:m>
+	m
 )
-
-if (${IS_LINUX})
-	add_link_options(
-		-static-libgcc
-		-static-libstdc++
-	)
-endif()
 
 add_compile_options(
 	-march=core2
@@ -57,10 +61,3 @@ add_compile_options(
 )
 
 include_directories(SYSTEM /usr/include/SDL2)
-
-list(
-	APPEND ADDITIONAL_LINK_LIBRARIES_DLL
-	tier0
-	tier1
-	vstdlib
-)

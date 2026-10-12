@@ -1,29 +1,18 @@
 # vrad_launcher.cmake
 
 set(VRAD_LAUNCHER_DIR ${CMAKE_CURRENT_LIST_DIR})
-set(
-	VRAD_LAUNCHER_SOURCE_FILES
+source_add_executable(vrad_launcher
+	OUTPUT_NAME vrad
+	OUTPUT_DIR "${GAMEDIR}/bin${PLATSUBDIR}"
+	NO_MEMOVERRIDE
 
-	"${VRAD_LAUNCHER_DIR}/vrad_launcher.cpp"
-	"${VRAD_LAUNCHER_DIR}/StdAfx.cpp"
+	vrad_launcher.cpp
+	StdAfx.cpp
 
 	# Header Files
 	"${SRCDIR}/public/tier1/interface.h"
 	"${SRCDIR}/public/ivraddll.h"
-	"${VRAD_LAUNCHER_DIR}/StdAfx.h"
-)
-
-set(
-	vrad_launcher_exclude_source
-	"${SRCDIR}/public/tier0/memoverride.cpp"
-)
-
-add_executable(vrad_launcher ${VRAD_LAUNCHER_SOURCE_FILES})
-
-set_target_properties(
-	vrad_launcher PROPERTIES
-	OUTPUT_NAME "vrad"
-	RUNTIME_OUTPUT_DIRECTORY "${GAMEDIR}/bin${PLATSUBDIR}"
+	StdAfx.h
 )
 
 target_precompile_headers(

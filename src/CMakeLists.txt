@@ -1,4 +1,4 @@
-cmake_minimum_required(VERSION 3.18 FATAL_ERROR)
+cmake_minimum_required(VERSION 4.3)
 
 set(CMAKE_CONFIGURATION_TYPES "Debug;Release" CACHE STRING "" FORCE)
 
@@ -14,7 +14,7 @@ set_property(CACHE BUILD_GROUP PROPERTY STRINGS
 
 project(${BUILD_GROUP})
 
-if (NOT ${CMAKE_SIZEOF_VOID_P} EQUAL 8)
+if (NOT CMAKE_SIZEOF_VOID_P EQUAL 8)
 	message(FATAL_ERROR "Source SDK 2013 only supports 64-bit generation")
 endif()
 
@@ -30,7 +30,6 @@ set(CMAKE_CXX_STANDARD 14)
 set(CMAKE_CXX_STANDARD_REQUIRED ON)
 set(CMAKE_CXX_VISIBILITY_PRESET hidden)
 set(CMAKE_POSITION_INDEPENDENT_CODE ON)
-set_property(GLOBAL PROPERTY USE_FOLDERS ON)
 
 # Which game are we building?
 set(BUILD_GAME "hl2mp" CACHE STRING "Build Game")
@@ -44,35 +43,12 @@ set(SRCDIR "${CMAKE_CURRENT_LIST_DIR}")
 get_filename_component(GAMEDIR "${CMAKE_CURRENT_LIST_DIR}/../game" ABSOLUTE)
 set(THIRDPARTYDIR "${SRCDIR}/thirdparty")
 
-# Compile options that are populated and set for each target depending on their type
-set(ADDITIONAL_COMPILE_OPTIONS_EXE)
-set(ADDITIONAL_COMPILE_OPTIONS_DLL)
-set(ADDITIONAL_COMPILE_OPTIONS_LIB)
-
-# Libraries that are linked to for each target depending on their type
-set(ADDITIONAL_LINK_LIBRARIES_EXE)
-set(ADDITIONAL_LINK_LIBRARIES_DLL)
-
-# Linker options that are populated and set for each target depending on their type
-set(ADDITIONAL_LINK_OPTIONS_EXE)
-set(ADDITIONAL_LINK_OPTIONS_DLL)
-set(ADDITIONAL_LINK_OPTIONS_LIB)
-
-# Sources that are added to each target depending on their type
-set(ADDITIONAL_SOURCES_EXE)
-set(ADDITIONAL_SOURCES_DLL)
-set(ADDITIONAL_SOURCES_LIB)
-
-# Compile definitions that are added to each target depending on their type
-set(ADDITIONAL_COMPILE_DEFINITIONS_EXE)
-set(ADDITIONAL_COMPILE_DEFINITIONS_DLL)
-set(ADDITIONAL_COMPILE_DEFINITIONS_LIB)
-
 include("_cmake_scripts/pch_skip.cmake")
 include("_cmake_scripts/platform_dirs.cmake")
 include("_cmake_scripts/base.cmake")
 include("_cmake_scripts/video_base.cmake")
 include("_cmake_scripts/postbuild.cmake")
+include("_cmake_scripts/targets.cmake")
 
 set(LIBPUBLIC "${SRCDIR}/lib/public${PLATSUBDIR}")
 if (WIN32)
@@ -81,10 +57,7 @@ else()
 	set(LIBCOMMON "${SRCDIR}/lib/common${PLATSUBDIR}")
 endif()
 
-link_directories(
-	${LIBPUBLIC}
-	${LIBCOMMON}
-)
+include("_cmake_scripts/prebuilt_libs.cmake")
 
 include_directories(
 	"${SRCDIR}/common"
@@ -93,159 +66,53 @@ include_directories(
 	"${SRCDIR}/public/tier1"
 )
 
-add_compile_definitions($<$<CONFIG:Debug>:DEBUG> $<$<CONFIG:Debug>:_DEBUG>)
+add_compile_definitions("$<$<CONFIG:Debug>:DEBUG;_DEBUG>")
 add_compile_definitions($<$<CONFIG:Release>:NDEBUG>)
 
-if (${IS_WINDOWS})
+add_library(source_exe INTERFACE)
+add_library(source_dll INTERFACE)
+add_library(source_lib INTERFACE)
+add_library(source_memoverride INTERFACE)
+add_library(source_tier_libs INTERFACE)
+
+target_compile_definitions(source_exe INTERFACE MEMOVERRIDE_MODULE=$<TARGET_PROPERTY:NAME>)
+target_compile_definitions(source_dll INTERFACE MEMOVERRIDE_MODULE=$<TARGET_PROPERTY:NAME> DLLNAME=$<TARGET_PROPERTY:NAME>)
+target_compile_definitions(source_lib INTERFACE LIBNAME=$<TARGET_PROPERTY:NAME>)
+target_link_libraries(source_tier_libs INTERFACE tier0 tier1 vstdlib)
+
+if (IS_WINDOWS)
 	include("_cmake_scripts/windows_base.cmake")
-elseif (${IS_LINUX})
+elseif (IS_LINUX)
 	include("_cmake_scripts/posix_base.cmake")
 endif()
 
 include("_cmake_scripts/groups.cmake")
 
-# Store all targets in a variable name ( See: https://stackoverflow.com/questions/37434946/how-do-i-iterate-over-all-cmake-targets-programmatically/62311397#62311397 )
-function(get_all_targets var)
-    set(targets)
-    get_all_targets_recursive(targets ${CMAKE_CURRENT_SOURCE_DIR})
-    set(${var} ${targets} PARENT_SCOPE)
-endfunction()
-
-macro(get_all_targets_recursive targets dir)
-    get_property(subdirectories DIRECTORY ${dir} PROPERTY SUBDIRECTORIES)
-    foreach(subdir ${subdirectories})
-        get_all_targets_recursive(${targets} ${subdir})
-    endforeach()
-
-    get_property(current_targets DIRECTORY ${dir} PROPERTY BUILDSYSTEM_TARGETS)
-    list(APPEND ${targets} ${current_targets})
-endmacro()
-
-get_all_targets(ALL_TARGETS)
-
-# Set of helper functions to add defintions/options/libs for each target in a filtered way
-function(add_compile_definitions_filtered target definitions)
-	foreach(additional_definition IN LISTS ${definitions})
-		set(SHOULD_EXCLUDE 0)
-		# Exclude the compile definition if target defines an exclude list
-		foreach(exclude IN LISTS "${target}_exclude_compile_definitions")
-			if (${additional_definition} STREQUAL ${exclude})
-				set(SHOULD_EXCLUDE 1)
-				break()
-			endif()
-		endforeach()
-		if (NOT ${SHOULD_EXCLUDE})
-			target_compile_definitions(${target} PRIVATE ${additional_definition})
-		endif()
-	endforeach()
-endfunction()
-
-
-function(add_compile_options_filtered target options)
-	foreach(additional_option IN LISTS ${options})
-		set(SHOULD_EXCLUDE 0)
-		# Exclude the compile options if target defines an exclude list
-		foreach(exclude IN LISTS "${target}_exclude_compile_options")
-			if (${additional_option} STREQUAL ${exclude})
-				set(SHOULD_EXCLUDE 1)
-				break()
-			endif()
-		endforeach()
-		if (NOT ${SHOULD_EXCLUDE})
-			target_compile_options(${target} PRIVATE "$<$<COMPILE_LANGUAGE:C,CXX>:${additional_option}>")
-		endif()
-	endforeach()
-endfunction()
-
-function(add_sources_filtered target sources)
-	foreach(additional_source IN LISTS ${sources})
-		set(SHOULD_EXCLUDE 0)
-		# Exclude the source if target defines an exclude list
-		foreach(exclude IN LISTS "${target}_exclude_source")
-			if (${additional_source} STREQUAL ${exclude})
-				set(SHOULD_EXCLUDE 1)
-				break()
-			endif()
-		endforeach()
-		if (NOT ${SHOULD_EXCLUDE})
-			target_sources(${target} PRIVATE ${additional_source})
-		endif()
-	endforeach()
-endfunction()
-
-function(add_libraries_filtered target libraries)
-	foreach(additional_lib IN LISTS ${libraries})
-		set(SHOULD_EXCLUDE 0)
-		# Exclude the lib if target defines an exclude list
-		foreach(exclude IN LISTS "${target}_exclude_lib")
-			if (${additional_lib} STREQUAL ${exclude})
-				set(SHOULD_EXCLUDE 1)
-				break()
-			endif()
-		endforeach()
-		if (NOT ${SHOULD_EXCLUDE})
-			target_link_libraries(${target} PRIVATE ${additional_lib})
-		endif()
-	endforeach()
-endfunction()
-
-# Iterates over all the targets and add necessary definitions/options/libs
-# This is an incredible hack, but it allows for targets to specify exclude lists
-# This allows us to emulate -$File and such from VPC
-foreach(target ${ALL_TARGETS})
-	# Define an empty exclude list if one isn't defined
-	if (NOT DEFINED "${target}_exclude_compile_options")
-		set("${target}_exclude_compile_options")
-	endif()
-
-	# Define an empty exclude list if one isn't defined
-	if (NOT DEFINED "${target}_exclude_lib")
-		set("${target}_exclude_lib")
-	endif()
-
-	# Define an empty exclude list if one isn't defined
-	if (NOT DEFINED "${target}_exclude_source")
-		set("${target}_exclude_source")
-	endif()
-
-	get_target_property(target_type ${target} TYPE)
-
-	foreach(output_kind LIBRARY RUNTIME)
-		get_target_property(output_dir ${target} ${output_kind}_OUTPUT_DIRECTORY)
-		if (output_dir)
-			foreach(config ${CMAKE_CONFIGURATION_TYPES})
-				string(TOUPPER ${config} config)
-				set_target_properties(${target} PROPERTIES ${output_kind}_OUTPUT_DIRECTORY_${config} "${output_dir}")
-			endforeach()
-		endif()
-	endforeach()
-
-	if (${target_type} STREQUAL "EXECUTABLE")
-		add_compile_options_filtered(${target} ADDITIONAL_COMPILE_OPTIONS_EXE)
-		add_libraries_filtered(${target} ADDITIONAL_LINK_LIBRARIES_EXE)
-		add_sources_filtered(${target} ADDITIONAL_SOURCES_EXE)
-		target_link_options(${target} PRIVATE ${ADDITIONAL_LINK_OPTIONS_EXE})
-		target_compile_definitions(${target} PRIVATE MEMOVERRIDE_MODULE=$<TARGET_NAME_IF_EXISTS:${target}>)
-		add_compile_definitions_filtered(${target} ADDITIONAL_COMPILE_DEFINITIONS_EXE)
-
-		# Only applies to Linux
-		target_strip_symbols(${target})
-	elseif((${target_type} STREQUAL "SHARED_LIBRARY") OR (${target_type} STREQUAL "MODULE_LIBRARY"))
-		add_compile_options_filtered(${target} ADDITIONAL_COMPILE_OPTIONS_DLL)
-		add_libraries_filtered(${target} ADDITIONAL_LINK_LIBRARIES_DLL)
-		add_sources_filtered(${target} ADDITIONAL_SOURCES_DLL)
-		target_link_options(${target} PRIVATE ${ADDITIONAL_LINK_OPTIONS_DLL})
-		target_compile_definitions(${target} PRIVATE MEMOVERRIDE_MODULE=$<TARGET_NAME_IF_EXISTS:${target}> DLLNAME=$<TARGET_NAME_IF_EXISTS:${target}>)
-		add_compile_definitions_filtered(${target} ADDITIONAL_COMPILE_DEFINITIONS_DLL)
-
-		# Only applies to Linux
-		target_strip_symbols(${target})
-	elseif(${target_type} STREQUAL "STATIC_LIBRARY")
-		add_compile_options_filtered(${target} ADDITIONAL_COMPILE_OPTIONS_LIB)
-		add_sources_filtered(${target} ADDITIONAL_SOURCES_LIB)
-		target_link_options(${target} PRIVATE ${ADDITIONAL_LINK_OPTIONS_LIB})
-		target_compile_definitions(${target} PRIVATE LIBNAME=$<TARGET_NAME_IF_EXISTS:${target}>)
-		add_compile_definitions_filtered(${target} ADDITIONAL_COMPILE_DEFINITIONS_LIB)
-	endif()
-
+# tier libraries come after the libraries that use them
+get_property(TIER_LIB_TARGETS GLOBAL PROPERTY SOURCE_TIER_LIB_TARGETS)
+foreach(target IN LISTS TIER_LIB_TARGETS)
+	target_link_libraries(${target} PRIVATE source_tier_libs)
 endforeach()
+
+get_property(ALL_TARGETS DIRECTORY PROPERTY BUILDSYSTEM_TARGETS)
+set(ALL_SOURCES "${SRCDIR}/public/tier0/memoverride.cpp")
+
+foreach(target IN LISTS ALL_TARGETS)
+	get_target_property(sources ${target} SOURCES)
+	if (sources)
+		list(APPEND ALL_SOURCES ${sources})
+	endif()
+endforeach()
+
+# mirror the source tree in IDEs
+string(REGEX QUOTE SRCDIR_REGEX "${SRCDIR}/")
+string(REGEX QUOTE BINDIR_REGEX "${CMAKE_BINARY_DIR}/")
+set(TREE_SOURCES ${ALL_SOURCES})
+list(FILTER TREE_SOURCES INCLUDE REGEX "${SRCDIR_REGEX}")
+list(TRANSFORM TREE_SOURCES REPLACE "^.*(${SRCDIR_REGEX}[^>]*).*$" "\\1")
+list(REMOVE_DUPLICATES TREE_SOURCES)
+source_group(TREE "${SRCDIR}" FILES ${TREE_SOURCES})
+
+set(GENERATED_SOURCES ${ALL_SOURCES})
+list(FILTER GENERATED_SOURCES INCLUDE REGEX "^${BINDIR_REGEX}")
+source_group(TREE "${CMAKE_BINARY_DIR}" PREFIX "Generated" FILES ${GENERATED_SOURCES})

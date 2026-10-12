@@ -1,14 +1,13 @@
 # motionmapper.cmake
 
-set(MOTIONMAPPER_DIR ${CMAKE_CURRENT_LIST_DIR})
-set(
-	MOTIONMAPPER_SOURCE_FILES
+source_add_executable(motionmapper
+	OUTPUT_DIR "${GAMEDIR}/bin${PLATSUBDIR}"
 
 	"${SRCDIR}/utils/common/cmdlib.cpp"
 	"${SRCDIR}/public/filesystem_helpers.cpp"
 	"${SRCDIR}/public/filesystem_init.cpp"
 	"${SRCDIR}/utils/common/filesystem_tools.cpp"
-	"${MOTIONMAPPER_DIR}/motionmapper.cpp"
+	motionmapper.cpp
 	"${SRCDIR}/utils/common/scriplib.cpp"
 
 	# Header Files
@@ -34,7 +33,7 @@ set(
 	"${SRCDIR}/public/tier0/memalloc.h"
 	"${SRCDIR}/public/tier0/memdbgoff.h"
 	"${SRCDIR}/public/tier0/memdbgon.h"
-	"${MOTIONMAPPER_DIR}/motionmapper.h"
+	motionmapper.h
 	"${SRCDIR}/public/tier0/platform.h"
 	"${SRCDIR}/public/tier0/protected_things.h"
 	"${SRCDIR}/utils/common/scriplib.h"
@@ -54,13 +53,6 @@ set(
 	"${SRCDIR}/public/vstdlib/vstdlib.h"
 )
 
-add_executable(motionmapper ${MOTIONMAPPER_SOURCE_FILES})
-
-set_target_properties(
-	motionmapper PROPERTIES
-	RUNTIME_OUTPUT_DIRECTORY "${GAMEDIR}/bin${PLATSUBDIR}"
-)
-
 target_include_directories(
 	motionmapper PRIVATE
 	"${SRCDIR}/utils/common"
@@ -75,5 +67,5 @@ target_link_libraries(
 	motionmapper PRIVATE
 	winmm
 	mathlib
-	"${LIBPUBLIC}/tier2${STATIC_LIB_EXT}"
+	tier2
 )

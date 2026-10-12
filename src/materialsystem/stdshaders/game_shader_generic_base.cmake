@@ -3,33 +3,33 @@
 include_guard(GLOBAL)
 
 set(GAME_SHADER_GENERIC_BASE_DIR ${CMAKE_CURRENT_LIST_DIR})
-set(
+source_files(
 	GAME_SHADER_GENERIC_BASE_SOURCE_FILES
-	"${GAME_SHADER_GENERIC_BASE_DIR}/BaseVSShader.cpp"
+	BaseVSShader.cpp
 
-	"${GAME_SHADER_GENERIC_BASE_DIR}/example_model_dx9.cpp"
-	"${GAME_SHADER_GENERIC_BASE_DIR}/example_model_dx9_helper.cpp"
+	example_model_dx9.cpp
+	example_model_dx9_helper.cpp
 
-	"${GAME_SHADER_GENERIC_BASE_DIR}/sdk_bloom.cpp"
-	"${GAME_SHADER_GENERIC_BASE_DIR}/sdk_screenspace_general.cpp"
+	sdk_bloom.cpp
+	sdk_screenspace_general.cpp
 
 	# Header Files
-	"${GAME_SHADER_GENERIC_BASE_DIR}/BaseVSShader.h"
-	"${GAME_SHADER_GENERIC_BASE_DIR}/common_fxc.h"
-	"${GAME_SHADER_GENERIC_BASE_DIR}/common_hlsl_cpp_consts.h"
-	"${GAME_SHADER_GENERIC_BASE_DIR}/common_ps_fxc.h"
-	"${GAME_SHADER_GENERIC_BASE_DIR}/common_vertexlitgeneric_dx9.h"
-	"${GAME_SHADER_GENERIC_BASE_DIR}/common_vs_fxc.h"
-	"${GAME_SHADER_GENERIC_BASE_DIR}/shader_constant_register_map.h"
+	BaseVSShader.h
+	common_fxc.h
+	common_hlsl_cpp_consts.h
+	common_ps_fxc.h
+	common_vertexlitgeneric_dx9.h
+	common_vs_fxc.h
+	shader_constant_register_map.h
 
-	"${GAME_SHADER_GENERIC_BASE_DIR}/example_model_dx9_helper.h"
+	example_model_dx9_helper.h
 
 	# Miscellaneous
-	"${GAME_SHADER_GENERIC_BASE_DIR}/buildsdkshaders.bat"
-	"${GAME_SHADER_GENERIC_BASE_DIR}/buildshaders.bat"
+	buildsdkshaders.bat
+	buildshaders.bat
 
-	"${GAME_SHADER_GENERIC_BASE_DIR}/sdkshaders_dx9_20b.txt"
-	"${GAME_SHADER_GENERIC_BASE_DIR}/sdkshaders_dx9_30.txt"
+	sdkshaders_dx9_20b.txt
+	sdkshaders_dx9_30.txt
 )
 
 function(target_use_game_shader_generic_base target)
@@ -55,7 +55,7 @@ function(target_use_game_shader_generic_base target)
 		${target} PRIVATE
 		"$<${IS_WINDOWS}:version;winmm>"
 		mathlib
-		"${LIBPUBLIC}/shaderlib${STATIC_LIB_EXT}"
-		"${LIBPUBLIC}/tier2${STATIC_LIB_EXT}"
+		shaderlib
+		tier2
 	)
 endfunction()

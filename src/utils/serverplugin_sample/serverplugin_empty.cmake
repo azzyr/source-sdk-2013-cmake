@@ -1,11 +1,10 @@
 # serverplugin_empty.cmake
 
-set(SERVERPLUGIN_EMPTY_DIR ${CMAKE_CURRENT_LIST_DIR})
-set(
-	SERVERPLUGIN_EMPTY_SOURCE_FILES
+source_add_module(serverplugin_empty
+	OUTPUT_DIR "${GAMEDIR}/bin${PLATSUBDIR}"
 
-	"${SERVERPLUGIN_EMPTY_DIR}/serverplugin_bot.cpp"
-	"${SERVERPLUGIN_EMPTY_DIR}/serverplugin_empty.cpp"
+	serverplugin_bot.cpp
+	serverplugin_empty.cpp
 
 	# Header Files
 	"${SRCDIR}/public/tier0/basetypes.h"
@@ -29,15 +28,6 @@ set(
 	"${SRCDIR}/public/vstdlib/vstdlib.h"
 )
 
-add_library(serverplugin_empty MODULE ${SERVERPLUGIN_EMPTY_SOURCE_FILES})
-
-set_target_properties(
-	serverplugin_empty
-	PROPERTIES
-	PREFIX ""
-	LIBRARY_OUTPUT_DIRECTORY "${GAMEDIR}/bin${PLATSUBDIR}"
-)
-
 target_include_directories(
 	serverplugin_empty PRIVATE
 	"${SRCDIR}/game/server"
@@ -53,5 +43,5 @@ target_compile_definitions(
 target_link_libraries(
 	serverplugin_empty PRIVATE
 	mathlib
-	"${LIBPUBLIC}/tier2${STATIC_LIB_EXT}"
+	tier2
 )

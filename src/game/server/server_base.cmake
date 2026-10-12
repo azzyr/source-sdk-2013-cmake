@@ -6,485 +6,485 @@ include("${SRCDIR}/game/shared/shared_base.cmake")
 
 set(SERVER_BASE_DIR ${CMAKE_CURRENT_LIST_DIR})
 
-set(
+source_files(
 	SERVER_BASE_SOURCE_FILES
 
 	${SHARED_BASE_SOURCE_FILES}
 
 	# Replay
-	"${SERVER_BASE_DIR}/gamedll_replay.cpp"
+	gamedll_replay.cpp
 	"${SRCDIR}/common/replay/ireplaysessionrecorder.h"
 
 	"$<${BUILD_REPLAY}:${SRCDIR}/game/shared/replay_gamestats_shared.cpp>"
 	"$<${BUILD_REPLAY}:${SRCDIR}/game/shared/replay_gamestats_shared.h>"
 
 	# Source Files
-	"${SERVER_BASE_DIR}/ai_activity.cpp"
-	"${SERVER_BASE_DIR}/ai_baseactor.cpp"
-	"${SERVER_BASE_DIR}/ai_baseactor.h"
-	"${SERVER_BASE_DIR}/ai_basehumanoid.cpp"
-	"${SERVER_BASE_DIR}/ai_basehumanoid.h"
-	"${SERVER_BASE_DIR}/ai_basenpc.cpp"
-	"${SERVER_BASE_DIR}/ai_basenpc.h"
-	"${SERVER_BASE_DIR}/ai_basenpc_flyer.cpp"
-	"${SERVER_BASE_DIR}/ai_basenpc_flyer.h"
-	"${SERVER_BASE_DIR}/ai_basenpc_flyer_new.cpp"
-	"${SERVER_BASE_DIR}/ai_basenpc_flyer_new.h"
-	"${SERVER_BASE_DIR}/ai_basenpc_movement.cpp"
-	"${SERVER_BASE_DIR}/ai_basenpc_physicsflyer.cpp"
-	"${SERVER_BASE_DIR}/ai_basenpc_physicsflyer.h"
-	"${SERVER_BASE_DIR}/ai_basenpc_schedule.cpp"
-	"${SERVER_BASE_DIR}/ai_basenpc_squad.cpp"
-	"${SERVER_BASE_DIR}/ai_behavior.cpp"
-	"${SERVER_BASE_DIR}/ai_behavior.h"
-	"${SERVER_BASE_DIR}/ai_behavior_assault.cpp"
-	"${SERVER_BASE_DIR}/ai_behavior_assault.h"
-	"${SERVER_BASE_DIR}/ai_behavior_fear.cpp"
-	"${SERVER_BASE_DIR}/ai_behavior_fear.h"
-	"${SERVER_BASE_DIR}/ai_behavior_follow.cpp"
-	"${SERVER_BASE_DIR}/ai_behavior_follow.h"
-	"${SERVER_BASE_DIR}/ai_behavior_lead.cpp"
-	"${SERVER_BASE_DIR}/ai_behavior_lead.h"
-	"${SERVER_BASE_DIR}/ai_behavior_rappel.cpp"
-	"${SERVER_BASE_DIR}/ai_behavior_rappel.h"
-	"${SERVER_BASE_DIR}/ai_behavior_standoff.cpp"
-	"${SERVER_BASE_DIR}/ai_behavior_standoff.h"
-	"${SERVER_BASE_DIR}/ai_blended_movement.cpp"
-	"${SERVER_BASE_DIR}/ai_blended_movement.h"
-	"${SERVER_BASE_DIR}/ai_component.h"
-	"${SERVER_BASE_DIR}/ai_concommands.cpp"
-	"${SERVER_BASE_DIR}/ai_condition.cpp"
-	"${SERVER_BASE_DIR}/ai_condition.h"
-	"${SERVER_BASE_DIR}/AI_Criteria.cpp"
-	"${SERVER_BASE_DIR}/AI_Criteria.h"
-	"${SERVER_BASE_DIR}/ai_debug.h"
-	"${SERVER_BASE_DIR}/ai_default.cpp"
-	"${SERVER_BASE_DIR}/ai_default.h"
-	"${SERVER_BASE_DIR}/ai_dynamiclink.cpp"
-	"${SERVER_BASE_DIR}/ai_dynamiclink.h"
-	"${SERVER_BASE_DIR}/ai_event.cpp"
-	"${SERVER_BASE_DIR}/ai_goalentity.cpp"
-	"${SERVER_BASE_DIR}/ai_goalentity.h"
-	"${SERVER_BASE_DIR}/ai_hint.cpp"
-	"${SERVER_BASE_DIR}/ai_hint.h"
-	"${SERVER_BASE_DIR}/ai_hull.cpp"
-	"${SERVER_BASE_DIR}/ai_hull.h"
-	"${SERVER_BASE_DIR}/ai_initutils.cpp"
-	"${SERVER_BASE_DIR}/ai_initutils.h"
-	"${SERVER_BASE_DIR}/AI_Interest_Target.cpp"
-	"${SERVER_BASE_DIR}/AI_Interest_Target.h"
-	"${SERVER_BASE_DIR}/ai_link.cpp"
-	"${SERVER_BASE_DIR}/ai_link.h"
-	"${SERVER_BASE_DIR}/ai_localnavigator.cpp"
-	"${SERVER_BASE_DIR}/ai_localnavigator.h"
-	"${SERVER_BASE_DIR}/ai_looktarget.cpp"
-	"${SERVER_BASE_DIR}/ai_looktarget.h"
-	"${SERVER_BASE_DIR}/ai_memory.cpp"
-	"${SERVER_BASE_DIR}/ai_memory.h"
-	"${SERVER_BASE_DIR}/ai_motor.cpp"
-	"${SERVER_BASE_DIR}/ai_motor.h"
-	"${SERVER_BASE_DIR}/ai_moveprobe.cpp"
-	"${SERVER_BASE_DIR}/ai_moveprobe.h"
-	"${SERVER_BASE_DIR}/ai_moveshoot.cpp"
-	"${SERVER_BASE_DIR}/ai_moveshoot.h"
-	"${SERVER_BASE_DIR}/ai_movesolver.cpp"
-	"${SERVER_BASE_DIR}/ai_movesolver.h"
-	"${SERVER_BASE_DIR}/ai_movetypes.h"
-	"${SERVER_BASE_DIR}/ai_namespaces.cpp"
-	"${SERVER_BASE_DIR}/ai_namespaces.h"
-	"${SERVER_BASE_DIR}/ai_navgoaltype.h"
-	"${SERVER_BASE_DIR}/ai_navigator.cpp"
-	"${SERVER_BASE_DIR}/ai_navigator.h"
-	"${SERVER_BASE_DIR}/ai_navtype.h"
-	"${SERVER_BASE_DIR}/ai_network.cpp"
-	"${SERVER_BASE_DIR}/ai_network.h"
-	"${SERVER_BASE_DIR}/ai_networkmanager.cpp"
-	"${SERVER_BASE_DIR}/ai_networkmanager.h"
-	"${SERVER_BASE_DIR}/ai_node.cpp"
-	"${SERVER_BASE_DIR}/ai_node.h"
-	"${SERVER_BASE_DIR}/ai_npcstate.h"
-	"${SERVER_BASE_DIR}/ai_obstacle_type.h"
-	"${SERVER_BASE_DIR}/ai_pathfinder.cpp"
-	"${SERVER_BASE_DIR}/ai_pathfinder.h"
-	"${SERVER_BASE_DIR}/ai_planesolver.cpp"
-	"${SERVER_BASE_DIR}/ai_planesolver.h"
-	"${SERVER_BASE_DIR}/ai_playerally.cpp"
-	"${SERVER_BASE_DIR}/ai_playerally.h"
-	"${SERVER_BASE_DIR}/AI_ResponseSystem.cpp"
-	"${SERVER_BASE_DIR}/AI_ResponseSystem.h"
-	"${SERVER_BASE_DIR}/ai_route.cpp"
-	"${SERVER_BASE_DIR}/ai_route.h"
-	"${SERVER_BASE_DIR}/ai_routedist.h"
-	"${SERVER_BASE_DIR}/ai_saverestore.cpp"
-	"${SERVER_BASE_DIR}/ai_saverestore.h"
-	"${SERVER_BASE_DIR}/ai_schedule.cpp"
-	"${SERVER_BASE_DIR}/ai_schedule.h"
-	"${SERVER_BASE_DIR}/ai_scriptconditions.cpp"
-	"${SERVER_BASE_DIR}/ai_scriptconditions.h"
-	"${SERVER_BASE_DIR}/ai_senses.cpp"
-	"${SERVER_BASE_DIR}/ai_senses.h"
-	"${SERVER_BASE_DIR}/ai_sentence.cpp"
-	"${SERVER_BASE_DIR}/ai_sentence.h"
-	"${SERVER_BASE_DIR}/ai_speech.cpp"
-	"${SERVER_BASE_DIR}/ai_speech.h"
-	"${SERVER_BASE_DIR}/ai_speechfilter.cpp"
-	"${SERVER_BASE_DIR}/ai_speechfilter.h"
-	"${SERVER_BASE_DIR}/ai_squad.cpp"
-	"${SERVER_BASE_DIR}/ai_squad.h"
-	"${SERVER_BASE_DIR}/ai_squadslot.cpp"
-	"${SERVER_BASE_DIR}/ai_squadslot.h"
-	"${SERVER_BASE_DIR}/ai_tacticalservices.cpp"
-	"${SERVER_BASE_DIR}/ai_tacticalservices.h"
-	"${SERVER_BASE_DIR}/ai_task.cpp"
-	"${SERVER_BASE_DIR}/ai_task.h"
-	"${SERVER_BASE_DIR}/ai_trackpather.cpp"
-	"${SERVER_BASE_DIR}/ai_trackpather.h"
-	"${SERVER_BASE_DIR}/ai_utils.cpp"
-	"${SERVER_BASE_DIR}/ai_utils.h"
-	"${SERVER_BASE_DIR}/ai_waypoint.cpp"
-	"${SERVER_BASE_DIR}/ai_waypoint.h"
-	"${SERVER_BASE_DIR}/base_transmit_proxy.cpp"
-	"${SERVER_BASE_DIR}/baseanimating.cpp"
-	"${SERVER_BASE_DIR}/baseanimating.h"
-	"${SERVER_BASE_DIR}/BaseAnimatingOverlay.cpp"
-	"${SERVER_BASE_DIR}/BaseAnimatingOverlay.h"
-	"${SERVER_BASE_DIR}/basecombatcharacter.cpp"
-	"${SERVER_BASE_DIR}/basecombatcharacter.h"
-	"${SERVER_BASE_DIR}/basecombatweapon.cpp"
-	"${SERVER_BASE_DIR}/basecombatweapon.h"
+	ai_activity.cpp
+	ai_baseactor.cpp
+	ai_baseactor.h
+	ai_basehumanoid.cpp
+	ai_basehumanoid.h
+	ai_basenpc.cpp
+	ai_basenpc.h
+	ai_basenpc_flyer.cpp
+	ai_basenpc_flyer.h
+	ai_basenpc_flyer_new.cpp
+	ai_basenpc_flyer_new.h
+	ai_basenpc_movement.cpp
+	ai_basenpc_physicsflyer.cpp
+	ai_basenpc_physicsflyer.h
+	ai_basenpc_schedule.cpp
+	ai_basenpc_squad.cpp
+	ai_behavior.cpp
+	ai_behavior.h
+	ai_behavior_assault.cpp
+	ai_behavior_assault.h
+	ai_behavior_fear.cpp
+	ai_behavior_fear.h
+	ai_behavior_follow.cpp
+	ai_behavior_follow.h
+	ai_behavior_lead.cpp
+	ai_behavior_lead.h
+	ai_behavior_rappel.cpp
+	ai_behavior_rappel.h
+	ai_behavior_standoff.cpp
+	ai_behavior_standoff.h
+	ai_blended_movement.cpp
+	ai_blended_movement.h
+	ai_component.h
+	ai_concommands.cpp
+	ai_condition.cpp
+	ai_condition.h
+	AI_Criteria.cpp
+	AI_Criteria.h
+	ai_debug.h
+	ai_default.cpp
+	ai_default.h
+	ai_dynamiclink.cpp
+	ai_dynamiclink.h
+	ai_event.cpp
+	ai_goalentity.cpp
+	ai_goalentity.h
+	ai_hint.cpp
+	ai_hint.h
+	ai_hull.cpp
+	ai_hull.h
+	ai_initutils.cpp
+	ai_initutils.h
+	AI_Interest_Target.cpp
+	AI_Interest_Target.h
+	ai_link.cpp
+	ai_link.h
+	ai_localnavigator.cpp
+	ai_localnavigator.h
+	ai_looktarget.cpp
+	ai_looktarget.h
+	ai_memory.cpp
+	ai_memory.h
+	ai_motor.cpp
+	ai_motor.h
+	ai_moveprobe.cpp
+	ai_moveprobe.h
+	ai_moveshoot.cpp
+	ai_moveshoot.h
+	ai_movesolver.cpp
+	ai_movesolver.h
+	ai_movetypes.h
+	ai_namespaces.cpp
+	ai_namespaces.h
+	ai_navgoaltype.h
+	ai_navigator.cpp
+	ai_navigator.h
+	ai_navtype.h
+	ai_network.cpp
+	ai_network.h
+	ai_networkmanager.cpp
+	ai_networkmanager.h
+	ai_node.cpp
+	ai_node.h
+	ai_npcstate.h
+	ai_obstacle_type.h
+	ai_pathfinder.cpp
+	ai_pathfinder.h
+	ai_planesolver.cpp
+	ai_planesolver.h
+	ai_playerally.cpp
+	ai_playerally.h
+	AI_ResponseSystem.cpp
+	AI_ResponseSystem.h
+	ai_route.cpp
+	ai_route.h
+	ai_routedist.h
+	ai_saverestore.cpp
+	ai_saverestore.h
+	ai_schedule.cpp
+	ai_schedule.h
+	ai_scriptconditions.cpp
+	ai_scriptconditions.h
+	ai_senses.cpp
+	ai_senses.h
+	ai_sentence.cpp
+	ai_sentence.h
+	ai_speech.cpp
+	ai_speech.h
+	ai_speechfilter.cpp
+	ai_speechfilter.h
+	ai_squad.cpp
+	ai_squad.h
+	ai_squadslot.cpp
+	ai_squadslot.h
+	ai_tacticalservices.cpp
+	ai_tacticalservices.h
+	ai_task.cpp
+	ai_task.h
+	ai_trackpather.cpp
+	ai_trackpather.h
+	ai_utils.cpp
+	ai_utils.h
+	ai_waypoint.cpp
+	ai_waypoint.h
+	base_transmit_proxy.cpp
+	baseanimating.cpp
+	baseanimating.h
+	BaseAnimatingOverlay.cpp
+	BaseAnimatingOverlay.h
+	basecombatcharacter.cpp
+	basecombatcharacter.h
+	basecombatweapon.cpp
+	basecombatweapon.h
 	"${SRCDIR}/game/shared/basecombatweapon_shared.h"
-	"${SERVER_BASE_DIR}/baseentity.cpp"
-	"${SERVER_BASE_DIR}/baseentity.h"
-	"${SERVER_BASE_DIR}/baseflex.cpp"
-	"${SERVER_BASE_DIR}/baseflex.h"
-	"${SERVER_BASE_DIR}/basemultiplayerplayer.cpp"
-	"${SERVER_BASE_DIR}/basemultiplayerplayer.h"
-	"${SERVER_BASE_DIR}/BasePropDoor.h"
-	"${SERVER_BASE_DIR}/basetoggle.h"
-	"${SERVER_BASE_DIR}/baseviewmodel.cpp"
-	"${SERVER_BASE_DIR}/baseviewmodel.h"
-	"${SERVER_BASE_DIR}/bitstring.cpp"
-	"${SERVER_BASE_DIR}/bitstring.h"
-	"${SERVER_BASE_DIR}/bmodels.cpp"
+	baseentity.cpp
+	baseentity.h
+	baseflex.cpp
+	baseflex.h
+	basemultiplayerplayer.cpp
+	basemultiplayerplayer.h
+	BasePropDoor.h
+	basetoggle.h
+	baseviewmodel.cpp
+	baseviewmodel.h
+	bitstring.cpp
+	bitstring.h
+	bmodels.cpp
 	"${SRCDIR}/public/bone_setup.h"
-	"${SERVER_BASE_DIR}/buttons.cpp"
-	"${SERVER_BASE_DIR}/buttons.h"
-	"${SERVER_BASE_DIR}/cbase.cpp"
-	"${SERVER_BASE_DIR}/cbase.h"
-	"${SERVER_BASE_DIR}/client.cpp"
-	"${SERVER_BASE_DIR}/client.h"
+	buttons.cpp
+	buttons.h
+	cbase.cpp
+	cbase.h
+	client.cpp
+	client.h
 	"${SRCDIR}/public/collisionutils.h"
-	"${SERVER_BASE_DIR}/colorcorrection.cpp"
-	"${SERVER_BASE_DIR}/colorcorrectionvolume.cpp"
-	"${SERVER_BASE_DIR}/CommentarySystem.cpp"
-	"${SERVER_BASE_DIR}/controlentities.cpp"
-	"${SERVER_BASE_DIR}/cplane.cpp"
-	"${SERVER_BASE_DIR}/CRagdollMagnet.cpp"
-	"${SERVER_BASE_DIR}/CRagdollMagnet.h"
-	"${SERVER_BASE_DIR}/damagemodifier.cpp"
+	colorcorrection.cpp
+	colorcorrectionvolume.cpp
+	CommentarySystem.cpp
+	controlentities.cpp
+	cplane.cpp
+	CRagdollMagnet.cpp
+	CRagdollMagnet.h
+	damagemodifier.cpp
 	"${SRCDIR}/game/shared/debugoverlay_shared.h"
-	"${SERVER_BASE_DIR}/doors.cpp"
-	"${SERVER_BASE_DIR}/doors.h"
-	"${SERVER_BASE_DIR}/dynamiclight.cpp"
+	doors.cpp
+	doors.h
+	dynamiclight.cpp
 	"${SRCDIR}/public/edict.h"
 	"${SRCDIR}/public/editor_sendcommand.h"
-	"${SERVER_BASE_DIR}/effects.cpp"
-	"${SERVER_BASE_DIR}/effects.h"
-	"${SERVER_BASE_DIR}/EffectsServer.cpp"
+	effects.cpp
+	effects.h
+	EffectsServer.cpp
 	"${SRCDIR}/public/eiface.h"
-	"${SERVER_BASE_DIR}/enginecallback.h"
-	"${SERVER_BASE_DIR}/entityapi.h"
-	"${SERVER_BASE_DIR}/entityblocker.cpp"
-	"${SERVER_BASE_DIR}/entityblocker.h"
-	"${SERVER_BASE_DIR}/EntityDissolve.cpp"
-	"${SERVER_BASE_DIR}/EntityDissolve.h"
-	"${SERVER_BASE_DIR}/EntityFlame.cpp"
-	"${SERVER_BASE_DIR}/entityinput.h"
-	"${SERVER_BASE_DIR}/entitylist.cpp"
-	"${SERVER_BASE_DIR}/entitylist.h"
-	"${SERVER_BASE_DIR}/entityoutput.h"
-	"${SERVER_BASE_DIR}/EntityParticleTrail.cpp"
-	"${SERVER_BASE_DIR}/EntityParticleTrail.h"
-	"${SERVER_BASE_DIR}/env_debughistory.cpp"
-	"${SERVER_BASE_DIR}/env_debughistory.h"
-	"${SERVER_BASE_DIR}/env_effectsscript.cpp"
-	"${SERVER_BASE_DIR}/env_entity_maker.cpp"
-	"${SERVER_BASE_DIR}/env_particlescript.cpp"
-	"${SERVER_BASE_DIR}/env_player_surface_trigger.cpp"
-	"${SERVER_BASE_DIR}/env_player_surface_trigger.h"
-	"${SERVER_BASE_DIR}/env_projectedtexture.cpp"
-	"${SERVER_BASE_DIR}/env_screenoverlay.cpp"
-	"${SERVER_BASE_DIR}/env_texturetoggle.cpp"
-	"${SERVER_BASE_DIR}/env_tonemap_controller.cpp"
-	"${SERVER_BASE_DIR}/env_zoom.cpp"
-	"${SERVER_BASE_DIR}/env_zoom.h"
-	"${SERVER_BASE_DIR}/EnvBeam.cpp"
-	"${SERVER_BASE_DIR}/EnvFade.cpp"
-	"${SERVER_BASE_DIR}/EnvHudHint.cpp"
-	"${SERVER_BASE_DIR}/EnvLaser.cpp"
-	"${SERVER_BASE_DIR}/EnvLaser.h"
-	"${SERVER_BASE_DIR}/EnvMessage.cpp"
-	"${SERVER_BASE_DIR}/EnvMessage.h"
-	"${SERVER_BASE_DIR}/envmicrophone.cpp"
-	"${SERVER_BASE_DIR}/envmicrophone.h"
-	"${SERVER_BASE_DIR}/EnvShake.cpp"
-	"${SERVER_BASE_DIR}/EnvSpark.cpp"
-	"${SERVER_BASE_DIR}/envspark.h"
+	enginecallback.h
+	entityapi.h
+	entityblocker.cpp
+	entityblocker.h
+	EntityDissolve.cpp
+	EntityDissolve.h
+	EntityFlame.cpp
+	entityinput.h
+	entitylist.cpp
+	entitylist.h
+	entityoutput.h
+	EntityParticleTrail.cpp
+	EntityParticleTrail.h
+	env_debughistory.cpp
+	env_debughistory.h
+	env_effectsscript.cpp
+	env_entity_maker.cpp
+	env_particlescript.cpp
+	env_player_surface_trigger.cpp
+	env_player_surface_trigger.h
+	env_projectedtexture.cpp
+	env_screenoverlay.cpp
+	env_texturetoggle.cpp
+	env_tonemap_controller.cpp
+	env_zoom.cpp
+	env_zoom.h
+	EnvBeam.cpp
+	EnvFade.cpp
+	EnvHudHint.cpp
+	EnvLaser.cpp
+	EnvLaser.h
+	EnvMessage.cpp
+	EnvMessage.h
+	envmicrophone.cpp
+	envmicrophone.h
+	EnvShake.cpp
+	EnvSpark.cpp
+	envspark.h
 	"${SRCDIR}/public/event_flags.h"
-	"${SERVER_BASE_DIR}/event_tempentity_tester.h"
-	"${SERVER_BASE_DIR}/EventLog.cpp"
-	"${SERVER_BASE_DIR}/eventqueue.h"
-	"${SERVER_BASE_DIR}/explode.cpp"
-	"${SERVER_BASE_DIR}/explode.h"
-	"${SERVER_BASE_DIR}/filters.cpp"
-	"${SERVER_BASE_DIR}/filters.h"
-	"${SERVER_BASE_DIR}/fire.cpp"
-	"${SERVER_BASE_DIR}/fire.h"
-	"${SERVER_BASE_DIR}/fire_smoke.cpp"
-	"${SERVER_BASE_DIR}/fire_smoke.h"
-	"${SERVER_BASE_DIR}/fish.cpp"
-	"${SERVER_BASE_DIR}/fish.h"
-	"${SERVER_BASE_DIR}/fogcontroller.cpp"
-	"${SERVER_BASE_DIR}/fourwheelvehiclephysics.cpp"
-	"${SERVER_BASE_DIR}/fourwheelvehiclephysics.h"
-	"${SERVER_BASE_DIR}/func_areaportal.cpp"
-	"${SERVER_BASE_DIR}/func_areaportalbase.cpp"
-	"${SERVER_BASE_DIR}/func_areaportalbase.h"
-	"${SERVER_BASE_DIR}/func_areaportalwindow.cpp"
-	"${SERVER_BASE_DIR}/func_areaportalwindow.h"
-	"${SERVER_BASE_DIR}/func_break.cpp"
-	"${SERVER_BASE_DIR}/func_break.h"
-	"${SERVER_BASE_DIR}/func_breakablesurf.cpp"
-	"${SERVER_BASE_DIR}/func_breakablesurf.h"
-	"${SERVER_BASE_DIR}/func_dust.cpp"
-	"${SERVER_BASE_DIR}/func_ladder_endpoint.cpp"
-	"${SERVER_BASE_DIR}/func_lod.cpp"
-	"${SERVER_BASE_DIR}/func_movelinear.cpp"
-	"${SERVER_BASE_DIR}/func_movelinear.h"
-	"${SERVER_BASE_DIR}/func_occluder.cpp"
-	"${SERVER_BASE_DIR}/func_reflective_glass.cpp"
-	"${SERVER_BASE_DIR}/func_smokevolume.cpp"
-	"${SERVER_BASE_DIR}/game.cpp"
-	"${SERVER_BASE_DIR}/game.h"
-	"${SERVER_BASE_DIR}/game_ui.cpp"
-	"${SERVER_BASE_DIR}/gameinterface.cpp"
-	"${SERVER_BASE_DIR}/gameinterface.h"
-	"${SERVER_BASE_DIR}/gametrace_dll.cpp"
-	"${SERVER_BASE_DIR}/gameweaponmanager.cpp"
-	"${SERVER_BASE_DIR}/gameweaponmanager.h"
-	"${SERVER_BASE_DIR}/genericactor.cpp"
-	"${SERVER_BASE_DIR}/genericmonster.cpp"
-	"${SERVER_BASE_DIR}/gib.cpp"
-	"${SERVER_BASE_DIR}/gib.h"
-	"${SERVER_BASE_DIR}/globals.cpp"
-	"${SERVER_BASE_DIR}/globalstate.cpp"
-	"${SERVER_BASE_DIR}/globalstate.h"
-	"${SERVER_BASE_DIR}/globalstate_private.h"
-	"${SERVER_BASE_DIR}/guntarget.cpp"
-	"${SERVER_BASE_DIR}/h_ai.cpp"
-	"${SERVER_BASE_DIR}/hierarchy.cpp"
-	"${SERVER_BASE_DIR}/hierarchy.h"
+	event_tempentity_tester.h
+	EventLog.cpp
+	eventqueue.h
+	explode.cpp
+	explode.h
+	filters.cpp
+	filters.h
+	fire.cpp
+	fire.h
+	fire_smoke.cpp
+	fire_smoke.h
+	fish.cpp
+	fish.h
+	fogcontroller.cpp
+	fourwheelvehiclephysics.cpp
+	fourwheelvehiclephysics.h
+	func_areaportal.cpp
+	func_areaportalbase.cpp
+	func_areaportalbase.h
+	func_areaportalwindow.cpp
+	func_areaportalwindow.h
+	func_break.cpp
+	func_break.h
+	func_breakablesurf.cpp
+	func_breakablesurf.h
+	func_dust.cpp
+	func_ladder_endpoint.cpp
+	func_lod.cpp
+	func_movelinear.cpp
+	func_movelinear.h
+	func_occluder.cpp
+	func_reflective_glass.cpp
+	func_smokevolume.cpp
+	game.cpp
+	game.h
+	game_ui.cpp
+	gameinterface.cpp
+	gameinterface.h
+	gametrace_dll.cpp
+	gameweaponmanager.cpp
+	gameweaponmanager.h
+	genericactor.cpp
+	genericmonster.cpp
+	gib.cpp
+	gib.h
+	globals.cpp
+	globalstate.cpp
+	globalstate.h
+	globalstate_private.h
+	guntarget.cpp
+	h_ai.cpp
+	hierarchy.cpp
+	hierarchy.h
 	"${SRCDIR}/common/hl2orange.spa.h"
-	"${SERVER_BASE_DIR}/hltvdirector.cpp"
-	"${SERVER_BASE_DIR}/hltvdirector.h"
-	"${SERVER_BASE_DIR}/info_camera_link.cpp"
-	"${SERVER_BASE_DIR}/info_camera_link.h"
-	"${SERVER_BASE_DIR}/info_overlay_accessor.cpp"
-	"${SERVER_BASE_DIR}/init_factory.h"
-	"${SERVER_BASE_DIR}/intermission.cpp"
+	hltvdirector.cpp
+	hltvdirector.h
+	info_camera_link.cpp
+	info_camera_link.h
+	info_overlay_accessor.cpp
+	init_factory.h
+	intermission.cpp
 	"${SRCDIR}/public/interpolatortypes.h"
 	"${SRCDIR}/public/iregistry.h"
 	"${SRCDIR}/game/shared/iscenetokenprocessor.h"
-	"${SERVER_BASE_DIR}/iservervehicle.h"
-	"${SERVER_BASE_DIR}/item_world.cpp"
-	"${SERVER_BASE_DIR}/items.h"
+	iservervehicle.h
+	item_world.cpp
+	items.h
 	"${SRCDIR}/public/ivoiceserver.h"
 	"${SRCDIR}/public/keyframe/keyframe.h"
-	"${SERVER_BASE_DIR}/lightglow.cpp"
-	"${SERVER_BASE_DIR}/lights.cpp"
-	"${SERVER_BASE_DIR}/lights.h"
-	"${SERVER_BASE_DIR}/locksounds.h"
-	"${SERVER_BASE_DIR}/logic_measure_movement.cpp"
-	"${SERVER_BASE_DIR}/logic_navigation.cpp"
-	"${SERVER_BASE_DIR}/logicauto.cpp"
-	"${SERVER_BASE_DIR}/logicentities.cpp"
-	"${SERVER_BASE_DIR}/logicrelay.cpp"
-	"${SERVER_BASE_DIR}/mapentities.cpp"
-	"${SERVER_BASE_DIR}/maprules.cpp"
-	"${SERVER_BASE_DIR}/maprules.h"
-	"${SERVER_BASE_DIR}/MaterialModifyControl.cpp"
+	lightglow.cpp
+	lights.cpp
+	lights.h
+	locksounds.h
+	logic_measure_movement.cpp
+	logic_navigation.cpp
+	logicauto.cpp
+	logicentities.cpp
+	logicrelay.cpp
+	mapentities.cpp
+	maprules.cpp
+	maprules.h
+	MaterialModifyControl.cpp
 	"${SRCDIR}/public/mathlib/mathlib.h"
-	"${SERVER_BASE_DIR}/message_entity.cpp"
+	message_entity.cpp
 	"${SRCDIR}/public/model_types.h"
-	"${SERVER_BASE_DIR}/modelentities.cpp"
+	modelentities.cpp
 	"${SRCDIR}/game/shared/ModelSoundsCache.cpp"
-	"${SERVER_BASE_DIR}/movehelper_server.cpp"
-	"${SERVER_BASE_DIR}/movehelper_server.h"
-	"${SERVER_BASE_DIR}/movement.cpp"
-	"${SERVER_BASE_DIR}/movie_explosion.h"
-	"${SERVER_BASE_DIR}/ndebugoverlay.cpp"
-	"${SERVER_BASE_DIR}/ndebugoverlay.h"
-	"${SERVER_BASE_DIR}/networkstringtable_gamedll.h"
+	movehelper_server.cpp
+	movehelper_server.h
+	movement.cpp
+	movie_explosion.h
+	ndebugoverlay.cpp
+	ndebugoverlay.h
+	networkstringtable_gamedll.h
 	"${SRCDIR}/public/networkstringtabledefs.h"
-	"${SERVER_BASE_DIR}/npc_vehicledriver.cpp"
-	"${SERVER_BASE_DIR}/particle_fire.h"
-	"${SERVER_BASE_DIR}/particle_light.cpp"
-	"${SERVER_BASE_DIR}/particle_light.h"
-	"${SERVER_BASE_DIR}/particle_smokegrenade.h"
-	"${SERVER_BASE_DIR}/particle_system.cpp"
-	"${SERVER_BASE_DIR}/pathcorner.cpp"
-	"${SERVER_BASE_DIR}/pathtrack.cpp"
-	"${SERVER_BASE_DIR}/pathtrack.h"
+	npc_vehicledriver.cpp
+	particle_fire.h
+	particle_light.cpp
+	particle_light.h
+	particle_smokegrenade.h
+	particle_system.cpp
+	pathcorner.cpp
+	pathtrack.cpp
+	pathtrack.h
 	"${SRCDIR}/public/vphysics/performance.h"
-	"${SERVER_BASE_DIR}/phys_controller.cpp"
-	"${SERVER_BASE_DIR}/phys_controller.h"
-	"${SERVER_BASE_DIR}/physconstraint.cpp"
-	"${SERVER_BASE_DIR}/physconstraint.h"
-	"${SERVER_BASE_DIR}/physics.cpp"
-	"${SERVER_BASE_DIR}/physics.h"
-	"${SERVER_BASE_DIR}/physics_bone_follower.cpp"
-	"${SERVER_BASE_DIR}/physics_cannister.cpp"
-	"${SERVER_BASE_DIR}/physics_collisionevent.h"
-	"${SERVER_BASE_DIR}/physics_fx.cpp"
-	"${SERVER_BASE_DIR}/physics_impact_damage.cpp"
-	"${SERVER_BASE_DIR}/pushentity.h"
-	"${SERVER_BASE_DIR}/physics_main.cpp"
-	"${SERVER_BASE_DIR}/physics_npc_solver.cpp"
-	"${SERVER_BASE_DIR}/physics_npc_solver.h"
-	"${SERVER_BASE_DIR}/physics_prop_ragdoll.cpp"
-	"${SERVER_BASE_DIR}/physics_prop_ragdoll.h"
-	"${SERVER_BASE_DIR}/physobj.cpp"
-	"${SERVER_BASE_DIR}/physobj.h"
-	"${SERVER_BASE_DIR}/player.cpp"
-	"${SERVER_BASE_DIR}/player.h"
-	"${SERVER_BASE_DIR}/player_command.cpp"
-	"${SERVER_BASE_DIR}/player_command.h"
-	"${SERVER_BASE_DIR}/player_lagcompensation.cpp"
-	"${SERVER_BASE_DIR}/player_pickup.cpp"
-	"${SERVER_BASE_DIR}/player_pickup.h"
-	"${SERVER_BASE_DIR}/player_resource.cpp"
-	"${SERVER_BASE_DIR}/player_resource.h"
-	"${SERVER_BASE_DIR}/playerinfomanager.cpp"
-	"${SERVER_BASE_DIR}/playerlocaldata.cpp"
-	"${SERVER_BASE_DIR}/playerlocaldata.h"
-	"${SERVER_BASE_DIR}/plugin_check.cpp"
-	"${SERVER_BASE_DIR}/point_camera.cpp"
-	"${SERVER_BASE_DIR}/point_camera.h"
-	"${SERVER_BASE_DIR}/point_devshot_camera.cpp"
-	"${SERVER_BASE_DIR}/point_playermoveconstraint.cpp"
-	"${SERVER_BASE_DIR}/point_spotlight.cpp"
-	"${SERVER_BASE_DIR}/point_template.cpp"
-	"${SERVER_BASE_DIR}/point_template.h"
-	"${SERVER_BASE_DIR}/pointanglesensor.cpp"
-	"${SERVER_BASE_DIR}/PointAngularVelocitySensor.cpp"
-	"${SERVER_BASE_DIR}/pointhurt.cpp"
-	"${SERVER_BASE_DIR}/pointteleport.cpp"
+	phys_controller.cpp
+	phys_controller.h
+	physconstraint.cpp
+	physconstraint.h
+	physics.cpp
+	physics.h
+	physics_bone_follower.cpp
+	physics_cannister.cpp
+	physics_collisionevent.h
+	physics_fx.cpp
+	physics_impact_damage.cpp
+	pushentity.h
+	physics_main.cpp
+	physics_npc_solver.cpp
+	physics_npc_solver.h
+	physics_prop_ragdoll.cpp
+	physics_prop_ragdoll.h
+	physobj.cpp
+	physobj.h
+	player.cpp
+	player.h
+	player_command.cpp
+	player_command.h
+	player_lagcompensation.cpp
+	player_pickup.cpp
+	player_pickup.h
+	player_resource.cpp
+	player_resource.h
+	playerinfomanager.cpp
+	playerlocaldata.cpp
+	playerlocaldata.h
+	plugin_check.cpp
+	point_camera.cpp
+	point_camera.h
+	point_devshot_camera.cpp
+	point_playermoveconstraint.cpp
+	point_spotlight.cpp
+	point_template.cpp
+	point_template.h
+	pointanglesensor.cpp
+	PointAngularVelocitySensor.cpp
+	pointhurt.cpp
+	pointteleport.cpp
 	"${SRCDIR}/public/mathlib/polyhedron.h"
-	"${SERVER_BASE_DIR}/props.cpp"
-	"${SERVER_BASE_DIR}/props.h"
+	props.cpp
+	props.h
 	"${SRCDIR}/game/shared/querycache.cpp"
-	"${SERVER_BASE_DIR}/ragdoll_manager.cpp"
-	"${SERVER_BASE_DIR}/RagdollBoogie.cpp"
-	"${SERVER_BASE_DIR}/RagdollBoogie.h"
-	"${SERVER_BASE_DIR}/recipientfilter.cpp"
-	"${SERVER_BASE_DIR}/recipientfilter.h"
-	"${SERVER_BASE_DIR}/rope.cpp"
-	"${SERVER_BASE_DIR}/rope.h"
+	ragdoll_manager.cpp
+	RagdollBoogie.cpp
+	RagdollBoogie.h
+	recipientfilter.cpp
+	recipientfilter.h
+	rope.cpp
+	rope.h
 	"${SRCDIR}/public/rope_physics.h"
 	"${SRCDIR}/public/rope_shared.h"
-	"${SERVER_BASE_DIR}/saverestore_gamedll.cpp"
+	saverestore_gamedll.cpp
 	"${SRCDIR}/game/shared/SceneCache.cpp"
-	"${SERVER_BASE_DIR}/sceneentity.cpp"
-	"${SERVER_BASE_DIR}/sceneentity.h"
-	"${SERVER_BASE_DIR}/scratchpad_gamedll_helpers.cpp"
-	"${SERVER_BASE_DIR}/scripted.cpp"
-	"${SERVER_BASE_DIR}/scripted.h"
-	"${SERVER_BASE_DIR}/scriptedtarget.cpp"
-	"${SERVER_BASE_DIR}/scriptedtarget.h"
-	"${SERVER_BASE_DIR}/sendproxy.cpp"
-	"${SRCDIR}/game/server/serverbenchmark_base.cpp"
-	"${SRCDIR}/game/server/serverbenchmark_base.h"
+	sceneentity.cpp
+	sceneentity.h
+	scratchpad_gamedll_helpers.cpp
+	scripted.cpp
+	scripted.h
+	scriptedtarget.cpp
+	scriptedtarget.h
+	sendproxy.cpp
+	serverbenchmark_base.cpp
+	serverbenchmark_base.h
 	"${SRCDIR}/public/server_class.h"
-	"${SERVER_BASE_DIR}/ServerNetworkProperty.cpp"
-	"${SERVER_BASE_DIR}/ServerNetworkProperty.h"
-	"${SERVER_BASE_DIR}/shadowcontrol.cpp"
+	ServerNetworkProperty.cpp
+	ServerNetworkProperty.h
+	shadowcontrol.cpp
 	"${SRCDIR}/public/shattersurfacetypes.h"
 	"${SRCDIR}/public/simple_physics.h"
-	"${SERVER_BASE_DIR}/SkyCamera.cpp"
-	"${SERVER_BASE_DIR}/skyboxswapper.cpp"
-	"${SERVER_BASE_DIR}/slideshow_display.cpp"
-	"${SERVER_BASE_DIR}/sound.cpp"
-	"${SERVER_BASE_DIR}/soundent.cpp"
-	"${SERVER_BASE_DIR}/soundent.h"
+	SkyCamera.cpp
+	skyboxswapper.cpp
+	slideshow_display.cpp
+	sound.cpp
+	soundent.cpp
+	soundent.h
 	"${SRCDIR}/public/SoundParametersInternal.cpp"
-	"${SERVER_BASE_DIR}/soundscape.cpp"
-	"${SERVER_BASE_DIR}/soundscape.h"
-	"${SERVER_BASE_DIR}/soundscape_system.cpp"
-	"${SERVER_BASE_DIR}/spark.h"
-	"${SERVER_BASE_DIR}/spotlightend.cpp"
-	"${SERVER_BASE_DIR}/spotlightend.h"
-	"${SERVER_BASE_DIR}/sprite_perfmonitor.cpp"
+	soundscape.cpp
+	soundscape.h
+	soundscape_system.cpp
+	spark.h
+	spotlightend.cpp
+	spotlightend.h
+	sprite_perfmonitor.cpp
 	"${SRCDIR}/public/vphysics/stats.h"
 	"${SRCDIR}/public/steam/steam_api.h"
 	"${SRCDIR}/public/stringregistry.h"
-	"${SERVER_BASE_DIR}/subs.cpp"
-	"${SERVER_BASE_DIR}/sun.cpp"
-	"${SERVER_BASE_DIR}/tactical_mission.cpp"
-	"${SERVER_BASE_DIR}/tactical_mission.h"
-	"${SERVER_BASE_DIR}/tanktrain.cpp"
-	"${SERVER_BASE_DIR}/team.cpp"
-	"${SERVER_BASE_DIR}/team.h"
-	"${SERVER_BASE_DIR}/TemplateEntities.cpp"
-	"${SERVER_BASE_DIR}/TemplateEntities.h"
-	"${SERVER_BASE_DIR}/tempmonster.cpp"
-	"${SERVER_BASE_DIR}/tesla.cpp"
-	"${SERVER_BASE_DIR}/test_proxytoggle.cpp"
-	"${SERVER_BASE_DIR}/test_stressentities.cpp"
-	"${SERVER_BASE_DIR}/testfunctions.cpp"
-	"${SERVER_BASE_DIR}/testtraceline.cpp"
-	"${SERVER_BASE_DIR}/textstatsmgr.cpp"
-	"${SERVER_BASE_DIR}/timedeventmgr.cpp"
-	"${SERVER_BASE_DIR}/trains.cpp"
-	"${SERVER_BASE_DIR}/trains.h"
-	"${SERVER_BASE_DIR}/triggers.cpp"
-	"${SERVER_BASE_DIR}/triggers.h"
-	"${SERVER_BASE_DIR}/util.cpp"
-	"${SERVER_BASE_DIR}/util.h"
-	"${SERVER_BASE_DIR}/variant_t.cpp"
-	"${SERVER_BASE_DIR}/vehicle_base.cpp"
-	"${SERVER_BASE_DIR}/vehicle_baseserver.cpp"
-	"${SERVER_BASE_DIR}/vehicle_sounds.h"
-	"${SERVER_BASE_DIR}/vguiscreen.cpp"
-	"${SERVER_BASE_DIR}/vguiscreen.h"
-	"${SERVER_BASE_DIR}/vscript_server.cpp"
+	subs.cpp
+	sun.cpp
+	tactical_mission.cpp
+	tactical_mission.h
+	tanktrain.cpp
+	team.cpp
+	team.h
+	TemplateEntities.cpp
+	TemplateEntities.h
+	tempmonster.cpp
+	tesla.cpp
+	test_proxytoggle.cpp
+	test_stressentities.cpp
+	testfunctions.cpp
+	testtraceline.cpp
+	textstatsmgr.cpp
+	timedeventmgr.cpp
+	trains.cpp
+	trains.h
+	triggers.cpp
+	triggers.h
+	util.cpp
+	util.h
+	variant_t.cpp
+	vehicle_base.cpp
+	vehicle_baseserver.cpp
+	vehicle_sounds.h
+	vguiscreen.cpp
+	vguiscreen.h
+	vscript_server.cpp
 	"${SRCDIR}/game/shared/vscript_shared.cpp"
-	"${SERVER_BASE_DIR}/vscript_server.nut"
-	"${SERVER_BASE_DIR}/point_worldtext.cpp"
-	"${SERVER_BASE_DIR}/point_worldtext.h"
-	"${SERVER_BASE_DIR}/player_voice_listener.h"
-	"${SERVER_BASE_DIR}/player_voice_listener.cpp"
-	"${SERVER_BASE_DIR}/logic_eventlistener.cpp"
-	"${SERVER_BASE_DIR}/logic_eventlistener.h"
-	"${SERVER_BASE_DIR}/spawn_helper.nut"
+	vscript_server.nut
+	point_worldtext.cpp
+	point_worldtext.h
+	player_voice_listener.h
+	player_voice_listener.cpp
+	logic_eventlistener.cpp
+	logic_eventlistener.h
+	spawn_helper.nut
 	"${SRCDIR}/public/mathlib/vmatrix.h"
 	"${SRCDIR}/game/shared/voice_gamemgr.cpp"
-	"${SERVER_BASE_DIR}/waterbullet.cpp"
-	"${SERVER_BASE_DIR}/waterbullet.h"
-	"${SERVER_BASE_DIR}/WaterLODControl.cpp"
-	"${SERVER_BASE_DIR}/wcedit.cpp"
-	"${SERVER_BASE_DIR}/wcedit.h"
+	waterbullet.cpp
+	waterbullet.h
+	WaterLODControl.cpp
+	wcedit.cpp
+	wcedit.h
 	"${SRCDIR}/game/shared/weapon_proficiency.cpp"
-	"${SERVER_BASE_DIR}/weight_button.cpp"
-	"${SERVER_BASE_DIR}/world.cpp"
-	"${SERVER_BASE_DIR}/world.h"
+	weight_button.cpp
+	world.cpp
+	world.h
 	"${SRCDIR}/game/shared/SharedFunctorUtils.h"
-	"${SRCDIR}/game/server/vote_controller.h"
-	"${SRCDIR}/game/server/vote_controller.cpp"
+	vote_controller.h
+	vote_controller.cpp
 	# Haptics
 	"${SRCDIR}/public/haptics/haptic_msgs.cpp"
 	"$<${IS_WINDOWS}:${SRCDIR}/public/haptics/haptic_utils.cpp>"
-	"${SERVER_BASE_DIR}/netpropmanager.cpp"
-	"${SERVER_BASE_DIR}/netpropmanager.h"
+	netpropmanager.cpp
+	netpropmanager.h
 
 	"${SRCDIR}/public/bone_setup.cpp"
 	"${SRCDIR}/public/collisionutils.cpp"
@@ -493,9 +493,9 @@ set(
 	"${SRCDIR}/public/dt_utlvector_send.cpp"
 	"${SRCDIR}/public/editor_sendcommand.cpp"
 	"${SRCDIR}/public/filesystem_helpers.cpp"
-	"${SERVER_BASE_DIR}/gamehandle.cpp"
-	"${SERVER_BASE_DIR}/h_export.cpp"
-	"${SERVER_BASE_DIR}/init_factory.cpp"
+	gamehandle.cpp
+	h_export.cpp
+	init_factory.cpp
 	"${SRCDIR}/public/interpolatortypes.cpp"
 	"${SRCDIR}/public/keyframe/keyframe.cpp"
 	"${SRCDIR}/common/language.cpp"
@@ -511,73 +511,73 @@ set(
 	"${SRCDIR}/public/simple_physics.cpp"
 	"${SRCDIR}/public/stringregistry.cpp"
 	"${SRCDIR}/public/studio.cpp"
-	"${SERVER_BASE_DIR}/GameStats_BasicStatsFunctions.cpp"
+	GameStats_BasicStatsFunctions.cpp
 
 	# Temporary Entities
-	"${SERVER_BASE_DIR}/basetempentity.cpp"
-	"${SERVER_BASE_DIR}/event_tempentity_tester.cpp"
-	"${SERVER_BASE_DIR}/movie_explosion.cpp"
-	"${SERVER_BASE_DIR}/particle_fire.cpp"
-	"${SERVER_BASE_DIR}/particle_smokegrenade.cpp"
-	"${SERVER_BASE_DIR}/plasma.cpp"
-	"${SERVER_BASE_DIR}/plasma.h"
-	"${SERVER_BASE_DIR}/smoke_trail.h"
-	"${SERVER_BASE_DIR}/smokestack.cpp"
-	"${SERVER_BASE_DIR}/smokestack.h"
-	"${SERVER_BASE_DIR}/smoke_trail.cpp"
-	"${SERVER_BASE_DIR}/steamjet.cpp"
-	"${SERVER_BASE_DIR}/steamjet.h"
-	"${SERVER_BASE_DIR}/te.cpp"
-	"${SERVER_BASE_DIR}/te.h"
-	"${SERVER_BASE_DIR}/te_armorricochet.cpp"
-	"${SERVER_BASE_DIR}/te_basebeam.cpp"
-	"${SERVER_BASE_DIR}/te_basebeam.h"
-	"${SERVER_BASE_DIR}/te_beamentpoint.cpp"
-	"${SERVER_BASE_DIR}/te_beaments.cpp"
-	"${SERVER_BASE_DIR}/te_beamfollow.cpp"
-	"${SERVER_BASE_DIR}/te_beamlaser.cpp"
-	"${SERVER_BASE_DIR}/te_beampoints.cpp"
-	"${SERVER_BASE_DIR}/te_beamring.cpp"
-	"${SERVER_BASE_DIR}/te_beamringpoint.cpp"
-	"${SERVER_BASE_DIR}/te_beamspline.cpp"
-	"${SERVER_BASE_DIR}/te_bloodsprite.cpp"
-	"${SERVER_BASE_DIR}/te_bloodstream.cpp"
-	"${SERVER_BASE_DIR}/te_breakmodel.cpp"
-	"${SERVER_BASE_DIR}/te_bspdecal.cpp"
-	"${SERVER_BASE_DIR}/te_bubbles.cpp"
-	"${SERVER_BASE_DIR}/te_bubbletrail.cpp"
-	"${SERVER_BASE_DIR}/te_clientprojectile.cpp"
-	"${SERVER_BASE_DIR}/te_decal.cpp"
-	"${SERVER_BASE_DIR}/te_dynamiclight.cpp"
-	"${SERVER_BASE_DIR}/te_effect_dispatch.cpp"
-	"${SERVER_BASE_DIR}/te_energysplash.cpp"
-	"${SERVER_BASE_DIR}/te_explosion.cpp"
-	"${SERVER_BASE_DIR}/te_fizz.cpp"
-	"${SERVER_BASE_DIR}/te_footprintdecal.cpp"
-	"${SERVER_BASE_DIR}/hl2/te_gaussexplosion.cpp"
-	"${SERVER_BASE_DIR}/te_glassshatter.cpp"
-	"${SERVER_BASE_DIR}/te_glowsprite.cpp"
-	"${SERVER_BASE_DIR}/te_impact.cpp"
-	"${SERVER_BASE_DIR}/te_killplayerattachments.cpp"
-	"${SERVER_BASE_DIR}/te_largefunnel.cpp"
-	"${SERVER_BASE_DIR}/te_muzzleflash.cpp"
-	"${SERVER_BASE_DIR}/te_particlesystem.cpp"
-	"${SERVER_BASE_DIR}/te_particlesystem.h"
-	"${SERVER_BASE_DIR}/te_physicsprop.cpp"
-	"${SERVER_BASE_DIR}/te_playerdecal.cpp"
-	"${SERVER_BASE_DIR}/te_projecteddecal.cpp"
-	"${SERVER_BASE_DIR}/te_showline.cpp"
-	"${SERVER_BASE_DIR}/te_smoke.cpp"
-	"${SERVER_BASE_DIR}/te_sparks.cpp"
-	"${SERVER_BASE_DIR}/te_sprite.cpp"
-	"${SERVER_BASE_DIR}/te_spritespray.cpp"
-	"${SERVER_BASE_DIR}/te_worlddecal.cpp"
+	basetempentity.cpp
+	event_tempentity_tester.cpp
+	movie_explosion.cpp
+	particle_fire.cpp
+	particle_smokegrenade.cpp
+	plasma.cpp
+	plasma.h
+	smoke_trail.h
+	smokestack.cpp
+	smokestack.h
+	smoke_trail.cpp
+	steamjet.cpp
+	steamjet.h
+	te.cpp
+	te.h
+	te_armorricochet.cpp
+	te_basebeam.cpp
+	te_basebeam.h
+	te_beamentpoint.cpp
+	te_beaments.cpp
+	te_beamfollow.cpp
+	te_beamlaser.cpp
+	te_beampoints.cpp
+	te_beamring.cpp
+	te_beamringpoint.cpp
+	te_beamspline.cpp
+	te_bloodsprite.cpp
+	te_bloodstream.cpp
+	te_breakmodel.cpp
+	te_bspdecal.cpp
+	te_bubbles.cpp
+	te_bubbletrail.cpp
+	te_clientprojectile.cpp
+	te_decal.cpp
+	te_dynamiclight.cpp
+	te_effect_dispatch.cpp
+	te_energysplash.cpp
+	te_explosion.cpp
+	te_fizz.cpp
+	te_footprintdecal.cpp
+	hl2/te_gaussexplosion.cpp
+	te_glassshatter.cpp
+	te_glowsprite.cpp
+	te_impact.cpp
+	te_killplayerattachments.cpp
+	te_largefunnel.cpp
+	te_muzzleflash.cpp
+	te_particlesystem.cpp
+	te_particlesystem.h
+	te_physicsprop.cpp
+	te_playerdecal.cpp
+	te_projecteddecal.cpp
+	te_showline.cpp
+	te_smoke.cpp
+	te_sparks.cpp
+	te_sprite.cpp
+	te_spritespray.cpp
+	te_worlddecal.cpp
 
 	# Header Files
 	"${SRCDIR}/public/mathlib/amd3dx.h"
-	"${SERVER_BASE_DIR}/base_transmit_proxy.h"
+	base_transmit_proxy.h
 	"${SRCDIR}/public/basehandle.h"
-	"${SERVER_BASE_DIR}/basetempentity.h"
+	basetempentity.h
 	"${SRCDIR}/public/tier0/basetypes.h"
 	"${SRCDIR}/public/tier1/bitbuf.h"
 	"${SRCDIR}/public/bitvec.h"
@@ -598,8 +598,8 @@ set(
 	"${SRCDIR}/public/const.h"
 	"${SRCDIR}/public/vphysics/constraints.h"
 	"${SRCDIR}/public/coordsize.h"
-	"${SERVER_BASE_DIR}/cplane.h"
-	"${SERVER_BASE_DIR}/damagemodifier.h"
+	cplane.h
+	damagemodifier.h
 	"${SRCDIR}/public/datamap.h"
 	"${SRCDIR}/public/tier0/dbg.h"
 	"${SRCDIR}/public/dlight.h"
@@ -608,16 +608,16 @@ set(
 	"${SRCDIR}/public/dt_send.h"
 	"${SRCDIR}/public/dt_utlvector_common.h"
 	"${SRCDIR}/public/dt_utlvector_send.h"
-	"${SERVER_BASE_DIR}/EventLog.h"
+	EventLog.h
 	"${SRCDIR}/game/shared/expressionsample.h"
 	"${SRCDIR}/public/tier0/fasttimer.h"
 	"${SRCDIR}/public/filesystem.h"
 	"${SRCDIR}/public/filesystem_helpers.h"
 	"${SRCDIR}/public/tier1/fmtstr.h"
-	"${SERVER_BASE_DIR}/fogcontroller.h"
+	fogcontroller.h
 	"${SRCDIR}/public/vphysics/friction.h"
 	"${SRCDIR}/public/gametrace.h"
-	"${SERVER_BASE_DIR}/globals.h"
+	globals.h
 	"${SRCDIR}/public/globalvars_base.h"
 	"${SRCDIR}/game/shared/hl2/hl2_vehicle_radar.h"
 	"${SRCDIR}/public/iachievementmgr.h"
@@ -636,7 +636,7 @@ set(
 	"${SRCDIR}/public/ihltv.h"
 	"${SRCDIR}/public/ihltvdirector.h"
 	"${SRCDIR}/public/vstdlib/IKeyValuesSystem.h"
-	"${SERVER_BASE_DIR}/ilagcompensationmanager.h"
+	ilagcompensationmanager.h
 	"${SRCDIR}/public/vgui/ILocalize.h"
 	"${SRCDIR}/public/materialsystem/imaterial.h"
 	"${SRCDIR}/public/materialsystem/imaterialsystem.h"
@@ -656,24 +656,24 @@ set(
 	"${SRCDIR}/public/tier1/KeyValues.h"
 	"${SRCDIR}/common/language.h"
 	"${SRCDIR}/public/tier0/l2cache.h"
-	"${SERVER_BASE_DIR}/logicrelay.h"
+	logicrelay.h
 	"${SRCDIR}/public/map_utils.h"
-	"${SERVER_BASE_DIR}/mapentities.h"
+	mapentities.h
 	"${SRCDIR}/public/tier0/mem.h"
 	"${SRCDIR}/public/tier0/memalloc.h"
 	"${SRCDIR}/public/tier0/memdbgoff.h"
 	"${SRCDIR}/public/tier0/memdbgon.h"
-	"${SERVER_BASE_DIR}/modelentities.h"
+	modelentities.h
 	"${SRCDIR}/public/networkvar.h"
-	"${SERVER_BASE_DIR}/npc_vehicledriver.h"
+	npc_vehicledriver.h
 	"${SRCDIR}/public/vphysics/object_hash.h"
-	"${SERVER_BASE_DIR}/particle_system.h"
-	"${SERVER_BASE_DIR}/physics_cannister.h"
-	"${SERVER_BASE_DIR}/physics_fx.h"
-	"${SERVER_BASE_DIR}/physics_impact_damage.h"
+	particle_system.h
+	physics_cannister.h
+	physics_fx.h
+	physics_impact_damage.h
 	"${SRCDIR}/public/tier0/platform.h"
 	"${SRCDIR}/public/vphysics/player_controller.h"
-	"${SERVER_BASE_DIR}/playerinfomanager.h"
+	playerinfomanager.h
 	"${SRCDIR}/public/PlayerState.h"
 	"${SRCDIR}/public/tier1/processor_detect.h"
 	"${SRCDIR}/game/shared/querycache.h"
@@ -685,25 +685,25 @@ set(
 	"${SRCDIR}/game/shared/saverestore_utlrbtree.h"
 	"${SRCDIR}/public/saverestoretypes.h"
 	"${SRCDIR}/public/scratchpad3d.h"
-	"${SERVER_BASE_DIR}/scratchpad_gamedll_helpers.h"
+	scratchpad_gamedll_helpers.h
 	"${SRCDIR}/public/ScratchPadUtils.h"
-	"${SERVER_BASE_DIR}/sendproxy.h"
+	sendproxy.h
 	"${SRCDIR}/public/shake.h"
-	"${SERVER_BASE_DIR}/SkyCamera.h"
+	SkyCamera.h
 	"${SRCDIR}/public/soundchars.h"
 	"${SRCDIR}/public/soundflags.h"
-	"${SERVER_BASE_DIR}/soundscape_system.h"
+	soundscape_system.h
 	"${SRCDIR}/public/stdstring.h"
 	"${SRCDIR}/public/string_t.h"
 	"${SRCDIR}/public/tier1/stringpool.h"
 	"${SRCDIR}/public/tier1/strtools.h"
 	"${SRCDIR}/public/studio.h"
-	"${SERVER_BASE_DIR}/te_effect_dispatch.h"
-	"${SERVER_BASE_DIR}/tesla.h"
-	"${SERVER_BASE_DIR}/test_stressentities.h"
-	"${SERVER_BASE_DIR}/textstatsmgr.h"
+	te_effect_dispatch.h
+	tesla.h
+	test_stressentities.h
+	textstatsmgr.h
 	"${SRCDIR}/public/texture_group_names.h"
-	"${SERVER_BASE_DIR}/timedeventmgr.h"
+	timedeventmgr.h
 	"${SRCDIR}/public/UtlCachedFileData.h"
 	"${SRCDIR}/public/tier1/utldict.h"
 	"${SRCDIR}/public/tier1/utlfixedmemory.h"
@@ -718,7 +718,7 @@ set(
 	"${SRCDIR}/public/tier1/utlvector.h"
 	"${SRCDIR}/public/tier1/utlrange.h"
 	"${SRCDIR}/public/vallocator.h"
-	"${SERVER_BASE_DIR}/variant_t.h"
+	variant_t.h
 	"${SRCDIR}/public/vcollide.h"
 	"${SRCDIR}/public/vcollide_parse.h"
 	"${SRCDIR}/public/tier0/vcr_shared.h"
@@ -726,8 +726,8 @@ set(
 	"${SRCDIR}/public/mathlib/vector.h"
 	"${SRCDIR}/public/mathlib/vector2d.h"
 	"${SRCDIR}/public/mathlib/vector4d.h"
-	"${SERVER_BASE_DIR}/vehicle_base.h"
-	"${SERVER_BASE_DIR}/vehicle_baseserver.h"
+	vehicle_base.h
+	vehicle_baseserver.h
 	"${SRCDIR}/public/vphysics/vehicles.h"
 	"${SRCDIR}/public/vgui/VGUI.h"
 	"${SRCDIR}/public/vphysics_interface.h"
@@ -742,9 +742,9 @@ set(
 	"$<${IS_WINDOWS}:${SRCDIR}/public/haptics/haptic_utils.h>"
 
 	# Tools Framework
-	"${SERVER_BASE_DIR}/entity_tools_server.cpp"
-	"${SERVER_BASE_DIR}/toolframework_server.cpp"
-	"${SERVER_BASE_DIR}/toolframework_server.h"
+	entity_tools_server.cpp
+	toolframework_server.cpp
+	toolframework_server.h
 )
 
 set_source_files_properties(
@@ -779,13 +779,13 @@ set_source_files_properties(
 	PROPERTIES SKIP_PRECOMPILE_HEADERS ON
 )
 
-function(target_use_server_base target EXCLUDE_SOURCES)
+function(target_use_server_base target)
+	cmake_parse_arguments(PARSE_ARGV 1 ARG "" "" "EXCLUDE")
 	set(USED_SOURCES ${SERVER_BASE_SOURCE_FILES})
 
-	if (${EXCLUDE_SOURCES})
-		list(REMOVE_ITEM USED_SOURCES ${${EXCLUDE_SOURCES}})
+	if (ARG_EXCLUDE)
+		list(REMOVE_ITEM USED_SOURCES ${ARG_EXCLUDE})
 	endif()
-
 
 	target_sources(
 		${target} PRIVATE
@@ -832,6 +832,8 @@ function(target_use_server_base target EXCLUDE_SOURCES)
 			COMMAND ${CMAKE_COMMAND} -E make_directory "${NUT_DIR}"
 			COMMAND "${SRCDIR}/devtools/bin/texttoarray${CMAKE_HOST_EXECUTABLE_SUFFIX}" "${SERVER_BASE_DIR}/${nut}.nut" g_Script_${nut} > "${NUT_DIR}/${nut}_nut.h"
 			DEPENDS "${SERVER_BASE_DIR}/${nut}.nut" "${SRCDIR}/devtools/bin/texttoarray${CMAKE_HOST_EXECUTABLE_SUFFIX}"
+			DEPENDS_EXPLICIT_ONLY
+			CODEGEN
 		)
 		target_sources(${target} PRIVATE "${NUT_DIR}/${nut}_nut.h")
 	endforeach()
@@ -841,13 +843,13 @@ function(target_use_server_base target EXCLUDE_SOURCES)
 		${target} PRIVATE
 		$<${IS_WINDOWS}:winmm>
 
-		"${LIBPUBLIC}/choreoobjects${STATIC_LIB_EXT}"
-		"${LIBPUBLIC}/dmxloader${STATIC_LIB_EXT}"
+		choreoobjects
+		dmxloader
 		mathlib
-		"${LIBPUBLIC}/particles${STATIC_LIB_EXT}"
-		"${LIBPUBLIC}/tier2${STATIC_LIB_EXT}"
-		"${LIBPUBLIC}/tier3${STATIC_LIB_EXT}"
-		$<IF:${IS_WINDOWS},steam_api64,steam_api>
+		particles
+		tier2
+		tier3
+		steam_api
 	)
 
 endfunction()

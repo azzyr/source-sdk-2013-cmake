@@ -1,23 +1,16 @@
 # vvis_launcher.cmake
 
 set(VVIS_LAUNCHER_DIR ${CMAKE_CURRENT_LIST_DIR})
-set(
-	VVIS_LAUNCHER_SOURCE_FILES
+source_add_executable(vvis_launcher
+	OUTPUT_NAME vvis
+	OUTPUT_DIR "${GAMEDIR}/bin${PLATSUBDIR}"
 
-	"${VVIS_LAUNCHER_DIR}/vvis_launcher.cpp"
-	"${VVIS_LAUNCHER_DIR}/StdAfx.cpp"
+	vvis_launcher.cpp
+	StdAfx.cpp
 
 	# Header Files
 	"${SRCDIR}/public/tier1/interface.h"
-	"${VVIS_LAUNCHER_DIR}/StdAfx.h"
-)
-
-add_executable(vvis_launcher ${VVIS_LAUNCHER_SOURCE_FILES})
-
-set_target_properties(
-	vvis_launcher PROPERTIES
-	OUTPUT_NAME "vvis"
-	RUNTIME_OUTPUT_DIRECTORY "${GAMEDIR}/bin${PLATSUBDIR}"
+	StdAfx.h
 )
 
 target_precompile_headers(
