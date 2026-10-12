@@ -9,7 +9,17 @@ if (APPLE)
 	set(CMAKE_XCODE_ATTRIBUTE_DEBUG_INFORMATION_FORMAT "dwarf-with-dsym")
 endif()
 
-project(SourceSDK2013)
+# This is a way to emulate groups.vgc
+set(BUILD_GROUP "game" CACHE STRING "Build Group")
+
+# For the CMake GUIs that support a combobox list
+set_property(CACHE BUILD_GROUP PROPERTY STRINGS
+	"everything"
+	"game"
+	"shaders"
+)
+
+project(${BUILD_GROUP})
 
 # For some reason, checking if CMAKE_BUILD_TYPE is defined is unreliable
 # So simply check if it's empty instead
@@ -24,16 +34,6 @@ set(CMAKE_CXX_STANDARD_REQUIRED ON)
 set(CMAKE_CXX_VISIBILITY_PRESET hidden)
 set_property(GLOBAL PROPERTY USE_FOLDERS ON)
 
-# This is a way to emulate groups.vgc
-set(BUILD_GROUP "game" CACHE STRING "Build Group")
-
-# For the CMake GUIs that support a combobox list
-set_property(CACHE BUILD_GROUP PROPERTY STRINGS
-	"everything"
-	"game"
-	"shaders"
-)
-
 # Which game are we building?
 set(BUILD_GAME "hl2mp" CACHE STRING "Build Game")
 
@@ -42,8 +42,8 @@ set_property(
 	"hl2mp" # Only hl2mp at the moment
 )
 
-set(SRCDIR "${CMAKE_CURRENT_LIST_DIR}/src")
-set(GAMEDIR "${CMAKE_CURRENT_LIST_DIR}/game")
+set(SRCDIR "${CMAKE_CURRENT_LIST_DIR}")
+get_filename_component(GAMEDIR "${CMAKE_CURRENT_LIST_DIR}/../game" ABSOLUTE)
 set(THIRDPARTYDIR "${SRCDIR}/thirdparty")
 
 # Compile options that are populated and set for each target depending on their type
