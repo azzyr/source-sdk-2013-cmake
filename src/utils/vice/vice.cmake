@@ -1,24 +1,16 @@
 # vice.cmake
 
-set(VICE_DIR ${CMAKE_CURRENT_LIST_DIR})
-set(
-	VICE_SOURCE_FILES
+source_add_executable(vice
+	OUTPUT_DIR "${GAMEDIR}/bin${PLATSUBDIR}"
 
 	"${SRCDIR}/utils/common/cmdlib.cpp"
 	"${SRCDIR}/public/filesystem_helpers.cpp"
 	"${SRCDIR}/public/filesystem_init.cpp"
 	"${SRCDIR}/utils/common/filesystem_tools.cpp"
-	"${VICE_DIR}/vice.cpp"
+	vice.cpp
 
 	# Header Files
 	"${SRCDIR}/public/mathlib/IceKey.H"
-)
-
-add_executable(vice ${VICE_SOURCE_FILES})
-
-set_target_properties(
-	vice PROPERTIES
-	RUNTIME_OUTPUT_DIRECTORY "${GAMEDIR}/bin${PLATSUBDIR}"
 )
 
 target_include_directories(
@@ -28,6 +20,6 @@ target_include_directories(
 
 target_link_libraries(
 	vice PRIVATE
-	"${LIBPUBLIC}/tier2${STATIC_LIB_EXT}"
+	tier2
 	mathlib
 )

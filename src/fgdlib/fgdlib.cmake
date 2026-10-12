@@ -1,14 +1,11 @@
 # fgdlib.cmake
 
-set(FGDLIB_DIR ${CMAKE_CURRENT_LIST_DIR})
-set(
-	FGDLIB_SOURCE_FILES
-
-	"${FGDLIB_DIR}/gamedata.cpp"
-	"${FGDLIB_DIR}/gdclass.cpp"
-	"${FGDLIB_DIR}/gdvar.cpp"
-	"${FGDLIB_DIR}/inputoutput.cpp"
-	"${FGDLIB_DIR}/wckeyvalues.cpp"
+source_add_library(fgdlib
+	gamedata.cpp
+	gdclass.cpp
+	gdvar.cpp
+	inputoutput.cpp
+	wckeyvalues.cpp
 
 	# Header Files
 	"${SRCDIR}/public/fgdlib/fgdlib.h"
@@ -21,7 +18,6 @@ set(
 	"${SRCDIR}/public/fgdlib/wckeyvalues.h"
 )
 
-add_library(fgdlib STATIC ${FGDLIB_SOURCE_FILES})
 target_include_directories(
 	fgdlib PRIVATE
 	"${SRCDIR}/utils/common"

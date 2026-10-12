@@ -1,30 +1,27 @@
 # matsys_controls.cmake
 
-set(MATSYS_CONTROLS_DIR ${CMAKE_CURRENT_LIST_DIR})
-set(
-	MATSYS_CONTROLS_SOURCE_FILES
-
-	"${MATSYS_CONTROLS_DIR}/assetpicker.cpp"
-	"${MATSYS_CONTROLS_DIR}/baseassetpicker.cpp"
-	"${MATSYS_CONTROLS_DIR}/colorpickerpanel.cpp"
-	"${MATSYS_CONTROLS_DIR}/curveeditorpanel.cpp"
-	"${MATSYS_CONTROLS_DIR}/gamefiletreeview.cpp"
-	"${MATSYS_CONTROLS_DIR}/manipulator.cpp"
-	"${MATSYS_CONTROLS_DIR}/matsyscontrols.cpp"
-	"${MATSYS_CONTROLS_DIR}/mdlpanel.cpp"
-	"${MATSYS_CONTROLS_DIR}/mdlpicker.cpp"
-	"${MATSYS_CONTROLS_DIR}/mdlsequencepicker.cpp"
-	"${MATSYS_CONTROLS_DIR}/picker.cpp"
-	"${MATSYS_CONTROLS_DIR}/potterywheelpanel.cpp"
-	"${MATSYS_CONTROLS_DIR}/proceduraltexturepanel.cpp"
-	"${MATSYS_CONTROLS_DIR}/QCGenerator.cpp"
-	"${MATSYS_CONTROLS_DIR}/sequencepicker.cpp"
-	"${MATSYS_CONTROLS_DIR}/tgapreviewpanel.cpp"
-	"${MATSYS_CONTROLS_DIR}/vmtpicker.cpp"
-	"${MATSYS_CONTROLS_DIR}/vmtpreviewpanel.cpp"
-	"${MATSYS_CONTROLS_DIR}/vtfpicker.cpp"
-	"${MATSYS_CONTROLS_DIR}/vtfpreviewpanel.cpp"
-	"${MATSYS_CONTROLS_DIR}/vmtpanel.cpp"
+source_add_library(matsys_controls
+	assetpicker.cpp
+	baseassetpicker.cpp
+	colorpickerpanel.cpp
+	curveeditorpanel.cpp
+	gamefiletreeview.cpp
+	manipulator.cpp
+	matsyscontrols.cpp
+	mdlpanel.cpp
+	mdlpicker.cpp
+	mdlsequencepicker.cpp
+	picker.cpp
+	potterywheelpanel.cpp
+	proceduraltexturepanel.cpp
+	QCGenerator.cpp
+	sequencepicker.cpp
+	tgapreviewpanel.cpp
+	vmtpicker.cpp
+	vmtpreviewpanel.cpp
+	vtfpicker.cpp
+	vtfpreviewpanel.cpp
+	vmtpanel.cpp
 
 	# Header Files
 	"${SRCDIR}/public/matsys_controls/assetpicker.h"
@@ -49,4 +46,3 @@ set(
 	"${SRCDIR}/public/matsys_controls/vmtpanel.h"
 )
 
-add_library(matsys_controls STATIC ${MATSYS_CONTROLS_SOURCE_FILES})

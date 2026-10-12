@@ -3,7 +3,7 @@
 include_guard(GLOBAL)
 
 function(target_strip_symbols target)
-	if (${IS_LINUX})
+	if (IS_LINUX)
 		add_custom_command(
 			TARGET ${target} POST_BUILD
 			COMMAND ${CMAKE_OBJCOPY} "$<TARGET_FILE:${target}>" "$<TARGET_FILE:${target}>.dbg"

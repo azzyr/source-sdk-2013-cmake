@@ -1,23 +1,15 @@
 # vtfdiff.cmake
 
-set(VTFDIFF_DIR ${CMAKE_CURRENT_LIST_DIR})
-set(
-	VTFDIFF_SOURCE_FILES
+source_add_executable(vtfdiff
+	OUTPUT_DIR "${GAMEDIR}/bin${PLATSUBDIR}"
 
-	"${VTFDIFF_DIR}/vtfdiff.cpp"
-)
-
-add_executable(vtfdiff ${VTFDIFF_SOURCE_FILES})
-
-set_target_properties(
-	vtfdiff PROPERTIES
-	RUNTIME_OUTPUT_DIRECTORY "${GAMEDIR}/bin${PLATSUBDIR}"
+	vtfdiff.cpp
 )
 
 target_link_libraries(
 	vtfdiff PRIVATE
-	"${LIBPUBLIC}/bitmap${STATIC_LIB_EXT}"
+	bitmap
 	mathlib
-	"${LIBPUBLIC}/tier2${STATIC_LIB_EXT}"
-	"${LIBPUBLIC}/vtf${STATIC_LIB_EXT}"
+	tier2
+	vtf
 )

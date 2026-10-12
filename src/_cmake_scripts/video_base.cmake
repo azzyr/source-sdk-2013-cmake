@@ -3,7 +3,7 @@
 set(USE_GL 0)
 set(USE_SDL 0)
 
-if (${IS_POSIX} AND NOT ${DEDICATED})
+if (IS_POSIX AND NOT DEDICATED)
 	set(USE_GL 1)
 	set(USE_SDL 1)
 endif()

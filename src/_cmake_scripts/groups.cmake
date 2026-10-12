@@ -1,28 +1,23 @@
 # groups.cmake
 
-if (${BUILD_GROUP} STREQUAL "game")
+if (BUILD_GROUP MATCHES "^(game|everything)$")
+	include("${SRCDIR}/game/client/client_${BUILD_GAME}.cmake")
+	include("${SRCDIR}/game/server/server_${BUILD_GAME}.cmake")
 
-	if (${BUILD_GAME} STREQUAL "hl2mp")
-		include("${SRCDIR}/game/client/client_hl2mp.cmake")
-		include("${SRCDIR}/game/server/server_hl2mp.cmake")
-	endif()
-	
-	include("${SRCDIR}/mathlib/mathlib.cmake")
 	include("${SRCDIR}/vgui2/matsys_controls/matsys_controls.cmake")
 	include("${SRCDIR}/raytrace/raytrace.cmake")
-	include("${SRCDIR}/tier1/tier1.cmake")
 	include("${SRCDIR}/vgui2/vgui_controls/vgui_controls.cmake")
-elseif (${BUILD_GROUP} STREQUAL "everything")
+endif()
 
-	if (${BUILD_GAME} STREQUAL "hl2mp")
-		include("${SRCDIR}/game/client/client_hl2mp.cmake")
-		include("${SRCDIR}/game/server/server_hl2mp.cmake")
-		include("${SRCDIR}/materialsystem/stdshaders/game_shader_generic_hl2mp.cmake")
-	endif()
+if (BUILD_GROUP MATCHES "^(shaders|everything)$")
+	include("${SRCDIR}/materialsystem/stdshaders/game_shader_generic_${BUILD_GAME}.cmake")
+endif()
 
-	if (${IS_WINDOWS})
+if (BUILD_GROUP STREQUAL "everything")
+	include("${SRCDIR}/utils/serverplugin_sample/serverplugin_empty.cmake")
+
+	if (IS_WINDOWS)
 		include("${SRCDIR}/utils/captioncompiler/captioncompiler.cmake")
-		include("${SRCDIR}/fgdlib/fgdlib.cmake")
 		include("${SRCDIR}/utils/glview/glview.cmake")
 		include("${SRCDIR}/utils/height2normal/height2normal.cmake")
 		include("${SRCDIR}/utils/motionmapper/motionmapper.cmake")
@@ -36,21 +31,10 @@ elseif (${BUILD_GROUP} STREQUAL "everything")
 		include("${SRCDIR}/utils/vtfdiff/vtfdiff.cmake")
 		include("${SRCDIR}/utils/vvis/vvis_dll.cmake")
 		include("${SRCDIR}/utils/vvis_launcher/vvis_launcher.cmake")
+
+		include("${SRCDIR}/fgdlib/fgdlib.cmake")
 	endif()
-
-	include("${SRCDIR}/mathlib/mathlib.cmake")
-	include("${SRCDIR}/vgui2/matsys_controls/matsys_controls.cmake")
-	include("${SRCDIR}/raytrace/raytrace.cmake")
-	include("${SRCDIR}/utils/serverplugin_sample/serverplugin_empty.cmake")
-	include("${SRCDIR}/tier1/tier1.cmake")
-	include("${SRCDIR}/vgui2/vgui_controls/vgui_controls.cmake")
-
-elseif (${BUILD_GROUP} STREQUAL "shaders")
-
-	if (${BUILD_GAME} STREQUAL "hl2mp")
-		include("${SRCDIR}/materialsystem/stdshaders/game_shader_generic_hl2mp.cmake")
-	endif()
-
-	include("${SRCDIR}/mathlib/mathlib.cmake")
-	include("${SRCDIR}/tier1/tier1.cmake")
 endif()
+
+include("${SRCDIR}/mathlib/mathlib.cmake")
+include("${SRCDIR}/tier1/tier1.cmake")

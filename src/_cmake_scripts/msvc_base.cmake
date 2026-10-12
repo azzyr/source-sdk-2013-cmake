@@ -1,8 +1,8 @@
 # msvc_base.cmake
 
-# If using CMake, we'll require 2015 toolset or greater
-if (MSVC_TOOLSET_VERSION LESS 140)
-	message(FATAL_ERROR "MSVC must use toolset 140 (2015) or greater")
+# If using CMake, we'll require 2022 toolset or greater
+if (MSVC_TOOLSET_VERSION LESS 143)
+	message(FATAL_ERROR "MSVC must use toolset 143 (2022) or greater")
 endif()
 
 set(MSVC_LINK_OPTION_IGNORE_DEFAULTLIBS_DEBUG
@@ -23,6 +23,9 @@ set(MSVC_LINK_OPTION_IGNORE_DEFAULTLIBS_RELEASE
 
 set(CMAKE_MSVC_RUNTIME_LIBRARY "MultiThreaded$<$<CONFIG:Debug>:Debug>")
 
+set(CMAKE_MSVC_DEBUG_INFORMATION_FORMAT "$<IF:$<CONFIG:Debug>,EditAndContinue,ProgramDatabase>")
+set(STATIC_LIB_DEBUG_INFORMATION_FORMAT "$<IF:$<CONFIG:Debug>,EditAndContinue,Embedded>")
+
 add_compile_definitions(
 	COMPILER_MSVC
 	COMPILER_MSVC64
@@ -34,20 +37,9 @@ add_compile_definitions(
 	_ALLOW_MSC_VER_MISMATCH
 )
 
-# Remove default warning level from CMAKE_CXX_FLAGS (This is stupid I know)
-string (REGEX REPLACE "/W[0-4]" "" CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS}")
-
 # Disable C++ exceptions by default
 string(REPLACE "/EHsc" "" CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS}")
 
-string(REPLACE "/Zi" "" CMAKE_CXX_FLAGS_DEBUG "${CMAKE_CXX_FLAGS_DEBUG}")
-string(REPLACE "/Zi" "" CMAKE_C_FLAGS_DEBUG "${CMAKE_CXX_FLAGS_DEBUG}")
-
-string(REPLACE "/Ob0" "" CMAKE_CXX_FLAGS_DEBUG "${CMAKE_CXX_FLAGS_DEBUG}")
-string(REPLACE "/Ob0" "" CMAKE_C_FLAGS_DEBUG "${CMAKE_C_FLAGS_DEBUG}")
-
-string(REPLACE "/Ob2" "" CMAKE_CXX_FLAGS_RELEASE "${CMAKE_CXX_FLAGS_RELEASE}")
-string(REPLACE "/Ob2" "" CMAKE_C_FLAGS_RELEASE "${CMAKE_C_FLAGS_RELEASE}")
 
 # These are expanded so that we can pass each option individually to the targets
 # So they may choose to exclude them
@@ -87,67 +79,21 @@ set(
 	$<$<CONFIG:Release>:/Oi> # Enable Intrinsic Functions
 	$<$<CONFIG:Release>:/Ot> # Favor Fast Code
 	$<$<CONFIG:Release>:/Gy> # Enable Function-Level Linking
-
-	# Inline Function Expansion
-	$<$<CONFIG:Release>:/Ob2>
-	$<$<CONFIG:Debug>:/Ob0>
 )
+
+# keep them off resource files
+add_compile_options("$<$<COMPILE_LANGUAGE:C,CXX>:${MSVC_C_AND_CXX_COMPILE_OPTIONS}>")
 
 add_link_options(
 	$<$<CONFIG:Debug>:/DEBUG:FASTLINK>
 	$<$<CONFIG:Release>:/DEBUG:FULL>
-)
-
-list(
-	APPEND ADDITIONAL_COMPILE_OPTIONS_EXE
-	$<$<CONFIG:Debug>:/ZI>
-	$<$<CONFIG:Release>:/Zi>
-	"${MSVC_C_AND_CXX_COMPILE_OPTIONS}"
-)
-
-list(
-	APPEND ADDITIONAL_COMPILE_OPTIONS_DLL
-	$<$<CONFIG:Debug>:/ZI>
-	$<$<CONFIG:Release>:/Zi>
-	"${MSVC_C_AND_CXX_COMPILE_OPTIONS}"
-)
-
-list(
-	APPEND ADDITIONAL_COMPILE_OPTIONS_LIB
-	$<$<CONFIG:Debug>:/ZI>
-	$<$<CONFIG:Release>:/Z7>
-	"${MSVC_C_AND_CXX_COMPILE_OPTIONS}"
-)
-
-list(
-	APPEND ADDITIONAL_LINK_OPTIONS_EXE
-	$<$<CONFIG:Debug>:${MSVC_LINK_OPTION_IGNORE_DEFAULTLIBS_DEBUG}>
-	$<$<CONFIG:Release>:${MSVC_LINK_OPTION_IGNORE_DEFAULTLIBS_RELEASE}>
+	"$<$<CONFIG:Debug>:${MSVC_LINK_OPTION_IGNORE_DEFAULTLIBS_DEBUG}>"
+	"$<$<CONFIG:Release>:${MSVC_LINK_OPTION_IGNORE_DEFAULTLIBS_RELEASE}>"
 	$<$<CONFIG:Release>:/OPT:REF>
 	$<$<CONFIG:Release>:/OPT:ICF>
 	/MANIFEST:NO
 )
 
-list(
-	APPEND ADDITIONAL_LINK_OPTIONS_DLL
-	$<$<CONFIG:Debug>:${MSVC_LINK_OPTION_IGNORE_DEFAULTLIBS_DEBUG}>
-	$<$<CONFIG:Release>:${MSVC_LINK_OPTION_IGNORE_DEFAULTLIBS_RELEASE}>
-	$<$<CONFIG:Release>:/OPT:REF>
-	$<$<CONFIG:Release>:/OPT:ICF>
-	/MANIFEST:NO
-)
-
-list(
-	APPEND ADDITIONAL_COMPILE_DEFINITIONS_DLL
-	_USRDLL
-)
-
-list(
-	APPEND ADDITIONAL_COMPILE_DEFINITIONS_LIB
-	_LIB
-)
-
-list(
-	APPEND ADDITIONAL_LINK_LIBRARIES_DLL
-	legacy_stdio_definitions
-)
+target_compile_definitions(source_dll INTERFACE _USRDLL)
+target_compile_definitions(source_lib INTERFACE _LIB)
+target_link_libraries(source_dll INTERFACE legacy_stdio_definitions)

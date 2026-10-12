@@ -1,10 +1,10 @@
 # glview.cmake
 
-set(GLVIEW_DIR ${CMAKE_CURRENT_LIST_DIR})
-set(
-	GLVIEW_SOURCE_FILES
+source_add_executable(glview
+	WIN32
+	OUTPUT_DIR "${GAMEDIR}/bin${PLATSUBDIR}"
 
-	"${GLVIEW_DIR}/glview.cpp"
+	glview.cpp
 
 	# Common Files
 	"${SRCDIR}/utils/common/cmdlib.cpp"
@@ -15,15 +15,8 @@ set(
 
 	# Header Files
 	"${SRCDIR}/utils/common/cmdlib.h"
-	"${GLVIEW_DIR}/glos.h"
+	glos.h
 	"${SRCDIR}/public/mathlib/mathlib.h"
-)
-
-add_executable(glview WIN32 ${GLVIEW_SOURCE_FILES})
-
-set_target_properties(
-	glview PROPERTIES
-	RUNTIME_OUTPUT_DIRECTORY "${GAMEDIR}/bin${PLATSUBDIR}"
 )
 
 target_include_directories(
@@ -46,5 +39,5 @@ target_link_libraries(
 	winmm
 
 	mathlib
-	"${LIBPUBLIC}/tier2${STATIC_LIB_EXT}"
+	tier2
 )

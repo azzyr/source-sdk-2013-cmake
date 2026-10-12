@@ -1,46 +1,45 @@
 # vbsp.cmake
 
-set(VBSP_DIR ${CMAKE_CURRENT_LIST_DIR})
-set(
-	VBSP_SOURCE_FILES
+source_add_executable(vbsp
+	OUTPUT_DIR "${GAMEDIR}/bin${PLATSUBDIR}"
 
-	"${VBSP_DIR}/boundbox.cpp"
-	"${VBSP_DIR}/brushbsp.cpp"
+	boundbox.cpp
+	brushbsp.cpp
 	"${SRCDIR}/public/CollisionUtils.cpp"
-	"${VBSP_DIR}/csg.cpp"
-	"${VBSP_DIR}/cubemap.cpp"
-	"${VBSP_DIR}/detail.cpp"
-	"${VBSP_DIR}/detailObjects.cpp"
+	csg.cpp
+	cubemap.cpp
+	detail.cpp
+	detailObjects.cpp
 	"${SRCDIR}/public/disp_common.cpp"
-	"${VBSP_DIR}/disp_ivp.cpp"
+	disp_ivp.cpp
 	"${SRCDIR}/public/disp_powerinfo.cpp"
-	"${VBSP_DIR}/disp_vbsp.cpp"
-	"${VBSP_DIR}/faces.cpp"
-	"${VBSP_DIR}/glfile.cpp"
-	"${VBSP_DIR}/ivp.cpp"
-	"${VBSP_DIR}/leakfile.cpp"
+	disp_vbsp.cpp
+	faces.cpp
+	glfile.cpp
+	ivp.cpp
+	leakfile.cpp
 	"${SRCDIR}/public/loadcmdline.cpp"
 	"${SRCDIR}/public/lumpfiles.cpp"
-	"${VBSP_DIR}/map.cpp"
-	"${VBSP_DIR}/manifest.cpp"
-	"${VBSP_DIR}/materialpatch.cpp"
-	"${VBSP_DIR}/materialsub.cpp"
+	map.cpp
+	manifest.cpp
+	materialpatch.cpp
+	materialsub.cpp
 	"${SRCDIR}/utils/common/mstristrip.cpp"
-	"${VBSP_DIR}/nodraw.cpp"
-	"${VBSP_DIR}/normals.cpp"
-	"${VBSP_DIR}/overlay.cpp"
+	nodraw.cpp
+	normals.cpp
+	overlay.cpp
 	"${SRCDIR}/utils/common/physdll.cpp"
-	"${VBSP_DIR}/portals.cpp"
-	"${VBSP_DIR}/prtfile.cpp"
+	portals.cpp
+	prtfile.cpp
 	"${SRCDIR}/public/ScratchPad3D.cpp"
 	"${SRCDIR}/utils/common/scratchpad_helpers.cpp"
-	"${VBSP_DIR}/StaticProp.cpp"
-	"${VBSP_DIR}/textures.cpp"
-	"${VBSP_DIR}/tree.cpp"
+	StaticProp.cpp
+	textures.cpp
+	tree.cpp
 	"${SRCDIR}/utils/common/utilmatlib.cpp"
-	"${VBSP_DIR}/vbsp.cpp"
-	"${VBSP_DIR}/worldvertextransitionfixup.cpp"
-	"${VBSP_DIR}/writebsp.cpp"
+	vbsp.cpp
+	worldvertextransitionfixup.cpp
+	writebsp.cpp
 	"${SRCDIR}/public/zip_utils.cpp"
 
 	# Common Files
@@ -60,34 +59,34 @@ set(
 	"${SRCDIR}/utils/common/tools_minidump.h"
 
 	# Header Files
-	"${VBSP_DIR}/boundbox.h"
-	"${VBSP_DIR}/csg.h"
-	"${VBSP_DIR}/detail.h"
+	boundbox.h
+	csg.h
+	detail.h
 	"${SRCDIR}/public/disp_powerinfo.h"
-	"${VBSP_DIR}/disp_vbsp.h"
+	disp_vbsp.h
 	"${SRCDIR}/public/disp_vertindex.h"
-	"${VBSP_DIR}/faces.h"
-	"${VBSP_DIR}/map.h"
-	"${VBSP_DIR}/manifest.h"
-	"${VBSP_DIR}/materialpatch.h"
-	"${VBSP_DIR}/materialsub.h"
+	faces.h
+	map.h
+	manifest.h
+	materialpatch.h
+	materialsub.h
 	"${SRCDIR}/utils/common/scratchpad_helpers.h"
-	"${VBSP_DIR}/vbsp.h"
-	"${VBSP_DIR}/worldvertextransitionfixup.h"
-	"${VBSP_DIR}/writebsp.h"
+	vbsp.h
+	worldvertextransitionfixup.h
+	writebsp.h
 
 	# Common Header Files
 	"${SRCDIR}/utils/common/bsplib.h"
 	"${SRCDIR}/public/builddisp.h"
 	"${SRCDIR}/public/ChunkFile.h"
 	"${SRCDIR}/utils/common/cmdlib.h"
-	"${VBSP_DIR}/disp_ivp.h"
+	disp_ivp.h
 	"${SRCDIR}/public/filesystem.h"
 	"${SRCDIR}/public/filesystem_helpers.h"
 	"${SRCDIR}/utils/common/FileSystem_Tools.h"
 	"${SRCDIR}/public/GameBSPFile.h"
 	"${SRCDIR}/public/tier1/interface.h"
-	"${VBSP_DIR}/ivp.h"
+	ivp.h
 	"${SRCDIR}/utils/common/map_shared.h"
 	"${SRCDIR}/utils/common/pacifier.h"
 	"${SRCDIR}/utils/common/polylib.h"
@@ -140,13 +139,6 @@ set(
 	"${SRCDIR}/public/worldsize.h"
 )
 
-add_executable(vbsp ${VBSP_SOURCE_FILES})
-
-set_target_properties(
-	vbsp PROPERTIES
-	RUNTIME_OUTPUT_DIRECTORY "${GAMEDIR}/bin${PLATSUBDIR}"
-)
-
 target_include_directories(
 	vbsp PRIVATE
 	"${SRCDIR}/utils/common"
@@ -166,10 +158,10 @@ target_link_libraries(
 	odbccp32
 	winmm
 
-	"${LIBPUBLIC}/bitmap${STATIC_LIB_EXT}"
+	bitmap
 	fgdlib
 	mathlib
-	"${LIBPUBLIC}/tier2${STATIC_LIB_EXT}"
-	"${LIBPUBLIC}/vtf${STATIC_LIB_EXT}"
-	"${LIBCOMMON}/lzma${STATIC_LIB_EXT}"
+	tier2
+	vtf
+	lzma
 )

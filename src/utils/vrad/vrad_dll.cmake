@@ -1,36 +1,35 @@
 # vrad_dll.cmake
 
-set(VRAD_DLL_DIR ${CMAKE_CURRENT_LIST_DIR})
-set(
-	VRAD_DLL_SOURCE_FILES
+source_add_module(vrad_dll
+	OUTPUT_DIR "${GAMEDIR}/bin${PLATSUBDIR}"
 
 	"${SRCDIR}/public/BSPTreeData.cpp"
 	"${SRCDIR}/public/disp_common.cpp"
 	"${SRCDIR}/public/disp_powerinfo.cpp"
-	"${VRAD_DLL_DIR}/disp_vrad.cpp"
-	"${VRAD_DLL_DIR}/imagepacker.cpp"
-	"${VRAD_DLL_DIR}/incremental.cpp"
-	"${VRAD_DLL_DIR}/leaf_ambient_lighting.cpp"
-	"${VRAD_DLL_DIR}/lightmap.cpp"
+	disp_vrad.cpp
+	imagepacker.cpp
+	incremental.cpp
+	leaf_ambient_lighting.cpp
+	lightmap.cpp
 	"${SRCDIR}/public/loadcmdline.cpp"
 	"${SRCDIR}/public/lumpfiles.cpp"
-	"${VRAD_DLL_DIR}/macro_texture.cpp"
+	macro_texture.cpp
 	"${SRCDIR}/public/filesystem_init.cpp"
 	"${SRCDIR}/utils/common/filesystem_tools.cpp"
 	"${SRCDIR}/utils/common/MySqlDatabase.cpp"
 	"${SRCDIR}/utils/common/pacifier.cpp"
 	"${SRCDIR}/utils/common/physdll.cpp"
-	"${VRAD_DLL_DIR}/radial.cpp"
-	"${VRAD_DLL_DIR}/SampleHash.cpp"
-	"${VRAD_DLL_DIR}/trace.cpp"
+	radial.cpp
+	SampleHash.cpp
+	trace.cpp
 	"${SRCDIR}/utils/common/utilmatlib.cpp"
-	"${VRAD_DLL_DIR}/vismat.cpp"
-	"${VRAD_DLL_DIR}/vrad.cpp"
-	"${VRAD_DLL_DIR}/VRAD_DispColl.cpp"
-	"${VRAD_DLL_DIR}/VradDetailProps.cpp"
-	"${VRAD_DLL_DIR}/VRadDisps.cpp"
-	"${VRAD_DLL_DIR}/vraddll.cpp"
-	"${VRAD_DLL_DIR}/VRadStaticProps.cpp"
+	vismat.cpp
+	vrad.cpp
+	VRAD_DispColl.cpp
+	VradDetailProps.cpp
+	VRadDisps.cpp
+	vraddll.cpp
+	VRadStaticProps.cpp
 	"${SRCDIR}/public/zip_utils.cpp"
 
 	# Common Files
@@ -53,21 +52,21 @@ set(
 	"${SRCDIR}/public/ScratchPadUtils.cpp"
 
 	# Header Files
-	"${VRAD_DLL_DIR}/disp_vrad.h"
-	"${VRAD_DLL_DIR}/iincremental.h"
-	"${VRAD_DLL_DIR}/imagepacker.h"
-	"${VRAD_DLL_DIR}/incremental.h"
-	"${VRAD_DLL_DIR}/leaf_ambient_lighting.h"
-	"${VRAD_DLL_DIR}/lightmap.h"
-	"${VRAD_DLL_DIR}/macro_texture.h"
+	disp_vrad.h
+	iincremental.h
+	imagepacker.h
+	incremental.h
+	leaf_ambient_lighting.h
+	lightmap.h
+	macro_texture.h
 	"${SRCDIR}/public/map_utils.h"
-	"${VRAD_DLL_DIR}/radial.h"
+	radial.h
 	"${SRCDIR}/public/bitmap/tgawriter.h"
-	"${VRAD_DLL_DIR}/vismat.h"
-	"${VRAD_DLL_DIR}/vrad.h"
-	"${VRAD_DLL_DIR}/VRAD_DispColl.h"
-	"${VRAD_DLL_DIR}/vraddetailprops.h"
-	"${VRAD_DLL_DIR}/vraddll.h"
+	vismat.h
+	vrad.h
+	VRAD_DispColl.h
+	vraddetailprops.h
+	vraddll.h
 
 	# Common Header Files
 	"${SRCDIR}/utils/common/bsplib.h"
@@ -164,13 +163,6 @@ set(
 	"${SRCDIR}/public/worldsize.h"
 )
 
-add_library(vrad_dll MODULE ${VRAD_DLL_SOURCE_FILES})
-
-set_target_properties(
-	vrad_dll PROPERTIES
-	LIBRARY_OUTPUT_DIRECTORY "${GAMEDIR}/bin${PLATSUBDIR}"
-)
-
 target_include_directories(
 	vrad_dll PRIVATE
 	"${SRCDIR}/utils/common"
@@ -189,10 +181,10 @@ target_link_libraries(
 	vrad_dll PRIVATE
 	ws2_32
 
-	"${LIBPUBLIC}/bitmap${STATIC_LIB_EXT}"
+	bitmap
 	mathlib
 	raytrace
-	"${LIBPUBLIC}/tier2${STATIC_LIB_EXT}"
-	"${LIBPUBLIC}/vtf${STATIC_LIB_EXT}"
-	"${LIBCOMMON}/lzma${STATIC_LIB_EXT}"
+	tier2
+	vtf
+	lzma
 )

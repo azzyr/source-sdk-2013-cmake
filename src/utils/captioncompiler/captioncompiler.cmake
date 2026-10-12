@@ -1,15 +1,15 @@
 # captioncompiler.cmake
 
 set(CAPTIONCOMPILER_DIR ${CMAKE_CURRENT_LIST_DIR})
-set(
-	CAPTIONCOMPILER_SOURCE_FILES
+source_add_executable(captioncompiler
+	OUTPUT_DIR "${GAMEDIR}/bin${PLATSUBDIR}"
 
-	"${CAPTIONCOMPILER_DIR}/captioncompiler.cpp"
+	captioncompiler.cpp
 	"${SRCDIR}/common/compiledcaptionswap.cpp"
 	"${SRCDIR}/utils/common/filesystem_tools.cpp"
 
 	# Header Files
-	"${CAPTIONCOMPILER_DIR}/cbase.h"
+	cbase.h
 	"${SRCDIR}/utils/common/filesystem_tools.h"
 
 	# Shared Code
@@ -28,13 +28,6 @@ set(
 	"${SRCDIR}/public/stringregistry.h"
 )
 
-add_executable(captioncompiler ${CAPTIONCOMPILER_SOURCE_FILES})
-
-set_target_properties(
-	captioncompiler PROPERTIES
-	RUNTIME_OUTPUT_DIRECTORY "${GAMEDIR}/bin${PLATSUBDIR}"
-)
-
 target_compile_definitions(
 	captioncompiler PRIVATE
 	captioncompiler
@@ -49,8 +42,8 @@ target_include_directories(
 
 target_link_libraries(
 	captioncompiler PRIVATE
-	"${LIBPUBLIC}/appframework${STATIC_LIB_EXT}"
+	appframework
 	mathlib
-	"${LIBPUBLIC}/tier2${STATIC_LIB_EXT}"
-	"${LIBPUBLIC}/tier3${STATIC_LIB_EXT}"
+	tier2
+	tier3
 )
