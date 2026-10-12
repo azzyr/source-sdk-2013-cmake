@@ -1,0 +1,7 @@
+{
+	"version": "0.2.1",
+	"configurations": [
+		{ "type": "default", "name": "hl2mp", "project": "..\\game\\mod_hl2mp_win64.exe", "currentDir": "${workspaceRoot}\\..\\game" },
+		{ "type": "default", "name": "tf", "project": "..\\game\\mod_tf_win64.exe", "currentDir": "${workspaceRoot}\\..\\game" }
+	]
+}

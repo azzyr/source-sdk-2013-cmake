@@ -8,20 +8,18 @@ pushd "$(dirname -- "$script")" > /dev/null
 source sdk_container
 run_in_sniper "$@"
 
-build_type="Release"
+build_type="release"
 if [ $# -ne 0 ]; then
-    if [[ "$1" == "debug" ]]; then
-        build_type="Debug"
-    elif [[ "$1" != "release" ]]; then
+    if [[ "$1" != "debug" && "$1" != "release" ]]; then
         echo "Usage: $0 [debug|release]"
         exit 1
     fi
+    build_type="$1"
 fi
 
 for game in hl2mp tf; do
-    build_dir="build/linux64_${game}_${build_type,,}"
-    cmake -S . -B "$build_dir" -G Ninja -DCMAKE_BUILD_TYPE=$build_type -DBUILD_GROUP=everything -DBUILD_GAME=$game -DCMAKE_EXPORT_COMPILE_COMMANDS=ON
-    cmake --build "$build_dir"
+    cmake --preset "$game"
+    cmake --build --preset "$game-$build_type"
 done
 
 popd

@@ -1,4 +1,6 @@
-# Source SDK 2013 - CMake
+# Team Fortress 2 SDK - CMake
+Original SDK2013 project by Spirrwell: https://github.com/Spirrwell/source-sdk-2013-cmake
+
 This project ports the buildsystem from VPC to CMake.
 
 The layout of the CMake projects should be similar to that of VPC. Hopefully it should feel familiar even if you have no experience with CMake. The base scripts are in _cmake_scripts. Each project has its own corresponding .cmake file similar to VPC. 
@@ -9,18 +11,21 @@ The batch and shell scripts to generate projects now call CMake instead and plac
 
 If your folder structure for SDK2013 is different, you should only have to modify SRCDIR and GAMEDIR in the CMakeLists.txt file if you need to move things around.
 
+CMakePresets.json has presets for each game. Alternatively you can pass -DBUILD_GAME= to pick the game and -DBUILD_GROUP= to pick the projects
+
 ## Compiler Support
 
 ## General
-By default, this targets C++14 since modern VS defaults to C++14 anyway. 
+By default, this targets C++14. Only 64-bit is supported.
 
 ### Windows
-VS2019 and VS2022 are known to build, but this is untested with older versions.
+VS2022 and VS2026 are known to build.
 
 ### Linux
-GCC 5 or greater should also work fine. This repo should build out of the box with the Steam Runtime Soldier container. Scout will require a bit of tinkering to update CMake and switch to GCC 5 or higher.
+This repo should build out of the box with the Steam Runtime Sniper container.
 
 ## Credits
+### TF2SDK NOTE: While the changes below no longer apply, I've decided to keep them out of respect for the original work done
 
 I'd like to thank JJL772, OzxyBox, and those behind the Source-PlusPlus repo which includes Joshua Ashton, SCell555, and Gocnak.
 
