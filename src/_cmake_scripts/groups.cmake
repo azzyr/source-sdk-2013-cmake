@@ -1,8 +1,12 @@
 # groups.cmake
 
+if (BUILD_GROUP MATCHES "^(game|everything|dedicated)$")
+	include("${SRCDIR}/game/server/server_${BUILD_GAME}.cmake")
+endif()
+
 if (BUILD_GROUP MATCHES "^(game|everything)$")
 	include("${SRCDIR}/game/client/client_${BUILD_GAME}.cmake")
-	include("${SRCDIR}/game/server/server_${BUILD_GAME}.cmake")
+	include("${SRCDIR}/launcher_main/launcher_main_mod_${BUILD_GAME}.cmake")
 
 	include("${SRCDIR}/vgui2/matsys_controls/matsys_controls.cmake")
 	include("${SRCDIR}/raytrace/raytrace.cmake")

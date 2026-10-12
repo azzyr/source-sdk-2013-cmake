@@ -1028,13 +1028,13 @@ function(target_use_client_base target)
 
 		$<${IS_LINUX}:rt>
 		$<${IS_WINDOWS}:winmm>
+		particles
 
 		bitmap
 		choreoobjects
 		dmxloader
 		mathlib
 		matsys_controls
-		particles
 		tier1
 		tier2
 		tier3

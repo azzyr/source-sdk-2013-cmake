@@ -10,6 +10,7 @@ set_property(CACHE BUILD_GROUP PROPERTY STRINGS
 	"everything"
 	"game"
 	"shaders"
+	"dedicated"
 )
 
 project(${BUILD_GROUP})
@@ -117,3 +118,8 @@ source_group(TREE "${SRCDIR}" FILES ${TREE_SOURCES})
 set(GENERATED_SOURCES ${ALL_SOURCES})
 list(FILTER GENERATED_SOURCES INCLUDE REGEX "^${BINDIR_REGEX}")
 source_group(TREE "${CMAKE_BINARY_DIR}" PREFIX "Generated" FILES ${GENERATED_SOURCES})
+
+if (TARGET launcher_main_mod_${BUILD_GAME})
+	set_property(DIRECTORY PROPERTY VS_STARTUP_PROJECT launcher_main_mod_${BUILD_GAME})
+	set_property(TARGET launcher_main_mod_${BUILD_GAME} PROPERTY DEBUGGER_WORKING_DIRECTORY "${GAMEDIR}")
+endif()

@@ -25,12 +25,19 @@ if (UNIX)
 	set(IS_POSIX 1)
 endif()
 
+set(DEDICATED 0)
+set(SRV_SUFFIX "")
+if (IS_LINUX AND BUILD_GROUP STREQUAL "dedicated")
+	set(DEDICATED 1)
+	set(SRV_SUFFIX "_srv")
+endif()
+
 if (IS_WINDOWS)
 	set(_DLL_EXT ".dll")
 	set(STATIC_LIB_EXT ".lib")
 	set(IMPLIB_EXT ".lib")
 elseif (IS_LINUX)
-	set(_DLL_EXT ".so")
+	set(_DLL_EXT "${SRV_SUFFIX}.so")
 	set(STATIC_LIB_EXT ".a")
 	set(IMPLIB_EXT ".so")
 endif()
@@ -40,12 +47,12 @@ option(STAGING_ONLY "Staging only" OFF)
 
 set(TF_BETA 0)
 set(BUILD_REPLAY 0)
-set(DEDICATED 0)
 
 add_compile_definitions(
 	$<$<BOOL:${RETAIL}>:_RETAIL>
 	$<$<BOOL:${STAGING_ONLY}>:STAGING_ONLY>
 	$<${TF_BETA}:TF_BETA>
+	$<${DEDICATED}:DEDICATED>
 	_DLL_EXT=${_DLL_EXT}
 	FRAME_POINTER_OMISSION_DISABLED
 )

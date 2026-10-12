@@ -8,31 +8,20 @@ pushd "$(dirname -- "$script")" > /dev/null
 source sdk_container
 run_in_sniper "$@"
 
-if [ $# -eq 0 ]; then
-    export VPC_NINJA_BUILD_MODE="release"     
-else
+build_type="Release"
+if [ $# -ne 0 ]; then
     if [[ "$1" == "debug" ]]; then
-        export VPC_NINJA_BUILD_MODE="debug"
-    elif [[ "$1" == "release" ]]; then
-        export VPC_NINJA_BUILD_MODE="release"
-    else
+        build_type="Debug"
+    elif [[ "$1" != "release" ]]; then
         echo "Usage: $0 [debug|release]"
         exit 1
     fi
 fi
 
-solution_out="_vpc_/ninja/sdk_everything_$VPC_NINJA_BUILD_MODE"
-
-if [[ ! -e "$solution_out.ninja" ]]; then
-    devtools/bin/vpc /hl2mp /tf /linux64 /ninja /define:SOURCESDK +everything /mksln "$solution_out"
-
-    # Generate compile commands.
-    ninja -f "$solution_out.ninja" -t compdb > compile_commands.json
-    # Remove some unsupported clang commands.
-    sed -i 's/-fpredictive-commoning//g; s/-fvar-tracking-assignments//g' compile_commands.json
-    sed -i 's|/my_mod/src|.|g' compile_commands.json
-fi
-
-ninja -f "$solution_out.ninja" -j$(nproc)
+for game in hl2mp tf; do
+    build_dir="build/linux64_${game}_${build_type,,}"
+    cmake -S . -B "$build_dir" -G Ninja -DCMAKE_BUILD_TYPE=$build_type -DBUILD_GROUP=everything -DBUILD_GAME=$game -DCMAKE_EXPORT_COMPILE_COMMANDS=ON
+    cmake --build "$build_dir"
+done
 
 popd
