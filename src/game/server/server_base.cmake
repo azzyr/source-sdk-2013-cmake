@@ -844,9 +844,9 @@ function(target_use_server_base target)
 		$<${IS_WINDOWS}:winmm>
 
 		choreoobjects
+		particles
 		dmxloader
 		mathlib
-		particles
 		tier2
 		tier3
 		steam_api

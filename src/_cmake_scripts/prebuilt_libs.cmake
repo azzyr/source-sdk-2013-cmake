@@ -22,9 +22,19 @@ if (IS_WINDOWS)
 	add_library(libz STATIC IMPORTED)
 	set_target_properties(libz PROPERTIES IMPORTED_LOCATION "${LIBPUBLIC}/libz.lib")
 else()
+	# dedicated server links the _srv names
+	set(TIER_LIB_DIR "${LIBPUBLIC}")
+	if (DEDICATED)
+		set(TIER_LIB_DIR "${CMAKE_BINARY_DIR}/srv_libs")
+		file(MAKE_DIRECTORY "${TIER_LIB_DIR}")
+		foreach(lib tier0 vstdlib)
+			file(CREATE_LINK "${LIBPUBLIC}/lib${lib}.so" "${TIER_LIB_DIR}/lib${lib}_srv.so" COPY_ON_ERROR SYMBOLIC)
+		endforeach()
+	endif()
+
 	# without a soname these have to be linked by name
 	foreach(lib tier0 vstdlib)
-		set_target_properties(${lib} PROPERTIES IMPORTED_LOCATION "${LIBPUBLIC}/lib${lib}.so" IMPORTED_NO_SONAME ON)
+		set_target_properties(${lib} PROPERTIES IMPORTED_LOCATION "${TIER_LIB_DIR}/lib${lib}${SRV_SUFFIX}.so" IMPORTED_NO_SONAME ON)
 	endforeach()
 	set_target_properties(steam_api PROPERTIES IMPORTED_LOCATION "${LIBPUBLIC}/libsteam_api.so")
 
