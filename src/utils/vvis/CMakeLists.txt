@@ -1,5 +1,3 @@
-# vvis_dll.cmake
-
 source_add_module(vvis_dll
 	OUTPUT_DIR "${GAMEDIR}/bin${PLATSUBDIR}"
 	NO_MEMOVERRIDE

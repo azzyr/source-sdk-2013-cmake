@@ -1,5 +1,3 @@
-# vrad_launcher.cmake
-
 set(VRAD_LAUNCHER_DIR ${CMAKE_CURRENT_LIST_DIR})
 source_add_executable(vrad_launcher
 	OUTPUT_NAME vrad

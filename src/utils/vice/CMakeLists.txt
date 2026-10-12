@@ -1,5 +1,3 @@
-# vice.cmake
-
 source_add_executable(vice
 	OUTPUT_DIR "${GAMEDIR}/bin${PLATSUBDIR}"
 

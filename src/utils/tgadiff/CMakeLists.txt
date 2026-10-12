@@ -1,15 +1,12 @@
-# vtfdiff.cmake
-
-source_add_executable(vtfdiff
+source_add_executable(tgadiff
 	OUTPUT_DIR "${GAMEDIR}/bin${PLATSUBDIR}"
 
-	vtfdiff.cpp
+	tgadiff.cpp
 )
 
 target_link_libraries(
-	vtfdiff PRIVATE
+	tgadiff PRIVATE
 	bitmap
 	mathlib
 	tier2
-	vtf
 )

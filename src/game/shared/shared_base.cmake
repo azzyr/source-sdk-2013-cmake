@@ -1,6 +1,6 @@
 # shared_base.cmake
 
-include_guard(GLOBAL)
+include_guard(DIRECTORY)
 
 source_files(
 	SHARED_BASE_SOURCE_FILES

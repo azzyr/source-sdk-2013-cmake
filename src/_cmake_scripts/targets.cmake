@@ -56,6 +56,7 @@ function(source_add_library target)
 	endif()
 
 	target_link_libraries(${target} PRIVATE source_lib)
+	_source_group_directory()
 endfunction()
 
 macro(_source_setup_binary target output_kind)
@@ -69,6 +70,7 @@ macro(_source_setup_binary target output_kind)
 
 	if (NOT ARG_NO_MEMOVERRIDE)
 		target_link_libraries(${target} PRIVATE source_memoverride)
+		set_source_files_properties("${SRCDIR}/public/tier0/memoverride.cpp" PROPERTIES SKIP_PRECOMPILE_HEADERS ON)
 	endif()
 
 	if (NOT ARG_NO_TIER_LIBS)
@@ -76,4 +78,39 @@ macro(_source_setup_binary target output_kind)
 	endif()
 
 	target_strip_symbols(${target})
+	_source_group_directory()
 endmacro()
+
+# source groups only apply to their own directory, so mirror the source tree at the end of each one
+function(_source_group_directory)
+	cmake_language(DEFER GET_CALL source_groups call)
+	if (NOT call)
+		cmake_language(DEFER ID source_groups CALL _source_group_tree)
+	endif()
+endfunction()
+
+function(_source_group_tree)
+	get_property(targets DIRECTORY PROPERTY BUILDSYSTEM_TARGETS)
+	set(sources "${SRCDIR}/public/tier0/memoverride.cpp")
+
+	foreach(target IN LISTS targets)
+		get_target_property(target_sources ${target} SOURCES)
+		if (target_sources)
+			list(APPEND sources ${target_sources})
+		endif()
+	endforeach()
+
+	string(REGEX QUOTE srcdir_regex "${SRCDIR}/")
+	set(tree_sources ${sources})
+	list(FILTER tree_sources INCLUDE REGEX "${srcdir_regex}")
+	list(TRANSFORM tree_sources REPLACE "^.*(${srcdir_regex}[^>]*).*$" "\\1")
+	list(REMOVE_DUPLICATES tree_sources)
+	source_group(TREE "${SRCDIR}" FILES ${tree_sources})
+
+	string(REGEX QUOTE bindir_regex "${CMAKE_CURRENT_BINARY_DIR}/")
+	set(generated_sources ${sources})
+	list(FILTER generated_sources INCLUDE REGEX "^${bindir_regex}")
+	if (generated_sources)
+		source_group(TREE "${CMAKE_CURRENT_BINARY_DIR}" PREFIX "Generated" FILES ${generated_sources})
+	endif()
+endfunction()

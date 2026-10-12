@@ -1,5 +1,3 @@
-# vgui_controls.cmake
-
 source_add_library(vgui_controls
 	AnalogBar.cpp
 	AnimatingImagePanel.cpp

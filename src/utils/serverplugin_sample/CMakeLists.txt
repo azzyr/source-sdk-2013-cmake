@@ -1,5 +1,3 @@
-# serverplugin_empty.cmake
-
 source_add_module(serverplugin_empty
 	OUTPUT_DIR "${GAMEDIR}/bin${PLATSUBDIR}"
 

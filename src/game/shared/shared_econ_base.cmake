@@ -1,6 +1,6 @@
 # shared_econ_base.cmake
 
-include_guard(GLOBAL)
+include_guard(DIRECTORY)
 
 include("${CMAKE_SOURCE_DIR}/_cmake_scripts/protobuf_builder.cmake")
 

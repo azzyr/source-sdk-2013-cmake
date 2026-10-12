@@ -1,6 +1,6 @@
 # protobuf_builder.cmake
 
-include_guard(GLOBAL)
+include_guard(DIRECTORY)
 
 set(PROTOBUF_DIR "${SRCDIR}/thirdparty/protobuf-2.6.1")
 

@@ -1,5 +1,3 @@
-# glview.cmake
-
 source_add_executable(glview
 	WIN32
 	OUTPUT_DIR "${GAMEDIR}/bin${PLATSUBDIR}"

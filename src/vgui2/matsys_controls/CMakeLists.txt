@@ -1,5 +1,3 @@
-# matsys_controls.cmake
-
 source_add_library(matsys_controls
 	assetpicker.cpp
 	baseassetpicker.cpp
