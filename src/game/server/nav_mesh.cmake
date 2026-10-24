@@ -1,6 +1,6 @@
 # nav_mesh.cmake
 
-include_guard(GLOBAL)
+include_guard(DIRECTORY)
 
 source_files(
 	NAV_MESH_SOURCE_FILES

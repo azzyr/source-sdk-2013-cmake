@@ -1,6 +1,6 @@
 # game_shader_generic_base.cmake
 
-include_guard(GLOBAL)
+include_guard(DIRECTORY)
 
 set(GAME_SHADER_GENERIC_BASE_DIR ${CMAKE_CURRENT_LIST_DIR})
 source_files(

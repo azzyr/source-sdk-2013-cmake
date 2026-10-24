@@ -1,6 +1,6 @@
 # server_base.cmake
 
-include_guard(GLOBAL)
+include_guard(DIRECTORY)
 
 include("${SRCDIR}/game/shared/shared_base.cmake")
 

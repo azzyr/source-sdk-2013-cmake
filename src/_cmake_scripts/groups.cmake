@@ -4,21 +4,25 @@ set(GROUP_SERVER "game" "everything" "dedicated")
 set(GROUP_CLIENT "game" "everything")
 set(GROUP_SHADERS "shaders" "everything")
 
-if (BUILD_GROUP IN_LIST GROUP_SERVER)
-	add_subdirectory(game/server)
-endif()
+foreach(BUILD_GAME IN LISTS BUILD_GAMES)
+	if (BUILD_GROUP IN_LIST GROUP_SERVER)
+		add_subdirectory(game/server game/server_${BUILD_GAME})
+	endif()
+
+	if (BUILD_GROUP IN_LIST GROUP_CLIENT)
+		add_subdirectory(game/client game/client_${BUILD_GAME})
+		add_subdirectory(launcher_main launcher_main_${BUILD_GAME})
+	endif()
+
+	if (BUILD_GROUP IN_LIST GROUP_SHADERS)
+		add_subdirectory(materialsystem/stdshaders materialsystem/stdshaders_${BUILD_GAME})
+	endif()
+endforeach()
 
 if (BUILD_GROUP IN_LIST GROUP_CLIENT)
-	add_subdirectory(game/client)
-	add_subdirectory(launcher_main)
-
 	add_subdirectory(vgui2/matsys_controls)
 	add_subdirectory(raytrace)
 	add_subdirectory(vgui2/vgui_controls)
-endif()
-
-if (BUILD_GROUP IN_LIST GROUP_SHADERS)
-	add_subdirectory(materialsystem/stdshaders)
 endif()
 
 if (BUILD_GROUP STREQUAL "everything")

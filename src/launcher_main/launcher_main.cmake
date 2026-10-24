@@ -1,6 +1,6 @@
 # launcher_main.cmake
 
-include_guard(GLOBAL)
+include_guard(DIRECTORY)
 
 set(LAUNCHER_MAIN_DIR ${CMAKE_CURRENT_LIST_DIR})
 
@@ -21,6 +21,8 @@ function(add_launcher_main target mod appid)
 		"${LAUNCHER_MAIN_DIR}/main.cpp"
 		"$<${IS_WINDOWS}:${LAUNCHER_MAIN_DIR}/launcher_main_${mod}.rc>"
 	)
+
+	set_property(TARGET ${target} PROPERTY DEBUGGER_WORKING_DIRECTORY "${GAMEDIR}")
 
 	target_compile_definitions(
 		${target} PRIVATE

@@ -32,14 +32,8 @@ set(CMAKE_CXX_STANDARD_REQUIRED ON)
 set(CMAKE_CXX_VISIBILITY_PRESET hidden)
 set(CMAKE_POSITION_INDEPENDENT_CODE ON)
 
-# Which game are we building?
-set(BUILD_GAME "hl2mp" CACHE STRING "Build Game")
-
-set_property(
-	CACHE BUILD_GAME PROPERTY STRINGS
-	"hl2mp"
-	"tf"
-)
+# Which games are we building?
+set(BUILD_GAMES "hl2mp;tf" CACHE STRING "Build Games")
 
 set(SRCDIR "${CMAKE_CURRENT_LIST_DIR}")
 get_filename_component(GAMEDIR "${CMAKE_CURRENT_LIST_DIR}/../game" ABSOLUTE)
@@ -95,7 +89,7 @@ foreach(target IN LISTS TIER_LIB_TARGETS)
 	target_link_libraries(${target} PRIVATE source_tier_libs)
 endforeach()
 
-if (TARGET launcher_main_mod_${BUILD_GAME})
-	set_property(DIRECTORY PROPERTY VS_STARTUP_PROJECT launcher_main_mod_${BUILD_GAME})
-	set_property(TARGET launcher_main_mod_${BUILD_GAME} PROPERTY DEBUGGER_WORKING_DIRECTORY "${GAMEDIR}")
+list(GET BUILD_GAMES 0 STARTUP_GAME)
+if (TARGET launcher_main_mod_${STARTUP_GAME})
+	set_property(DIRECTORY PROPERTY VS_STARTUP_PROJECT launcher_main_mod_${STARTUP_GAME})
 endif()
