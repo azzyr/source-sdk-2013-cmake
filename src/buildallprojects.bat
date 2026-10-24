@@ -15,10 +15,8 @@ set "CONFIG=release"
 if not "%~1"=="" set "CONFIG=%~1"
 
 pushd "%~dp0"
-for %%g in (hl2mp tf) do (
-	cmake --preset %%g || goto fail
-	cmake --build --preset %%g-%CONFIG% || goto fail
-)
+cmake --preset %CONFIG% || goto fail
+cmake --build build\%CONFIG% || goto fail
 popd
 exit /b 0
 

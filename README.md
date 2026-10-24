@@ -11,7 +11,7 @@ The batch and shell scripts to generate projects now call CMake instead and plac
 
 If your folder structure for SDK2013 is different, you should only have to modify SRCDIR and GAMEDIR in the CMakeLists.txt file if you need to move things around.
 
-CMakePresets.json has presets for each game. Alternatively you can pass -DBUILD_GAME= to pick the game and -DBUILD_GROUP= to pick the projects
+CMakePresets.json has debug, release and dedicated presets that build every game in one tree. You can pass -DBUILD_GAMES= to pick the games, like -DBUILD_GAMES=tf, and -DBUILD_GROUP= to pick the projects
 
 ## Compiler Support
 

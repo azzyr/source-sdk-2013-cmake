@@ -5,23 +5,19 @@
 		{
 			"name": "base",
 			"hidden": true,
-			"generator": "Ninja Multi-Config",
+			"generator": "Ninja",
 			"binaryDir": "${sourceDir}/build/${presetName}",
 			"architecture": { "value": "x64", "strategy": "external" },
 			"toolset": { "value": "v143,host=x64", "strategy": "external" },
 			"cacheVariables": { "BUILD_GROUP": "everything", "CMAKE_EXPORT_COMPILE_COMMANDS": true }
 		},
-		{ "name": "hl2mp", "inherits": "base", "cacheVariables": { "BUILD_GAME": "hl2mp" } },
-		{ "name": "tf", "inherits": "base", "cacheVariables": { "BUILD_GAME": "tf" } },
-		{ "name": "hl2mp-dedicated", "inherits": "hl2mp", "cacheVariables": { "BUILD_GROUP": "dedicated" } },
-		{ "name": "tf-dedicated", "inherits": "tf", "cacheVariables": { "BUILD_GROUP": "dedicated" } }
-	],
-	"buildPresets": [
-		{ "name": "hl2mp-debug", "configurePreset": "hl2mp", "configuration": "Debug" },
-		{ "name": "hl2mp-release", "configurePreset": "hl2mp", "configuration": "Release" },
-		{ "name": "tf-debug", "configurePreset": "tf", "configuration": "Debug" },
-		{ "name": "tf-release", "configurePreset": "tf", "configuration": "Release" },
-		{ "name": "hl2mp-dedicated", "configurePreset": "hl2mp-dedicated", "configuration": "Release" },
-		{ "name": "tf-dedicated", "configurePreset": "tf-dedicated", "configuration": "Release" }
+		{ "name": "debug", "inherits": "base", "cacheVariables": { "CMAKE_BUILD_TYPE": "Debug" } },
+		{ "name": "release", "inherits": "base", "cacheVariables": { "CMAKE_BUILD_TYPE": "Release" } },
+		{
+			"name": "dedicated",
+			"inherits": "release",
+			"condition": { "type": "equals", "lhs": "${hostSystemName}", "rhs": "Linux" },
+			"cacheVariables": { "BUILD_GROUP": "dedicated" }
+		}
 	]
 }

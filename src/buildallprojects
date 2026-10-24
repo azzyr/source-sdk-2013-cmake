@@ -17,9 +17,7 @@ if [ $# -ne 0 ]; then
     build_type="$1"
 fi
 
-for game in hl2mp tf; do
-    cmake --preset "$game"
-    cmake --build --preset "$game-$build_type"
-done
+cmake --preset "$build_type"
+cmake --build "build/$build_type"
 
 popd
