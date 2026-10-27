@@ -113,3 +113,10 @@ add_compile_options(
 )
 
 include_directories(SYSTEM /usr/include/SDL2 /usr/include/freetype2)
+
+find_program(CCACHE ccache)
+if (CCACHE AND NOT CMAKE_CXX_COMPILER_LAUNCHER)
+	set(CCACHE_LAUNCHER "${CMAKE_COMMAND}" -E env CCACHE_SLOPPINESS=pch_defines,time_macros,include_file_mtime,include_file_ctime "${CCACHE}")
+	set(CMAKE_C_COMPILER_LAUNCHER ${CCACHE_LAUNCHER})
+	set(CMAKE_CXX_COMPILER_LAUNCHER ${CCACHE_LAUNCHER})
+endif()
